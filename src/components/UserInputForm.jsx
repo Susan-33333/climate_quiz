@@ -9,6 +9,7 @@ export default function UserInputForm({ onNext, onSave }) {
 
   const [counties, setCounties] = useState([]);
 
+  // ✅ 使用 fetch 載入 geojson 的縣市名稱
   useEffect(() => {
     fetch("/data/taiwan_county.geojson")
       .then((res) => res.json())
@@ -17,6 +18,9 @@ export default function UserInputForm({ onNext, onSave }) {
           (feature) => feature.properties.COUNTYNAME
         );
         setCounties([...new Set(countyList)]);
+      })
+      .catch((err) => {
+        console.error("載入 taiwan_county.geojson 失敗", err);
       });
   }, []);
 
@@ -28,6 +32,7 @@ export default function UserInputForm({ onNext, onSave }) {
   const handleSubmit = () => {
     if (onSave) onSave(formData);
     if (onNext) onNext();
+    console.log("使用者輸入資料：", formData);
   };
 
   return (
