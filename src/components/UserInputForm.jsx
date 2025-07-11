@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function UserInputForm({ onNext, onSave }) {
   const [formData, setFormData] = useState({
@@ -7,22 +7,12 @@ export default function UserInputForm({ onNext, onSave }) {
     county: ""
   });
 
-  const [counties, setCounties] = useState([]);
-
-  // ✅ 使用 fetch 載入 geojson 的縣市名稱
-  useEffect(() => {
-    fetch("/data/taiwan_county.geojson")
-      .then((res) => res.json())
-      .then((geojson) => {
-        const countyList = geojson.features.map(
-          (feature) => feature.properties.COUNTYNAME
-        );
-        setCounties([...new Set(countyList)]);
-      })
-      .catch((err) => {
-        console.error("載入 taiwan_county.geojson 失敗", err);
-      });
-  }, []);
+  const counties = [
+    "基隆市", "臺北市", "新北市", "桃園市", "新竹市", "新竹縣",
+    "苗栗縣", "臺中市", "彰化縣", "南投縣", "雲林縣", "嘉義市",
+    "嘉義縣", "臺南市", "高雄市", "屏東縣", "宜蘭縣", "花蓮縣",
+    "臺東縣", "澎湖縣", "金門縣", "連江縣"
+  ];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
