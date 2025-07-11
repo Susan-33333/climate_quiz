@@ -4,5 +4,5 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  base: '/climate-quiz/', 
+  base: '/climate_quiz/', // <<< 跟你的 GitHub repo 名稱完全一致
 });
