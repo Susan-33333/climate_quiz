@@ -2,7 +2,8 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
+// 正確設定 base：GitHub Pages 的根目錄（必須與 repo 名稱一致）
 export default defineConfig({
-  plugins: [react()],
-  base: '/climate_quiz/', // <<< 跟你的 GitHub repo 名稱完全一致
+  base: '/climate_quiz/',
+  plugins: [react()]
 });
