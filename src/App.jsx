@@ -26,7 +26,7 @@ const stepList = [
   steps.RADAR,
 ];
 
-// 控制流程的 reducerS
+// 控制流程的 reducer
 function stepReducer(state, action) {
   switch (action.type) {
     case "NEXT":
@@ -62,7 +62,28 @@ function App() {
       {/* 各步驟畫面 */}
       {step === steps.USER_INPUT && (
         <UserInputForm
-          onSave={setUserData}
+          onSave={(data) => {
+            setUserData(data); // 1. 存到本地 state
+
+            // 2. 傳送到後端 API（你可改成你自己的 URL）
+            fetch("/api/saveUser", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(data),
+            })
+              .then((res) => {
+                if (!res.ok) throw new Error("API 回傳錯誤");
+                return res.json();
+              })
+              .then((result) => {
+                console.log("✅ 使用者資料已傳送成功", result);
+              })
+              .catch((err) => {
+                console.error("❌ 傳送使用者資料失敗", err);
+              });
+          }}
           onNext={() => dispatch({ type: "NEXT", payload: steps.STORY })}
         />
       )}
