@@ -1,3 +1,5 @@
+console.log("🌱 這是進度條版本 v2");
+
 import { useReducer, useState } from "react";
 import UserInputForm from "./components/UserInputForm";
 import StorySegment from "./components/StorySegment";
@@ -26,7 +28,7 @@ const stepList = [
   steps.RADAR,
 ];
 
-// 控制流程的 reducer
+// 控制流程的 reducerS
 function stepReducer(state, action) {
   switch (action.type) {
     case "NEXT":
