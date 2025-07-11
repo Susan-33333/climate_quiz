@@ -1,5 +1,3 @@
-console.log("🌱 這是進度條版本 v2");
-
 import { useReducer, useState } from "react";
 import UserInputForm from "./components/UserInputForm";
 import StorySegment from "./components/StorySegment";
