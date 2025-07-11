@@ -12,6 +12,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-100 p-4">
+      <h1 className="text-2xl font-bold mb-4">🔥 心理測驗 Demo 畫面測試</h1>
       {step === 0 && <UserInputForm onNext={() => setStep(1)} onSave={setUserData} />}
       {step === 1 && <StorySegment userData={userData} onNext={() => setStep(2)} />}
       {step === 2 && <QuizSection userData={userData} onNext={() => setStep(3)} />}
