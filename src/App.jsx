@@ -1,122 +1,94 @@
-import { useReducer, useState } from "react";
-import UserInputForm from "./components/UserInputForm";
-import StorySegment from "./components/StorySegment";
-import QuizIntro from "./components/QuizIntro";
-import QuizSection from "./components/QuizSection";
-import ResultPersonality from "./components/ResultPersonality";
-import TagsSuggestion from "./components/TagsSuggestion";
-import RadarChartResult from "./components/RadarChartResult";
+import { useState } from "react";
 
-// 定義流程步驟常數
-export const steps = {
-  USER_INPUT: "USER_INPUT",
-  STORY: "STORY",
-  QUIZ_INTRO: "QUIZ_INTRO",
-  QUIZ_MAIN: "QUIZ_MAIN",
-  RESULT: "RESULT",
-  TAGS: "TAGS",
-  RADAR: "RADAR",
-};
+export default function UserInputForm({ onNext, onSave }) {
+  const [formData, setFormData] = useState({
+    name: "",
+    age: "",
+    county: "",
+  });
 
-// 步驟列表（可用於控制進度條）
-const stepList = [
-  steps.USER_INPUT,
-  steps.STORY,
-  steps.QUIZ_INTRO,
-  steps.QUIZ_MAIN,
-  steps.RESULT,
-  steps.TAGS,
-  steps.RADAR,
-];
+  const counties = [
+    "基隆市", "臺北市", "新北市", "桃園市", "新竹市", "新竹縣",
+    "苗栗縣", "臺中市", "彰化縣", "南投縣", "雲林縣", "嘉義市",
+    "嘉義縣", "臺南市", "高雄市", "屏東縣", "宜蘭縣", "花蓮縣",
+    "臺東縣", "澎湖縣", "金門縣", "連江縣"
+  ];
 
-// 控制流程的 reducer
-function stepReducer(state, action) {
-  switch (action.type) {
-    case "NEXT":
-      return action.payload;
-    default:
-      return state;
-  }
-}
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
-function App() {
-  const [step, dispatch] = useReducer(stepReducer, steps.USER_INPUT);
-  const [userData, setUserData] = useState({});
+  const isValid = () => {
+    return (
+      formData.name.trim() !== "" &&
+      formData.county !== "" &&
+      Number(formData.age) > 3
+    );
+  };
 
-  const currentStepIndex = stepList.indexOf(step);
-  const totalSteps = stepList.length;
-  const progressPercent = ((currentStepIndex + 1) / totalSteps) * 100;
+  const handleSubmit = () => {
+    if (isValid()) {
+      if (onSave) onSave(formData);
+      if (onNext) onNext();
+    } else {
+      alert("請完整填寫，且年齡必須大於 3 歲");
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4 max-w-3xl mx-auto">
-      {/* ✅ 進度條 */}
-      <div className="w-full bg-gray-300 h-3 rounded-full mb-6">
-        <div
-          className="h-3 bg-green-500 rounded-full transition-all duration-500"
-          style={{ width: `${progressPercent}%` }}
+    <div className="p-4 bg-white shadow-md rounded-lg max-w-md mx-auto">
+      <h1 className="text-xl font-bold mb-4">填寫你的基本資料</h1>
+
+      <div className="mb-4">
+        <label className="block text-gray-700">姓名</label>
+        <input
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          className="w-full border border-gray-300 rounded px-3 py-2 mt-1"
+          placeholder="請輸入姓名"
         />
       </div>
 
-      {/* ✅ 各步驟畫面 */}
-      {step === steps.USER_INPUT && (
-        <UserInputForm
-          onSave={(data) => {
-            setUserData(data);
-              .then((res) => {
-                if (!res.ok) throw new Error("API 回傳錯誤");
-                return res.json();
-              })
-              .then((result) => {
-                console.log("✅ 使用者資料已傳送成功", result);
-              })
-              .catch((err) => {
-                console.error("❌ 傳送使用者資料失敗", err);
-              });
-          }}
-          onNext={() => dispatch({ type: "NEXT", payload: steps.STORY })}
+      <div className="mb-4">
+        <label className="block text-gray-700">年齡</label>
+        <input
+          type="number"
+          name="age"
+          min="4"
+          value={formData.age}
+          onChange={handleChange}
+          className="w-full border border-gray-300 rounded px-3 py-2 mt-1"
+          placeholder="必須大於 3 歲"
         />
-      )}
+      </div>
 
-      {step === steps.STORY && (
-        <StorySegment
-          userData={userData}
-          onNext={() => dispatch({ type: "NEXT", payload: steps.QUIZ_INTRO })}
-        />
-      )}
+      <div className="mb-6">
+        <label className="block text-gray-700">居住縣市</label>
+        <select
+          name="county"
+          value={formData.county}
+          onChange={handleChange}
+          className="w-full border border-gray-300 rounded px-3 py-2 mt-1"
+        >
+          <option value="">請選擇</option>
+          {counties.map((c) => (
+            <option key={c} value={c}>{c}</option>
+          ))}
+        </select>
+      </div>
 
-      {step === steps.QUIZ_INTRO && (
-        <QuizIntro
-          onStart={() => dispatch({ type: "NEXT", payload: steps.QUIZ_MAIN })}
-        />
-      )}
-
-      {step === steps.QUIZ_MAIN && (
-        <QuizSection
-          onNext={(answers) => {
-            const updatedData = { ...userData, answers };
-            setUserData(updatedData);
-            dispatch({ type: "NEXT", payload: steps.RESULT });
-          }}
-        />
-      )}
-
-      {step === steps.RESULT && (
-        <ResultPersonality
-          userData={userData}
-          onNext={() => dispatch({ type: "NEXT", payload: steps.TAGS })}
-        />
-      )}
-
-      {step === steps.TAGS && (
-        <TagsSuggestion
-          userData={userData}
-          onNext={() => dispatch({ type: "NEXT", payload: steps.RADAR })}
-        />
-      )}
-
-      {step === steps.RADAR && <RadarChartResult userData={userData} />}
+      <button
+        onClick={handleSubmit}
+        className={`w-full font-semibold py-2 px-4 rounded text-white ${
+          isValid() ? "bg-blue-500 hover:bg-blue-600" : "bg-gray-400 cursor-not-allowed"
+        }`}
+        disabled={!isValid()}
+      >
+        下一步
+      </button>
     </div>
   );
 }
-
-export default App;
