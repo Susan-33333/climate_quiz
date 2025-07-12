@@ -40,3 +40,15 @@
 .read-the-docs {
   color: #888;
 }
+/* App.css 加入 */
+.mascot-hidden {
+  position: absolute;
+  left: -50px;
+  bottom: 0;
+  animation: peek 2s ease-in-out forwards;
+}
+
+@keyframes peek {
+  0% { left: -50px; opacity: 0; }
+  100% { left: 30px; opacity: 1; }
+}
