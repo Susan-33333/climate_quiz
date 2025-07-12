@@ -1,0 +1,50 @@
+[
+  {
+    "id": "A",
+    "name": "永續樂活者",
+    "mascot": "tree-koala",
+    "description": "你是珍惜資源、熱愛生活的人，常常參加淨灘、市集活動，會主動減少垃圾、使用二手物品，並樂於分享綠色生活資訊。",
+    "good_match": "C",
+    "bad_match": "F"
+  },
+  {
+    "id": "B",
+    "name": "低碳城市探險家",
+    "mascot": "bike-fox",
+    "description": "你喜歡城市移動但不忘低碳原則，偏好步行、騎車與綠色交通，也善於發現城市裡的小綠洲，是都會裡的永續行者。",
+    "good_match": "E",
+    "bad_match": "D"
+  },
+  {
+    "id": "C",
+    "name": "自然感知者",
+    "mascot": "mountain-deer",
+    "description": "你擁有強烈的自然感知力，喜歡爬山、觀星、生態旅遊，會在社群分享環境觀察日記，是朋友眼中的氣候感應器。",
+    "good_match": "A",
+    "bad_match": "B"
+  },
+  {
+    "id": "D",
+    "name": "氣候冷感系",
+    "mascot": "couch-cat",
+    "description": "你雖然知道氣候變遷是個議題，但生活實在太忙碌，因此傾向保守與觀望。不太主動參與環保，但偶爾會被朋友感動而改變。",
+    "good_match": "F",
+    "bad_match": "A"
+  },
+  {
+    "id": "E",
+    "name": "社群催化者",
+    "mascot": "talking-bird",
+    "description": "你擅長號召與影響他人，是社區活動中的發電機。會為了舉辦淨灘、修復農場而拉人組團，是氣候社群的好隊友。",
+    "good_match": "B",
+    "bad_match": "C"
+  },
+  {
+    "id": "F",
+    "name": "觀察型旁觀者",
+    "mascot": "shadow-rabbit",
+    "description": "你喜歡靜靜觀察，了解每種觀點背後的原因，雖然不常出手，但一旦行動，就會十分堅定。",
+    "good_match": "D",
+    "bad_match": "E"
+  }
+]
