@@ -8,14 +8,15 @@ export default function UserInputForm({ onNext, onSave }) {
   });
   const [counties, setCounties] = useState([]);
 
-  useEffect(() => {
-    fetch("/data/taiwan_county.geojson")
-      .then(res => res.json())
-      .then(data => {
-        const countyList = data.features.map(f => f.properties.COUNTYNAME);
-        setCounties(countyList);
-      });
-  }, []);
+useEffect(() => {
+  fetch("/data/county_town_map.json")
+    .then(res => res.json())
+    .then(data => {
+      setCountyTownMap(data);
+      setCounties(Object.keys(data));
+    });
+}, []);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;

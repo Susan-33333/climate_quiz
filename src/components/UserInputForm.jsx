@@ -1,33 +1,60 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function UserInputForm({ onNext, onSave }) {
   const [formData, setFormData] = useState({
     name: "",
     age: "",
-    county: ""
+    county: "",
+    town: "",
   });
 
-  const counties = [
-    "基隆市", "臺北市", "新北市", "桃園市", "新竹市", "新竹縣",
-    "苗栗縣", "臺中市", "彰化縣", "南投縣", "雲林縣", "嘉義市",
-    "嘉義縣", "臺南市", "高雄市", "屏東縣", "宜蘭縣", "花蓮縣",
-    "臺東縣", "澎湖縣", "金門縣", "連江縣"
-  ];
+  const [counties, setCounties] = useState([]);
+  const [towns, setTowns] = useState([]);
+  const [countyTownMap, setCountyTownMap] = useState({});
+
+  // 載入縣市與鄉鎮資料
+  useEffect(() => {
+    fetch("/data/county_town_map.json")
+      .then((res) => res.json())
+      .then((data) => {
+        setCountyTownMap(data);
+        setCounties(Object.keys(data));
+      });
+  }, []);
+
+  // 切換縣市時，自動更新鄉鎮選單
+  useEffect(() => {
+    const selected = countyTownMap[formData.county] || [];
+    setTowns(selected);
+    setFormData((prev) => ({ ...prev, town: "" })); // 重置選擇
+  }, [formData.county]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const isValid = () => {
+    const age = Number(formData.age);
+    return (
+      formData.name.trim() !== "" &&
+      formData.county !== "" &&
+      formData.town !== "" &&
+      !isNaN(age) &&
+      age > 3
+    );
+  };
+
   const handleSubmit = () => {
-    if (onSave) onSave(formData);
-    if (onNext) onNext();
-    console.log("使用者輸入資料：", formData);
+    if (isValid()) {
+      onSave?.(formData);
+      onNext?.();
+    }
   };
 
   return (
     <div className="p-4 bg-white shadow-md rounded-lg max-w-md mx-auto">
-      <h1 className="text-xl font-bold mb-4">Step 1: 使用者輸入</h1>
+      <h1 className="text-xl font-bold mb-4">填寫基本資料</h1>
 
       <div className="mb-4">
         <label className="block text-gray-700">姓名</label>
@@ -51,7 +78,7 @@ export default function UserInputForm({ onNext, onSave }) {
         />
       </div>
 
-      <div className="mb-6">
+      <div className="mb-4">
         <label className="block text-gray-700">居住縣市</label>
         <select
           name="county"
@@ -66,9 +93,30 @@ export default function UserInputForm({ onNext, onSave }) {
         </select>
       </div>
 
+      <div className="mb-6">
+        <label className="block text-gray-700">居住鄉鎮市區</label>
+        <select
+          name="town"
+          value={formData.town}
+          onChange={handleChange}
+          disabled={!formData.county}
+          className="w-full border border-gray-300 rounded px-3 py-2 mt-1"
+        >
+          <option value="">請選擇</option>
+          {towns.map((t) => (
+            <option key={t} value={t}>{t}</option>
+          ))}
+        </select>
+      </div>
+
       <button
-        className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
         onClick={handleSubmit}
+        className={`w-full font-semibold py-2 px-4 rounded text-white ${
+          isValid()
+            ? "bg-blue-500 hover:bg-blue-600"
+            : "bg-gray-400 cursor-not-allowed"
+        }`}
+        disabled={!isValid()}
       >
         下一步
       </button>
