@@ -5,41 +5,31 @@ export default function UserInputForm({ onNext, onSave }) {
     name: "",
     age: "",
     county: "",
-    town: "",
   });
 
   const [counties, setCounties] = useState([]);
-  const [towns, setTowns] = useState([]);
-  const [countyTownMap, setCountyTownMap] = useState({});
 
-  // 載入縣市與鄉鎮資料
+  // ✅ 從 JSON 載入縣市清單（純陣列）
   useEffect(() => {
     fetch("/data/county_town_map.json")
       .then((res) => res.json())
       .then((data) => {
-        setCountyTownMap(data);
-        setCounties(Object.keys(data));
+        setCounties(data); // 這是陣列，不是 object
       });
   }, []);
 
-  // 切換縣市時，自動更新鄉鎮選單
-  useEffect(() => {
-    const selected = countyTownMap[formData.county] || [];
-    setTowns(selected);
-    setFormData((prev) => ({ ...prev, town: "" })); // 重置選擇
-  }, [formData.county]);
-
+  // ✅ 處理輸入變化
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // ✅ 檢查是否填寫完成（年齡需 > 3）
   const isValid = () => {
     const age = Number(formData.age);
     return (
       formData.name.trim() !== "" &&
       formData.county !== "" &&
-      formData.town !== "" &&
       !isNaN(age) &&
       age > 3
     );
@@ -78,7 +68,7 @@ export default function UserInputForm({ onNext, onSave }) {
         />
       </div>
 
-      <div className="mb-4">
+      <div className="mb-6">
         <label className="block text-gray-700">居住縣市</label>
         <select
           name="county"
@@ -88,23 +78,9 @@ export default function UserInputForm({ onNext, onSave }) {
         >
           <option value="">請選擇</option>
           {counties.map((c) => (
-            <option key={c} value={c}>{c}</option>
-          ))}
-        </select>
-      </div>
-
-      <div className="mb-6">
-        <label className="block text-gray-700">居住鄉鎮市區</label>
-        <select
-          name="town"
-          value={formData.town}
-          onChange={handleChange}
-          disabled={!formData.county}
-          className="w-full border border-gray-300 rounded px-3 py-2 mt-1"
-        >
-          <option value="">請選擇</option>
-          {towns.map((t) => (
-            <option key={t} value={t}>{t}</option>
+            <option key={c} value={c}>
+              {c}
+            </option>
           ))}
         </select>
       </div>
