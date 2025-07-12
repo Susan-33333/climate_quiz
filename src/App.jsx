@@ -1,6 +1,7 @@
 import { useReducer, useState } from "react";
 import UserInputForm from "./components/UserInputForm";
 import StorySegment from "./components/StorySegment";
+import QuizIntro from "./components/QuizIntro";
 import QuizSection from "./components/QuizSection";
 import ResultPersonality from "./components/ResultPersonality";
 import TagsSuggestion from "./components/TagsSuggestion";
@@ -10,17 +11,19 @@ import RadarChartResult from "./components/RadarChartResult";
 export const steps = {
   USER_INPUT: "USER_INPUT",
   STORY: "STORY",
-  QUIZ: "QUIZ",
+  QUIZ_INTRO: "QUIZ_INTRO",
+  QUIZ_MAIN: "QUIZ_MAIN",
   RESULT: "RESULT",
   TAGS: "TAGS",
   RADAR: "RADAR",
 };
 
-// 步驟列表（用來顯示進度）
+// 步驟列表（可用於控制進度條）
 const stepList = [
   steps.USER_INPUT,
   steps.STORY,
-  steps.QUIZ,
+  steps.QUIZ_INTRO,
+  steps.QUIZ_MAIN,
   steps.RESULT,
   steps.TAGS,
   steps.RADAR,
@@ -46,8 +49,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-100 p-4 max-w-3xl mx-auto">
-
-      {/* 進度條 */}
+      {/* ✅ 進度條 */}
       <div className="w-full bg-gray-300 h-3 rounded-full mb-6">
         <div
           className="h-3 bg-green-500 rounded-full transition-all duration-500"
@@ -55,13 +57,11 @@ function App() {
         />
       </div>
 
-      {/* 各步驟畫面 */}
+      {/* ✅ 各步驟畫面 */}
       {step === steps.USER_INPUT && (
         <UserInputForm
           onSave={(data) => {
-            setUserData(data); // 1. 存到本地 state
-
-            // 2. 傳送到後端 API（你可改成你自己的 URL）
+            setUserData(data);
             fetch("/api/saveUser", {
               method: "POST",
               headers: {
@@ -87,15 +87,20 @@ function App() {
       {step === steps.STORY && (
         <StorySegment
           userData={userData}
-          onNext={() => dispatch({ type: "NEXT", payload: steps.QUIZ })}
+          onNext={() => dispatch({ type: "NEXT", payload: steps.QUIZ_INTRO })}
         />
       )}
 
-      {step === steps.QUIZ && (
+      {step === steps.QUIZ_INTRO && (
+        <QuizIntro
+          onStart={() => dispatch({ type: "NEXT", payload: steps.QUIZ_MAIN })}
+        />
+      )}
+
+      {step === steps.QUIZ_MAIN && (
         <QuizSection
-          userData={userData}
           onNext={(answers) => {
-            const updatedData = { ...userData, answers }; // ✅ 把 answers 放進 userData
+            const updatedData = { ...userData, answers };
             setUserData(updatedData);
             dispatch({ type: "NEXT", payload: steps.RESULT });
           }}
@@ -116,9 +121,7 @@ function App() {
         />
       )}
 
-      {step === steps.RADAR && (
-        <RadarChartResult userData={userData} />
-      )}
+      {step === steps.RADAR && <RadarChartResult userData={userData} />}
     </div>
   );
 }

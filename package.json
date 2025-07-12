@@ -1,5 +1,6 @@
 {
   "name": "climate_quiz",
+  "homepage": "https://susan-33333.github.io/climate_quiz",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -12,6 +13,8 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "@vitejs/plugin-react": "^4.6.0",
+    "framer-motion": "^12.23.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
