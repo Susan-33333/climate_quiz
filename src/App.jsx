@@ -1,18 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function UserInputForm({ onNext, onSave }) {
   const [formData, setFormData] = useState({
     name: "",
     age: "",
-    county: "",
+    county: ""
   });
+  const [counties, setCounties] = useState([]);
 
-  const counties = [
-    "基隆市", "臺北市", "新北市", "桃園市", "新竹市", "新竹縣",
-    "苗栗縣", "臺中市", "彰化縣", "南投縣", "雲林縣", "嘉義市",
-    "嘉義縣", "臺南市", "高雄市", "屏東縣", "宜蘭縣", "花蓮縣",
-    "臺東縣", "澎湖縣", "金門縣", "連江縣"
-  ];
+  useEffect(() => {
+    fetch("/data/taiwan_county.geojson")
+      .then(res => res.json())
+      .then(data => {
+        const countyList = data.features.map(f => f.properties.COUNTYNAME);
+        setCounties(countyList);
+      });
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,25 +23,25 @@ export default function UserInputForm({ onNext, onSave }) {
   };
 
   const isValid = () => {
+    const age = Number(formData.age);
     return (
       formData.name.trim() !== "" &&
       formData.county !== "" &&
-      Number(formData.age) > 3
+      !isNaN(age) &&
+      age > 3
     );
   };
 
   const handleSubmit = () => {
     if (isValid()) {
-      if (onSave) onSave(formData);
-      if (onNext) onNext();
-    } else {
-      alert("請完整填寫，且年齡必須大於 3 歲");
+      onSave?.(formData);
+      onNext?.();
     }
   };
 
   return (
     <div className="p-4 bg-white shadow-md rounded-lg max-w-md mx-auto">
-      <h1 className="text-xl font-bold mb-4">填寫你的基本資料</h1>
+      <h1 className="text-xl font-bold mb-4">填寫基本資料</h1>
 
       <div className="mb-4">
         <label className="block text-gray-700">姓名</label>
@@ -48,7 +51,6 @@ export default function UserInputForm({ onNext, onSave }) {
           value={formData.name}
           onChange={handleChange}
           className="w-full border border-gray-300 rounded px-3 py-2 mt-1"
-          placeholder="請輸入姓名"
         />
       </div>
 
@@ -57,11 +59,9 @@ export default function UserInputForm({ onNext, onSave }) {
         <input
           type="number"
           name="age"
-          min="4"
           value={formData.age}
           onChange={handleChange}
           className="w-full border border-gray-300 rounded px-3 py-2 mt-1"
-          placeholder="必須大於 3 歲"
         />
       </div>
 
