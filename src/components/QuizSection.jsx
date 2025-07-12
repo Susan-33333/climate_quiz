@@ -4,11 +4,11 @@ import { motion, AnimatePresence } from "framer-motion";
 function QuizSection({ onNext }) {
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState([]);
   const [selected, setSelected] = useState(null);
 
+  // 讀取 public 裡的 question_data.json（你自己的假問卷）
   useEffect(() => {
     fetch("/data/question_data.json")
       .then((res) => res.json())
@@ -27,19 +27,19 @@ function QuizSection({ onNext }) {
   }
 
   function handleNext() {
-    const updated = [...answers, selected];
-    setAnswers(updated);
+    const updatedAnswers = [...answers, selected];
+    setAnswers(updatedAnswers);
     setSelected(null);
 
     if (currentIndex + 1 < questions.length) {
       setCurrentIndex(currentIndex + 1);
     } else {
-      onNext(updated); // 所有題目完成
+      onNext(updatedAnswers); // 全部完成，傳出 answers 給 App.jsx
     }
   }
 
   return (
-    <div className="relative overflow-hidden min-h-[300px] px-4">
+    <div className="relative overflow-hidden min-h-[300px] px-4 pb-8">
       <AnimatePresence mode="wait">
         <motion.div
           key={currentIndex}
