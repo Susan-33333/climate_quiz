@@ -1,11 +1,24 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import questions from "/data/question_data.json";
 
 function QuizSection({ onNext }) {
+  const [questions, setQuestions] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState([]);
   const [selected, setSelected] = useState(null);
+
+  useEffect(() => {
+    fetch("/data/question_data.json")
+      .then((res) => res.json())
+      .then((data) => {
+        setQuestions(data);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) return <p className="text-center">載入中...</p>;
 
   const current = questions[currentIndex];
 
@@ -21,7 +34,7 @@ function QuizSection({ onNext }) {
     if (currentIndex + 1 < questions.length) {
       setCurrentIndex(currentIndex + 1);
     } else {
-      onNext(updated); // 全部完成，傳出答案
+      onNext(updated); // 所有題目完成
     }
   }
 
