@@ -2,7 +2,7 @@ function QuizIntro({ onStart }) {
   return (
     <div className="text-center px-6 py-12">
       <img
-        src="/assets/quiz-start.png"
+        src="public/assets/quiz-start.png"
         alt="開始測驗圖片"
         className="w-2/3 max-w-sm mx-auto mb-8 rounded-xl shadow-lg"
       />
