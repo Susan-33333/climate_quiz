@@ -46,10 +46,6 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-100 p-4 max-w-3xl mx-auto">
-      {/* 進度文字 */}
-      <p className="text-center text-sm text-gray-600 mb-2">
-        第 {currentStepIndex + 1} 步 / 共 {totalSteps} 步
-      </p>
 
       {/* 進度條 */}
       <div className="w-full bg-gray-300 h-3 rounded-full mb-6">
@@ -98,7 +94,11 @@ function App() {
       {step === steps.QUIZ && (
         <QuizSection
           userData={userData}
-          onNext={() => dispatch({ type: "NEXT", payload: steps.RESULT })}
+          onNext={(answers) => {
+            const updatedData = { ...userData, answers }; // ✅ 把 answers 放進 userData
+            setUserData(updatedData);
+            dispatch({ type: "NEXT", payload: steps.RESULT });
+          }}
         />
       )}
 
