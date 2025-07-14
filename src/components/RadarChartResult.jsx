@@ -36,7 +36,7 @@ function RadarChartResult({ scores, mascot, regionSummary }) {
             const barItems = [
         { label: "幸福度", key: "happiness" },
         { label: "開心度", key: "joy" },
-        { label: "探索欲", key: "explore" }, ];
+        { label: "探索欲", key: "explore" } ];
       ...
       {barItems.map(({ label, key }, i) => (
         <div key={i}>
@@ -53,7 +53,7 @@ function RadarChartResult({ scores, mascot, regionSummary }) {
           </div>
         </div>
       ))}
-      
+
       {/* 角色圖片與描述 */}
       <div className="mt-8 flex justify-center">
         <img
