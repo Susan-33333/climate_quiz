@@ -7,6 +7,10 @@ import ResultPersonality from "./components/ResultPersonality";
 import TagsSuggestion from "./components/TagsSuggestion";
 import RadarChartResult from "./components/RadarChartResult";
 
+// 🔥 加入 Firestore 寫入函式
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "./firebase";
+
 // 定義流程步驟常數
 export const steps = {
   USER_INPUT: "USER_INPUT",
@@ -60,7 +64,19 @@ function App() {
       {/* 各步驟畫面 */}
       {step === steps.USER_INPUT && (
         <UserInputForm
-          onSave={(data) => setUserData(data)}
+          onSave={async (data) => {
+            // ✅ 將資料存到 local state
+            setUserData(data);
+
+            // ✅ 儲存到 Firestore
+            try {
+              const docRef = await addDoc(collection(db, "users"), data);
+              console.log("✅ Firestore 儲存成功，ID:", docRef.id);
+            } catch (err) {
+              console.error("❌ 儲存失敗：", err);
+              alert("儲存使用者資料失敗，請稍後再試");
+            }
+          }}
           onNext={() => dispatch({ type: "NEXT", payload: steps.STORY })}
         />
       )}
