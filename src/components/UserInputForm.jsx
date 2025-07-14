@@ -41,7 +41,7 @@ export default function UserInputForm({ onNext, onSave }) {
       <h1 className="text-xl font-bold mb-4">填寫基本資料</h1>
 
       <div className="mb-4">
-        <label className="block text-gray-700">姓名</label>
+        <label className="block text-gray-700">匿名</label>
         <input
           type="text"
           name="name"
