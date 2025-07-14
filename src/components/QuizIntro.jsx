@@ -2,7 +2,7 @@ function QuizIntro({ onStart }) {
   return (
     <div className="text-center px-6 py-12">
       <img
-        src={`${import.meta.env.BASE_URL}assets/quiz-start.png`}
+        {setBgImage(`${import.meta.env.BASE_URL}assets/quiz-start.png`)}
         alt="開始測驗圖片"
         className="w-full"
       />

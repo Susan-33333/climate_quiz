@@ -25,7 +25,7 @@ export default function UserInputForm({ onNext, onSave }) {
       formData.name.trim() !== "" &&
       formData.county !== "" &&
       !isNaN(age) &&
-      age > 3
+      age > 3 && age < 100
     );
   };
 
