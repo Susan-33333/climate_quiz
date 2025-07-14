@@ -51,12 +51,23 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-100 p-4 max-w-3xl mx-auto">
       {/* 進度條 */}
-      <div className="w-full bg-gray-300 h-3 rounded-full mb-6">
+      <div className="relative w-full h-3 bg-gray-300 rounded-full mb-6">
         <div
           className="h-3 bg-green-500 rounded-full transition-all duration-500"
           style={{ width: `${progressPercent}%` }}
         />
+        <div
+          className="absolute -top-3 transition-all duration-500"
+          style={{ left: `calc(${progressPercent}% - 12px)` }}
+        >
+          <img
+            src={`${import.meta.env.BASE_URL}assets/icon.png`}
+            alt="進度角色"
+            className="w-6 h-6"
+          />
+        </div>
       </div>
+
 
       {/* 各步驟畫面 */}
       {step === steps.QUIZ_INTRO && (
@@ -91,10 +102,18 @@ function App() {
       {step === steps.QUIZ_MAIN && (
         <QuizSection
           onNext={(answers) => {
-            const updatedData = { ...userData, answers };
-            setUserData(updatedData);
-            dispatch({ type: "NEXT", payload: steps.RESULT });
-          }}
+          const scores = calculateScores(answers);
+          const mascot = getMascot(answers);
+          const updatedData = {
+            ...userData,
+            answers,
+            scores,
+            mascot,
+            regionSummary: getRegionSummary(userData.county, userData.township),
+          };
+          setUserData(updatedData);
+          dispatch({ type: "NEXT", payload: steps.RESULT });
+        }}
         />
       )}
 
@@ -112,7 +131,14 @@ function App() {
         />
       )}
 
-      {step === steps.RADAR && <RadarChartResult userData={userData} />}
+      {step === steps.RADAR && (
+  <RadarChartResult
+    scores={userData.scores}
+    mascot={userData.mascot}
+    regionSummary={userData.regionSummary}
+  />
+    )}
+
     </div>
   );
 }

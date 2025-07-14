@@ -2,13 +2,14 @@ import { RadarChart, PolarGrid, PolarAngleAxis, Radar, ResponsiveContainer } fro
 import html2canvas from "html2canvas";
 
 function RadarChartResult({ scores, mascot, regionSummary }) {
-  const data = [
-    { subject: "幸福度", A: scores.happiness, fullMark: 100 },
-    { subject: "氣候適應", A: scores.adaptability, fullMark: 100 },
-    { subject: "居住環境", A: scores.residence, fullMark: 100 },
-    { subject: "交通綠能", A: scores.transport, fullMark: 100 },
-    { subject: "旅遊分數", A: scores.tourism, fullMark: 100 },
+    const data = [
+    { category: "幸福度", value: scores.happiness },
+    { category: "氣候適應", value: scores.adaptability },
+    { category: "居住環境", value: scores.residence },
+    { category: "交通綠能", value: scores.transport },
+    { category: "旅遊分數", value: scores.tourism },
   ];
+
 
   const downloadImage = async () => {
     const node = document.getElementById("result-card");
@@ -18,12 +19,6 @@ function RadarChartResult({ scores, mascot, regionSummary }) {
     link.href = canvas.toDataURL();
     link.click();
   };
-
-  <img
-  src={`${import.meta.env.BASE_URL}assets/mascot/${userData.mascotImage}`}
-  alt="你的氣候人格角色"
-  className="w-36 md:w-48 mx-auto"
-/>
 
   return (
     <div id="result-card" className="bg-[#faf7ef] min-h-screen px-4 py-10 relative">
@@ -38,25 +33,27 @@ function RadarChartResult({ scores, mascot, regionSummary }) {
         </ResponsiveContainer>
       </div>
 
-      {/* 三條拉桿示意 */}
-      <div className="mt-6 space-y-4 max-w-sm mx-auto">
-        {["幸福度", "開心度", "探索欲"].map((label, i) => (
-          <div key={i}>
-            <p className="text-lg font-bold">{label}</p>
-            <div className="w-full h-3 bg-gray-200 rounded relative">
-              <div
-                className="h-3 bg-yellow-500 rounded absolute"
-                style={{ width: `${scores[label] || 0}%` }}
-              />
-              <div
-                className="w-3 h-3 bg-black absolute top-0.5 left-[calc(100%-1rem)] rounded-full"
-                style={{ left: `calc(${scores[label] || 0}% - 6px)` }}
-              />
-            </div>
+            const barItems = [
+        { label: "幸福度", key: "happiness" },
+        { label: "開心度", key: "joy" },
+        { label: "探索欲", key: "explore" }, ];
+      ...
+      {barItems.map(({ label, key }, i) => (
+        <div key={i}>
+          <p className="text-lg font-bold">{label}</p>
+          <div className="w-full h-3 bg-gray-200 rounded relative">
+            <div
+              className="h-3 bg-yellow-500 rounded absolute"
+              style={{ width: `${scores[key] || 0}%` }}
+            />
+            <div
+              className="w-3 h-3 bg-black absolute top-0.5 rounded-full"
+              style={{ left: `calc(${scores[key] || 0}% - 6px)` }}
+            />
           </div>
-        ))}
-      </div>
-
+        </div>
+      ))}
+      
       {/* 角色圖片與描述 */}
       <div className="mt-8 flex justify-center">
         <img
