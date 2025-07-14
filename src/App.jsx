@@ -1,95 +1,110 @@
-import { useState, useEffect } from "react";
+import { useReducer, useState } from "react";
+import UserInputForm from "./components/UserInputForm";
+import StorySegment from "./components/StorySegment";
+import QuizIntro from "./components/QuizIntro";
+import QuizSection from "./components/QuizSection";
+import ResultPersonality from "./components/ResultPersonality";
+import TagsSuggestion from "./components/TagsSuggestion";
+import RadarChartResult from "./components/RadarChartResult";
 
-export default function UserInputForm({ onNext, onSave }) {
-  const [formData, setFormData] = useState({
-    name: "",
-    age: "",
-    county: ""
-  });
-  const [counties, setCounties] = useState([]);
+// 定義流程步驟常數
+export const steps = {
+  USER_INPUT: "USER_INPUT",
+  STORY: "STORY",
+  QUIZ_INTRO: "QUIZ_INTRO",
+  QUIZ_MAIN: "QUIZ_MAIN",
+  RESULT: "RESULT",
+  TAGS: "TAGS",
+  RADAR: "RADAR",
+};
 
-useEffect(() => {
-  fetch("/data/county_town_map.json")
-    .then(res => res.json())
-    .then(data => {
-      setCountyTownMap(data);
-      setCounties(Object.keys(data));
-    });
-}, []);
+// 步驟列表（可用於控制進度條）
+const stepList = [
+  steps.USER_INPUT,
+  steps.STORY,
+  steps.QUIZ_INTRO,
+  steps.QUIZ_MAIN,
+  steps.RESULT,
+  steps.TAGS,
+  steps.RADAR,
+];
 
+// 控制流程的 reducer
+function stepReducer(state, action) {
+  switch (action.type) {
+    case "NEXT":
+      return action.payload;
+    default:
+      return state;
+  }
+}
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+function App() {
+  const [step, dispatch] = useReducer(stepReducer, steps.USER_INPUT);
+  const [userData, setUserData] = useState({});
 
-  const isValid = () => {
-    const age = Number(formData.age);
-    return (
-      formData.name.trim() !== "" &&
-      formData.county !== "" &&
-      !isNaN(age) &&
-      age > 3
-    );
-  };
-
-  const handleSubmit = () => {
-    if (isValid()) {
-      onSave?.(formData);
-      onNext?.();
-    }
-  };
+  const currentStepIndex = stepList.indexOf(step);
+  const totalSteps = stepList.length;
+  const progressPercent = ((currentStepIndex + 1) / totalSteps) * 100;
 
   return (
-    <div className="p-4 bg-white shadow-md rounded-lg max-w-md mx-auto">
-      <h1 className="text-xl font-bold mb-4">填寫基本資料</h1>
-
-      <div className="mb-4">
-        <label className="block text-gray-700">姓名</label>
-        <input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          className="w-full border border-gray-300 rounded px-3 py-2 mt-1"
+    <div className="min-h-screen bg-gray-100 p-4 max-w-3xl mx-auto">
+      {/* 進度條 */}
+      <div className="w-full bg-gray-300 h-3 rounded-full mb-6">
+        <div
+          className="h-3 bg-green-500 rounded-full transition-all duration-500"
+          style={{ width: `${progressPercent}%` }}
         />
       </div>
 
-      <div className="mb-4">
-        <label className="block text-gray-700">年齡</label>
-        <input
-          type="number"
-          name="age"
-          value={formData.age}
-          onChange={handleChange}
-          className="w-full border border-gray-300 rounded px-3 py-2 mt-1"
+      {/* 各步驟畫面 */}
+      {step === steps.USER_INPUT && (
+        <UserInputForm
+          onSave={(data) => setUserData(data)}
+          onNext={() => dispatch({ type: "NEXT", payload: steps.STORY })}
         />
-      </div>
+      )}
 
-      <div className="mb-6">
-        <label className="block text-gray-700">居住縣市</label>
-        <select
-          name="county"
-          value={formData.county}
-          onChange={handleChange}
-          className="w-full border border-gray-300 rounded px-3 py-2 mt-1"
-        >
-          <option value="">請選擇</option>
-          {counties.map((c) => (
-            <option key={c} value={c}>{c}</option>
-          ))}
-        </select>
-      </div>
+      {step === steps.STORY && (
+        <StorySegment
+          userData={userData}
+          onNext={() => dispatch({ type: "NEXT", payload: steps.QUIZ_INTRO })}
+        />
+      )}
 
-      <button
-        onClick={handleSubmit}
-        className={`w-full font-semibold py-2 px-4 rounded text-white ${
-          isValid() ? "bg-blue-500 hover:bg-blue-600" : "bg-gray-400 cursor-not-allowed"
-        }`}
-        disabled={!isValid()}
-      >
-        下一步
-      </button>
+      {step === steps.QUIZ_INTRO && (
+        <QuizIntro
+          onStart={() => dispatch({ type: "NEXT", payload: steps.QUIZ_MAIN })}
+        />
+      )}
+
+      {step === steps.QUIZ_MAIN && (
+        <QuizSection
+          onNext={(answers) => {
+            const updatedData = { ...userData, answers };
+            setUserData(updatedData);
+            dispatch({ type: "NEXT", payload: steps.RESULT });
+          }}
+        />
+      )}
+
+      {step === steps.RESULT && (
+        <ResultPersonality
+          userData={userData}
+          onNext={() => dispatch({ type: "NEXT", payload: steps.TAGS })}
+        />
+      )}
+
+      {step === steps.TAGS && (
+        <TagsSuggestion
+          userData={userData}
+          onNext={() => dispatch({ type: "NEXT", payload: steps.RADAR })}
+        />
+      )}
+
+      {step === steps.RADAR && <RadarChartResult userData={userData} />}
     </div>
   );
 }
+
+export default App;
