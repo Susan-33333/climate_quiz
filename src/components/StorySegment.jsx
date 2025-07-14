@@ -1,4 +1,3 @@
-// StorySegment.jsx
 import { useEffect, useState } from "react";
 
 export default function StorySegment({ userData, onNext }) {
@@ -9,15 +8,17 @@ export default function StorySegment({ userData, onNext }) {
     const age = parseInt(userData.age, 10);
     const projectedAge = age + 30;
 
+    const base = import.meta.env.BASE_URL || "/";
+
     if (projectedAge < 40) {
       setStory("你是一位年輕的生活探險家，正在學會與氣候共舞...");
-      setBgImage(`${import.meta.env.BASE_URL}assets/mascot/youth.jpg`);
+      setBgImage(`${base}assets/mascot/youth.jpg`);
     } else if (projectedAge < 65) {
       setStory("你在壯年努力生活，環境的變遷開始對你產生實際影響...");
-      setBgImage(`${import.meta.env.BASE_URL}assets/mascot/adult.jpg`);
+      setBgImage(`${base}assets/mascot/adult.jpg`);
     } else {
       setStory("你已步入老年，回顧自己與世界的關係，思考未來的樣貌...");
-      setBgImage(`${import.meta.env.BASE_URL}assets/mascot/elder.jpg`);
+      setBgImage(`${base}assets/mascot/elder.jpg`);
     }
   }, [userData]);
 
