@@ -14,6 +14,9 @@ function QuizSection({ onNext }) {
       .then((data) => {
         setQuestions(data);
         setLoading(false);
+      })
+      .catch((err) => {
+        console.error("❌ 題目載入失敗：", err);
       });
   }, []);
 
@@ -26,14 +29,15 @@ function QuizSection({ onNext }) {
   }
 
   function handleNext() {
-    const updatedAnswers = [...answers, selected];
-    setAnswers(updatedAnswers);
+    const newAnswers = [...answers, selected];
+    setAnswers(newAnswers);
     setSelected(null);
 
     if (currentIndex + 1 < questions.length) {
       setCurrentIndex(currentIndex + 1);
     } else {
-      onNext(updatedAnswers);
+      console.log("✅ 所有題目完成，傳送答案：", newAnswers);
+      onNext?.(newAnswers); // ✅ 使用新生成答案
     }
   }
 
@@ -42,6 +46,7 @@ function QuizSection({ onNext }) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center px-4 py-10">
       <div className="w-full max-w-xl bg-white rounded-xl shadow-lg p-6 relative">
+        {/* 進度條 */}
         <div className="absolute top-0 left-0 w-full h-2 bg-gray-200 rounded-t-xl overflow-hidden">
           <div
             className="h-full bg-green-500 transition-all duration-300"
@@ -102,4 +107,3 @@ function QuizSection({ onNext }) {
 }
 
 export default QuizSection;
-
