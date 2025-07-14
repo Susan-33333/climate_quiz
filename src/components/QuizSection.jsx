@@ -43,10 +43,10 @@ function QuizSection({ onNext }) {
 
         {/* 進度條：圓點模式 */}
         <div className="flex justify-center space-x-2">
-          {questions.map((_, idx) => (
+          {questions.map((q, idx) => (
             <div
-              key={idx}
-              className={`w-4 h-4 rounded-full transition ${
+              key={q.question || idx} // 使用 question 文字當作 key，若未定義則退回 idx
+              className={`w-4 h-4 rounded-full transition-transform ${
                 idx === currentIndex
                   ? "bg-yellow-500 scale-125"
                   : "bg-yellow-300"
@@ -73,7 +73,7 @@ function QuizSection({ onNext }) {
                   <button
                     key={key}
                     onClick={() => handleSelect(key)}
-                    className={`w-full border-2 rounded-full px-6 py-3 text-sm font-medium transition-all ${
+                    className={`w-full border-2 rounded-full px-6 py-3 text-sm font-medium transition-colors duration-300 ${
                       selected === key
                         ? "bg-yellow-500 text-white border-yellow-500 shadow-lg"
                         : "bg-white text-gray-800 border-gray-300 hover:bg-yellow-100"
@@ -87,7 +87,7 @@ function QuizSection({ onNext }) {
               <button
                 onClick={handleNext}
                 disabled={!selected}
-                className={`mt-10 px-8 py-3 rounded-lg font-semibold transition ${
+                className={`mt-10 px-8 py-3 rounded-lg font-semibold transition-colors duration-300 ${
                   selected
                     ? "bg-yellow-500 text-white hover:bg-yellow-600"
                     : "bg-gray-300 text-white cursor-not-allowed"
@@ -105,7 +105,3 @@ function QuizSection({ onNext }) {
 
 export default QuizSection;
 
-  );
-}
-
-export default QuizSection;
