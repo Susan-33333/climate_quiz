@@ -1,50 +1,32 @@
-[
-  {
-    "id": "A",
-    "name": "永續樂活者",
-    "mascot": "tree-koala",
-    "description": "你是珍惜資源、熱愛生活的人，常常參加淨灘、市集活動，會主動減少垃圾、使用二手物品，並樂於分享綠色生活資訊。",
-    "good_match": "C",
-    "bad_match": "F"
+{
+  "T1": {
+    "name": "氣候浪人",
+    "description": "你總是想逃離高溫，追求舒適與自由的生活環境。",
+    "image": "assets/personality_T1.png"
   },
-  {
-    "id": "B",
-    "name": "低碳城市探險家",
-    "mascot": "bike-fox",
-    "description": "你喜歡城市移動但不忘低碳原則，偏好步行、騎車與綠色交通，也善於發現城市裡的小綠洲，是都會裡的永續行者。",
-    "good_match": "E",
-    "bad_match": "D"
+  "T2": {
+    "name": "節能勇士",
+    "description": "你對能源議題充滿熱情，是減碳的行動派代表。",
+    "image": "assets/personality_T2.png"
   },
-  {
-    "id": "C",
-    "name": "自然感知者",
-    "mascot": "mountain-deer",
-    "description": "你擁有強烈的自然感知力，喜歡爬山、觀星、生態旅遊，會在社群分享環境觀察日記，是朋友眼中的氣候感應器。",
-    "good_match": "A",
-    "bad_match": "B"
+  "T3": {
+    "name": "綠色旅人",
+    "description": "你喜歡搭大眾運輸、支持在地旅遊，是永續的支持者。",
+    "image": "assets/personality_T3.png"
   },
-  {
-    "id": "D",
-    "name": "氣候冷感系",
-    "mascot": "couch-cat",
-    "description": "你雖然知道氣候變遷是個議題，但生活實在太忙碌，因此傾向保守與觀望。不太主動參與環保，但偶爾會被朋友感動而改變。",
-    "good_match": "F",
-    "bad_match": "A"
+  "T4": {
+    "name": "社區守護者",
+    "description": "你熱愛參與社區活動，為氣候韌性盡一份心力。",
+    "image": "assets/personality_T4.png"
   },
-  {
-    "id": "E",
-    "name": "社群催化者",
-    "mascot": "talking-bird",
-    "description": "你擅長號召與影響他人，是社區活動中的發電機。會為了舉辦淨灘、修復農場而拉人組團，是氣候社群的好隊友。",
-    "good_match": "B",
-    "bad_match": "C"
+  "T5": {
+    "name": "轉型觀察員",
+    "description": "你理性思考變遷，觀察並學習氣候政策與社會走向。",
+    "image": "assets/personality_T5.png"
   },
-  {
-    "id": "F",
-    "name": "觀察型旁觀者",
-    "mascot": "shadow-rabbit",
-    "description": "你喜歡靜靜觀察，了解每種觀點背後的原因，雖然不常出手，但一旦行動，就會十分堅定。",
-    "good_match": "D",
-    "bad_match": "E"
+  "T6": {
+    "name": "氣候實踐家",
+    "description": "你會在日常實踐低碳生活，是最行動派的綠色領袖！",
+    "image": "assets/personality_T6.png"
   }
-]
+}

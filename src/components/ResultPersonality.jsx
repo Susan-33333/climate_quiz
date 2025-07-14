@@ -1,74 +1,71 @@
 import { useEffect, useState } from "react";
 
 function ResultPersonality({ userData, onNext }) {
-  const [profiles, setProfiles] = useState([]);
-  const [matchedProfile, setMatchedProfile] = useState(null);
+  const [profile, setProfile] = useState(null);
 
   useEffect(() => {
-    // 1. 載入 JSON 資料
-    fetch("/data/personality_profiles.json")
+    fetch(`${import.meta.env.BASE_URL}data/personality_profiles.json`)
       .then((res) => res.json())
       .then((data) => {
-        setProfiles(data);
-        // 2. 判斷最適人格（假設你把回答存在 userData.answers）
-        const matched = matchPersonality(userData.answers, data);
-        setMatchedProfile(matched);
+        // 統計 ABCD 選項數量
+        const count = { A: 0, B: 0, C: 0, D: 0 };
+        userData.answers.forEach((ans) => {
+          if (count[ans]) {
+            count[ans]++;
+          } else {
+            count[ans] = 1;
+          }
+        });
+
+        // 找出最多的選項
+        const maxOption = Object.entries(count).sort((a, b) => b[1] - a[1])[0][0];
+
+        // 選項對應人格代碼
+        const personalityMap = {
+          A: "T1",
+          B: "T2",
+          C: "T3",
+          D: "T4",
+        };
+
+        const personalityKey = personalityMap[maxOption] || "T1"; // 預設T1
+        setProfile(data[personalityKey]);
       });
-  }, [userData]);
+  }, [userData.answers]);
 
-  function matchPersonality(userAnswers, profiles) {
-    let maxScore = -Infinity;
-    let topProfiles = [];
-
-    profiles.forEach((profile) => {
-      let score = 0;
-      userAnswers.forEach((ans, i) => {
-        if (ans === profile.ideal_answers[i]) score += 1;
-      });
-
-      if (score > maxScore) {
-        maxScore = score;
-        topProfiles = [profile];
-      } else if (score === maxScore) {
-        topProfiles.push(profile);
-      }
-    });
-
-    // 隨機挑選若同分
-    const randomIndex = Math.floor(Math.random() * topProfiles.length);
-    return topProfiles[randomIndex];
-  }
-
-  if (!matchedProfile) return <p className="text-center">載入中...</p>;
-
-  const goodMatchName = profiles.find(p => p.id === matchedProfile.good_match)?.name || "？";
-  const badMatchName = profiles.find(p => p.id === matchedProfile.bad_match)?.name || "？";
+  if (!profile) return <p className="text-center">載入中...</p>;
 
   return (
-    <div className="text-center px-4">
-      <h2 className="text-3xl font-bold text-green-600 mb-4">
-        你是：「{matchedProfile.name}」
-      </h2>
-
-      <img
-        src={`${import.meta.env.BASE_URL}mascot/${matchedProfile.mascot}.png`}
-        alt="吉祥物"
-        className="w-40 h-auto mx-auto mb-4"
+    <div className="relative p-4 min-h-screen bg-green-50 flex flex-col items-center justify-center">
+      {/* 背景圖層 */}
+      <div
+        className="absolute inset-0 bg-cover bg-center opacity-20"
+        style={{
+          backgroundImage: `url(${import.meta.env.BASE_URL}assets/mascot/${profile.image})`,
+        }}
       />
 
-      <p className="text-gray-700 mb-4">{matchedProfile.description}</p>
-
-      <div className="text-sm text-gray-600 mt-6">
-        <p>👍 最適合的朋友人格：<strong>{goodMatchName}</strong></p>
-        <p>⚠️ 可能難以相處的類型：<strong>{badMatchName}</strong></p>
+      {/* 文字層 */}
+      <div className="relative z-10 text-center max-w-lg p-6 bg-white/90 rounded-2xl shadow-xl">
+        <h2 className="text-3xl font-bold mb-4">你是 {profile.name}</h2>
+        <p className="mb-2">{profile.description}</p>
+        <div className="flex justify-between text-lg mt-6">
+          <div>
+            <p className="font-semibold">適合：</p>
+            <p>{profile.match}</p>
+          </div>
+          <div>
+            <p className="font-semibold">不適合：</p>
+            <p>{profile.mismatch}</p>
+          </div>
+        </div>
+        <button
+          onClick={onNext}
+          className="mt-8 px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg"
+        >
+          下一步
+        </button>
       </div>
-
-      <button
-        onClick={onNext}
-        className="mt-8 bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600 transition"
-      >
-        下一步
-      </button>
     </div>
   );
 }

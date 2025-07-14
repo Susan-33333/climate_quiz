@@ -7,11 +7,9 @@ import ResultPersonality from "./components/ResultPersonality";
 import TagsSuggestion from "./components/TagsSuggestion";
 import RadarChartResult from "./components/RadarChartResult";
 
-// 🔥 Firestore
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "./firebase";
 
-// ✅ 新的步驟順序
 export const steps = {
   QUIZ_INTRO: "QUIZ_INTRO",
   USER_INPUT: "USER_INPUT",
