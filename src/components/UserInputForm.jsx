@@ -11,7 +11,7 @@ export default function UserInputForm({ onNext, onSave }) {
 
   // ✅ 從 JSON 載入縣市清單（純陣列）
   useEffect(() => {
-    fetch("/data/county_town_map.json")
+    fetch("data/county_town_map.json")
       .then((res) => res.json())
       .then((data) => {
         setCounties(data); // 這是陣列，不是 object
