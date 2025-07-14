@@ -1,21 +1,77 @@
-import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from "recharts";
+import { RadarChart, PolarGrid, PolarAngleAxis, Radar, ResponsiveContainer } from "recharts";
+import html2canvas from "html2canvas";
 
-export default function RadarChartResult({ userData }) {
+function RadarChartResult({ scores, mascot, regionSummary }) {
   const data = [
-    { subject: "居住", A: userData.homeScore || 60 },
-    { subject: "旅遊", A: userData.travelScore || 70 },
-    { subject: "交通", A: userData.transportScore || 50 },
+    { subject: "幸福度", A: scores.happiness, fullMark: 100 },
+    { subject: "氣候適應", A: scores.adaptability, fullMark: 100 },
+    { subject: "居住環境", A: scores.residence, fullMark: 100 },
+    { subject: "交通綠能", A: scores.transport, fullMark: 100 },
+    { subject: "旅遊分數", A: scores.tourism, fullMark: 100 },
   ];
 
+  const downloadImage = async () => {
+    const node = document.getElementById("result-card");
+    const canvas = await html2canvas(node);
+    const link = document.createElement("a");
+    link.download = "climate_result.png";
+    link.href = canvas.toDataURL();
+    link.click();
+  };
+
   return (
-    <div className="text-center">
-      <h2 className="text-2xl font-bold text-green-600 mb-4">你的氣候綜合能力圖</h2>
-      <RadarChart outerRadius={90} width={400} height={300} data={data}>
-        <PolarGrid />
-        <PolarAngleAxis dataKey="subject" />
-        <PolarRadiusAxis angle={30} domain={[0, 100]} />
-        <Radar name="你" dataKey="A" stroke="#82ca9d" fill="#82ca9d" fillOpacity={0.6} />
-      </RadarChart>
+    <div id="result-card" className="bg-[#faf7ef] min-h-screen px-4 py-10 relative">
+      {/* 五角雷達圖 */}
+      <div className="w-[250px] h-[250px] mx-auto">
+        <ResponsiveContainer width="100%" height="100%">
+          <RadarChart data={data}>
+            <PolarGrid />
+            <PolarAngleAxis dataKey="subject" />
+            <Radar dataKey="A" stroke="#82ca9d" fill="#82ca9d" fillOpacity={0.4} />
+          </RadarChart>
+        </ResponsiveContainer>
+      </div>
+
+      {/* 三條拉桿示意 */}
+      <div className="mt-6 space-y-4 max-w-sm mx-auto">
+        {["幸福度", "氣候適應", "旅遊"].map((label, i) => (
+          <div key={i}>
+            <p className="text-lg font-bold">{label}</p>
+            <div className="w-full h-3 bg-gray-200 rounded relative">
+              <div
+                className="h-3 bg-yellow-500 rounded absolute"
+                style={{ width: `${scores[label] || 0}%` }}
+              />
+              <div
+                className="w-3 h-3 bg-black absolute top-0.5 left-[calc(100%-1rem)] rounded-full"
+                style={{ left: `calc(${scores[label] || 0}% - 6px)` }}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* 角色圖片與描述 */}
+      <div className="mt-8 flex justify-center">
+        <img
+          src={`${import.meta.env.BASE_URL}assets/mascot/${mascot.image}`}
+          alt="你的代表角色"
+          className="w-[120px] h-auto"
+        />
+      </div>
+      <div className="mt-4 text-center text-xl">{regionSummary}</div>
+
+      {/* 下載按鈕 */}
+      <div className="mt-6 flex justify-center">
+        <button
+          onClick={downloadImage}
+          className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+        >
+          下載圖片 / 分享到 IG
+        </button>
+      </div>
     </div>
   );
 }
+
+export default RadarChartResult;

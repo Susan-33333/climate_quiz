@@ -27,6 +27,8 @@ npm run deploy
 
 # 裝一下firebase
 npm install firebase
+#裝下載圖片的
+npm install html2canvas
 
 npm run build
 npm run deploy
