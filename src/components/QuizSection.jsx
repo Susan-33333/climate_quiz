@@ -39,7 +39,7 @@ function QuizSection({ onNext }) {
 
   return (
     <div className="min-h-screen bg-yellow-100 flex items-center justify-center px-4 py-10">
-      <div className="w-full max-w-2xl bg-white rounded-xl shadow-lg p-8 space-y-8">
+      <div className="w-full max-w-[420px] md:rounded-xl md:shadow-lg md:bg-white md:p-8 space-y-8">
 
         {/* 進度條：圓點模式 */}
         <div className="flex justify-center space-x-2">
@@ -63,7 +63,7 @@ function QuizSection({ onNext }) {
             exit={{ x: -300, opacity: 0 }}
             transition={{ duration: 0.4 }}
           >
-            <div className="text-center">
+            <div className="text-center px-4">
               <h2 className="text-xl font-bold text-gray-800 mb-4">
                 {current.question}
               </h2>
@@ -104,4 +104,3 @@ function QuizSection({ onNext }) {
 }
 
 export default QuizSection;
-
