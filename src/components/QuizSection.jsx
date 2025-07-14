@@ -10,7 +10,7 @@ function QuizSection({ onNext }) {
 
   // 讀取 public 裡的 question_data.json（你自己的假問卷）
   useEffect(() => {
-    fetch("/data/question_data.json")
+    fetch(`${import.meta.env.BASE_URL}data/question_data.json`)
       .then((res) => res.json())
       .then((data) => {
         setQuestions(data);
