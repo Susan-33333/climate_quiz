@@ -51,7 +51,7 @@ function ResultPersonality({ userData, onNext }) {
       </h2>
 
       <img
-        src={`/mascot/${matchedProfile.mascot}.png`}
+        src={`${import.meta.env.BASE_URL}mascot/${matchedProfile.mascot}.png`}
         alt="吉祥物"
         className="w-40 h-auto mx-auto mb-4"
       />
