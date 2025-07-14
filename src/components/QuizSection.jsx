@@ -102,5 +102,4 @@ function QuizSection({ onNext }) {
     </div>
   );
 }
-console.log("Step:", step, "userData:", userData);
 export default QuizSection;

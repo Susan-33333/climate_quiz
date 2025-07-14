@@ -19,22 +19,28 @@ function RadarChartResult({ scores, mascot, regionSummary }) {
     link.click();
   };
 
+  <img
+  src={`${import.meta.env.BASE_URL}assets/mascot/${userData.mascotImage}`}
+  alt="你的氣候人格角色"
+  className="w-36 md:w-48 mx-auto"
+/>
+
   return (
     <div id="result-card" className="bg-[#faf7ef] min-h-screen px-4 py-10 relative">
       {/* 五角雷達圖 */}
       <div className="w-[250px] h-[250px] mx-auto">
         <ResponsiveContainer width="100%" height="100%">
-          <RadarChart data={data}>
-            <PolarGrid />
-            <PolarAngleAxis dataKey="subject" />
-            <Radar dataKey="A" stroke="#82ca9d" fill="#82ca9d" fillOpacity={0.4} />
+          <RadarChart outerRadius={80} width={300} height={250} data={data}>
+          <PolarGrid gridType="polygon" />
+          <PolarAngleAxis dataKey="category" />
+          <Radar name="score" dataKey="value" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
           </RadarChart>
         </ResponsiveContainer>
       </div>
 
       {/* 三條拉桿示意 */}
       <div className="mt-6 space-y-4 max-w-sm mx-auto">
-        {["幸福度", "氣候適應", "旅遊"].map((label, i) => (
+        {["幸福度", "開心度", "探索欲"].map((label, i) => (
           <div key={i}>
             <p className="text-lg font-bold">{label}</p>
             <div className="w-full h-3 bg-gray-200 rounded relative">
