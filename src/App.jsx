@@ -11,11 +11,11 @@ import RadarChartResult from "./components/RadarChartResult";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "./firebase";
 
-// 🪄 步驟常數（順序：STORY → USER_INPUT → QUIZ...）
+// ✅ 新的步驟順序
 export const steps = {
-  STORY: "STORY",
-  USER_INPUT: "USER_INPUT",
   QUIZ_INTRO: "QUIZ_INTRO",
+  USER_INPUT: "USER_INPUT",
+  STORY: "STORY",
   QUIZ_MAIN: "QUIZ_MAIN",
   RESULT: "RESULT",
   TAGS: "TAGS",
@@ -23,16 +23,16 @@ export const steps = {
 };
 
 const stepList = [
-  steps.STORY,
-  steps.USER_INPUT,
   steps.QUIZ_INTRO,
+  steps.USER_INPUT,
+  steps.STORY,
   steps.QUIZ_MAIN,
   steps.RESULT,
   steps.TAGS,
   steps.RADAR,
 ];
 
-// reducer
+// 控制流程的 reducer
 function stepReducer(state, action) {
   switch (action.type) {
     case "NEXT":
@@ -43,7 +43,7 @@ function stepReducer(state, action) {
 }
 
 function App() {
-  const [step, dispatch] = useReducer(stepReducer, steps.STORY); // ✅ 初始是 STORY
+  const [step, dispatch] = useReducer(stepReducer, steps.QUIZ_INTRO); // 初始為 Intro
   const [userData, setUserData] = useState({});
 
   const currentStepIndex = stepList.indexOf(step);
@@ -61,10 +61,9 @@ function App() {
       </div>
 
       {/* 各步驟畫面 */}
-      {step === steps.STORY && (
-        <StorySegment
-          userData={userData}
-          onNext={() => dispatch({ type: "NEXT", payload: steps.USER_INPUT })}
+      {step === steps.QUIZ_INTRO && (
+        <QuizIntro
+          onStart={() => dispatch({ type: "NEXT", payload: steps.USER_INPUT })}
         />
       )}
 
@@ -80,13 +79,14 @@ function App() {
               alert("儲存使用者資料失敗，請稍後再試");
             }
           }}
-          onNext={() => dispatch({ type: "NEXT", payload: steps.QUIZ_INTRO })}
+          onNext={() => dispatch({ type: "NEXT", payload: steps.STORY })}
         />
       )}
 
-      {step === steps.QUIZ_INTRO && (
-        <QuizIntro
-          onStart={() => dispatch({ type: "NEXT", payload: steps.QUIZ_MAIN })}
+      {step === steps.STORY && (
+        <StorySegment
+          userData={userData}
+          onNext={() => dispatch({ type: "NEXT", payload: steps.QUIZ_MAIN })}
         />
       )}
 
