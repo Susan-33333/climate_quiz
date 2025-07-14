@@ -2,9 +2,9 @@ function QuizIntro({ onStart }) {
   return (
     <div className="text-center px-6 py-12">
       <img
-        src="public/assets/quiz-start.png"
+        src={`${import.meta.env.BASE_URL}assets/quiz-start.png`}
         alt="開始測驗圖片"
-        className="w-2/3 max-w-sm mx-auto mb-8 rounded-xl shadow-lg"
+        className="w-full"
       />
       <h2 className="text-3xl font-bold text-green-700 mb-4">氣候人格測驗</h2>
       <p className="text-gray-700 mb-6">
