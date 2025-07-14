@@ -122,6 +122,5 @@ function App() {
     </div>
   );
 }
-
 <div className="text-3xl text-pink-500 font-bold">Tailwind 啟動成功</div>
 export default App;
