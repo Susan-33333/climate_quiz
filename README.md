@@ -24,3 +24,7 @@ npm run build
 
 # 🌐 發布到 GitHub Pages
 npm run deploy
+
+# 裝一下firebase
+npm install firebase
+
