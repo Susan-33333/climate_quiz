@@ -3,7 +3,7 @@ import React, { useState } from "react";
 const TagsSuggestion = ({ userData, onNext }) => {
   const [activeTab, setActiveTab] = useState("居住");
 
-  const region = userData?.region || "未填地區";
+  const region = userData?.county || "未填地區";
 
   const tabContent = {
     居住: {
