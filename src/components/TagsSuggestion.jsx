@@ -27,13 +27,13 @@ const TagsSuggestion = ({ userData, onNext }) => {
 
   const current = tabContent[activeTab];
 
-  // 動畫用：每次切換分數會重新從 0 漸增
+  // 動畫邏輯
   const [animatedScore, setAnimatedScore] = useState(0);
   const requestRef = useRef();
 
   useEffect(() => {
     let start;
-    const duration = 800; // 動畫持續時間 (ms)
+    const duration = 800;
 
     const animate = (timestamp) => {
       if (!start) start = timestamp;
@@ -80,18 +80,22 @@ const TagsSuggestion = ({ userData, onNext }) => {
 
       {/* 內容區塊 */}
       <div className="flex flex-col space-y-4">
-        {/* 標題與進度環 */}
-        <div className="flex items-center space-x-6">
+        {/* 分數圓環 + 說明 */}
+        <div className="flex items-center justify-center space-x-6">
+          {/* 外圓形容器 */}
           <div
-            className="w-32 h-32 rounded-full flex items-center justify-center relative"
+            className="min-w-[140px] min-h-[140px] rounded-full relative flex items-center justify-center shadow-lg"
             style={ringStyle}
           >
-            <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-inner">
-              <span className="text-2xl font-bold text-purple-700">
+            {/* 內圓遮罩 */}
+            <div className="w-[100px] h-[100px] bg-white rounded-full flex items-center justify-center">
+              <span className="text-3xl font-bold text-purple-700">
                 {animatedScore}%
               </span>
             </div>
           </div>
+
+          {/* 說明文字 */}
           <div>
             <h2 className="text-xl font-bold">未來 30 年後 {region}：</h2>
             <p className="text-gray-700">{current.description}</p>
@@ -110,7 +114,7 @@ const TagsSuggestion = ({ userData, onNext }) => {
           <p className="text-gray-600">{current.recommend}</p>
         </div>
 
-        {/* 滑桿（顯示評分） */}
+        {/* 滑桿 */}
         <div className="flex items-center space-x-2">
           <input
             type="range"
