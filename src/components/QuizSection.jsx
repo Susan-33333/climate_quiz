@@ -102,7 +102,7 @@ function QuizSection({ onNext }) {
             <motion.img
               src={`${import.meta.env.BASE_URL}mascot/T6.png`}
               alt="松鼠"
-              className="w-8 h-8 object-contain drop-shadow-lg"
+              className="w-10 h-10 object-contain drop-shadow-lg"
               animate={{
                 x: [0, 2, -2, 0],
                 y: [0, -1, 0],
