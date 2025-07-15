@@ -138,7 +138,7 @@ function QuizSection() {
                     <motion.button
                       key={key}
                       onClick={() => handleSelect(key)}
-                      className={`block w-full max-w-xs mx-auto py-3 px-4 text-left rounded-xl border-2 transition-all duration-300 ${
+                      className={`block w-full max-w-xs mx-auto py-3 px-4 text-left rounded-xl border-2 transition-all duration-1000 ${
                         selected === key
                           ? "bg-gradient-to-r from-green-400 to-blue-500 text-white border-green-400 shadow-lg"
                           : "bg-white/80 text-gray-700 border-gray-200 hover:bg-green-50 hover:border-green-300 hover:shadow-md"
@@ -179,6 +179,4 @@ function QuizSection() {
   );
 }
 
-export default function ClimateQuizApp() {
-  return <QuizSection />;
-}
+export default QuizSection;
