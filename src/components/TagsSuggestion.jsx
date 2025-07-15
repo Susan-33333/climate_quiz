@@ -27,7 +27,7 @@ const TagsSuggestion = ({ userData, onNext }) => {
 
   const current = tabContent[activeTab];
 
-  // 動畫邏輯
+  // 動畫用 state
   const [animatedScore, setAnimatedScore] = useState(0);
   const requestRef = useRef();
 
@@ -82,17 +82,18 @@ const TagsSuggestion = ({ userData, onNext }) => {
       <div className="flex flex-col space-y-4">
         {/* 分數圓環 + 說明 */}
         <div className="flex items-center justify-center space-x-6">
-          {/* 外圓形容器 */}
+          {/* 外層圓形進度環 */}
           <div
-            className="min-w-[140px] min-h-[140px] rounded-full relative flex items-center justify-center shadow-lg"
+            className="w-[140px] h-[140px] rounded-full relative flex items-center justify-center"
             style={ringStyle}
           >
-            {/* 內圓遮罩 */}
-            <div className="w-[100px] h-[100px] bg-white rounded-full flex items-center justify-center">
-              <span className="text-3xl font-bold text-purple-700">
-                {animatedScore}%
-              </span>
-            </div>
+            {/* 內層白圓遮罩 */}
+            <div className="w-[100px] h-[100px] bg-white rounded-full absolute shadow-inner"></div>
+
+            {/* 百分比數字 */}
+            <span className="absolute text-3xl font-bold text-purple-700">
+              {animatedScore}%
+            </span>
           </div>
 
           {/* 說明文字 */}
