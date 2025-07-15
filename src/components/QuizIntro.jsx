@@ -10,7 +10,7 @@ function QuizIntro({ onStart }) {
   return (
     <div className="min-h-screen bg-yellow-100 flex items-center justify-center px-4">
       <div className="relative w-full max-w-md flex flex-col justify-center items-center space-y-6 py-12">
-        {/* 背景圖 + 遮罩 + 標題 */}
+        {/* 圖片 Hero 區 */}
         <div className="relative w-full h-80 rounded-2xl overflow-hidden shadow-lg">
           <img
             src={bgImage}
@@ -22,7 +22,7 @@ function QuizIntro({ onStart }) {
           </div>
         </div>
 
-        {/* 說明文字 + 按鈕 */}
+        {/* 說明文字 + CTA 按鈕 */}
         <div className="bg-white/90 backdrop-blur-md p-6 rounded-2xl shadow text-center w-full">
           <p className="text-gray-700 text-lg mb-4">
             這份測驗將會探究你與氣候之間的相性
@@ -40,3 +40,4 @@ function QuizIntro({ onStart }) {
 }
 
 export default QuizIntro;
+
