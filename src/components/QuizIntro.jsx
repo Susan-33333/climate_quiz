@@ -9,17 +9,17 @@ function QuizIntro({ onStart }) {
 
   return (
     <div className="min-h-screen bg-yellow-100 flex items-center justify-center px-4">
-      <div className="w-full max-w-md md:rounded-3xl md:shadow-lg md:bg-white/80 md:backdrop-blur-sm md:p-10 flex flex-col justify-center space-y-6 text-center">
-        <div
-          className="w-full h-80 rounded-xl overflow-hidden bg-cover bg-center relative"
-          style={{ backgroundImage: `url(${bgImage})` }}
-        >
-          <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-            <h2 className="text-3xl font-bold text-white">準備好了嗎？</h2>
-          </div>
+      <div className="w-full max-w-md md:rounded-3xl md:shadow-lg md:bg-white md:p-10 flex flex-col justify-center space-y-6 text-center">
+        <div className="w-full h-64 overflow-hidden rounded-xl">
+          <img
+            src={bgImage}
+            alt="開始測驗圖片"
+            className="w-full h-full object-fill"
+          />
         </div>
 
-        <p className="text-gray-700 text-lg">這份測驗將會探究你與氣候之間的相性</p>
+        <h2 className="text-3xl font-bold text-gray-800">準備好了嗎？</h2>
+        <p className="text-gray-600 text-lg">這份測驗將會探究你與氣候之間的相性</p>
 
         <button
           onClick={onStart}
@@ -33,3 +33,4 @@ function QuizIntro({ onStart }) {
 }
 
 export default QuizIntro;
+
