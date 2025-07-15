@@ -1,39 +1,30 @@
 import React, { useState, useEffect, useRef } from "react";
 
-// ✅ 完整修正版：真正環形的 RingChart
+// ✅ 環形圖元件維持原樣
 const RingChart = ({ percent, size = 100, color = "#EA0000", tooltip = "" }) => {
-  const innerSize = size * 0.75; // 內圈 75% 可形成明顯環形
+  const innerSize = size * 0.75;
   const [animatedPercent, setAnimatedPercent] = useState(0);
   const requestRef = useRef();
 
   useEffect(() => {
     let start;
     const duration = 800;
-
     const animate = (timestamp) => {
       if (!start) start = timestamp;
       const progress = timestamp - start;
       const current = Math.min((percent * progress) / duration, percent);
       setAnimatedPercent(Math.round(current));
-
       if (progress < duration) {
         requestRef.current = requestAnimationFrame(animate);
       }
     };
-
     cancelAnimationFrame(requestRef.current);
     requestRef.current = requestAnimationFrame(animate);
-
     return () => cancelAnimationFrame(requestRef.current);
   }, [percent]);
 
   return (
-    <div
-      className="relative"
-      style={{ width: size, height: size }}
-      title={tooltip}
-    >
-      {/* 外圈進度圓 */}
+    <div className="relative" style={{ width: size, height: size }} title={tooltip}>
       <div
         className="absolute rounded-full z-0"
         style={{
@@ -42,19 +33,12 @@ const RingChart = ({ percent, size = 100, color = "#EA0000", tooltip = "" }) => 
           background: `conic-gradient(${color} ${animatedPercent}%, #e5e7eb ${animatedPercent}%)`,
         }}
       ></div>
-
-      {/* 內圈遮罩置中形成環 */}
       <div className="absolute inset-0 flex items-center justify-center z-10">
         <div
           className="bg-white rounded-full"
-          style={{
-            width: innerSize,
-            height: innerSize,
-          }}
+          style={{ width: innerSize, height: innerSize }}
         ></div>
       </div>
-
-      {/* 中間百分比文字 */}
       <div className="absolute inset-0 flex items-center justify-center z-20">
         <span className="text-lg font-bold" style={{ color }}>
           {animatedPercent}%
@@ -64,10 +48,14 @@ const RingChart = ({ percent, size = 100, color = "#EA0000", tooltip = "" }) => 
   );
 };
 
-// ✅ 主頁元件
+// ✅ 主頁元件含 AI 建議功能
 const TagsSuggestion = ({ userData, onNext }) => {
   const [activeTab, setActiveTab] = useState("居住");
   const region = userData?.county || "未填地區";
+  const name = userData?.name || "你";
+
+  const [adviceMap, setAdviceMap] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const tabContent = {
     居住: {
@@ -94,6 +82,48 @@ const TagsSuggestion = ({ userData, onNext }) => {
   };
 
   const current = tabContent[activeTab];
+
+  // ✅ 呼叫 OpenRouter 串接 GPT 模型
+  const generateAdvice = async (tab) => {
+    setLoading(true);
+    const prompt = `你是一位氣候風險顧問，請針對以下資訊，用繁體中文生成一段不超過100字的「${tab}」建議，語氣自然具體：
+地區：${region}
+得分：${tabContent[tab].score}
+主要氣候風險：${tabContent[tab].disaster}
+推薦地點：${tabContent[tab].recommend}`;
+
+    try {
+      const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer sk-你的API金鑰", // ✅ ← 這裡換成你的 OpenRouter API Key
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "mistralai/mistral-7b-instruct", // 免費模型推薦
+          messages: [
+            { role: "system", content: "你是一位氣候顧問，請用繁體中文回答。" },
+            { role: "user", content: prompt },
+          ],
+        }),
+      });
+
+      const data = await res.json();
+      const reply = data?.choices?.[0]?.message?.content || "目前無法取得建議。";
+      setAdviceMap((prev) => ({ ...prev, [tab]: reply }));
+    } catch (error) {
+      setAdviceMap((prev) => ({ ...prev, [tab]: "⚠️ 發生錯誤，請稍後再試。" }));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ✅ 分頁切換時，如尚未生成建議則呼叫
+  useEffect(() => {
+    if (!adviceMap[activeTab]) {
+      generateAdvice(activeTab);
+    }
+  }, [activeTab]);
 
   return (
     <div className="w-full max-w-2xl mx-auto p-6 border rounded-lg bg-white shadow">
@@ -149,6 +179,18 @@ const TagsSuggestion = ({ userData, onNext }) => {
           readOnly
           className="w-full"
         />
+      </div>
+
+      {/* ✅ AI 建議區塊 */}
+      <div className="mt-6 p-4 bg-gray-100 rounded-md">
+        <h3 className="text-md font-bold mb-1">🤖 AI 建議：</h3>
+        {loading ? (
+          <p className="text-gray-400 animate-pulse">正在產生建議...</p>
+        ) : (
+          <p className="text-gray-700 whitespace-pre-wrap">
+            {adviceMap[activeTab] || "尚無建議。"}
+          </p>
+        )}
       </div>
 
       {/* 下一步 */}
