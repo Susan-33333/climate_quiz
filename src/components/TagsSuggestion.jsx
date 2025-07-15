@@ -1,7 +1,6 @@
-
 import React, { useState, useEffect, useRef } from "react";
 
-// ✅ 環形圖元件維持原樣
+// ✅ 環形圖元件
 const RingChart = ({ percent, size = 100, color = "#EA0000", tooltip = "" }) => {
   const innerSize = size * 0.75;
   const [animatedPercent, setAnimatedPercent] = useState(0);
@@ -35,15 +34,10 @@ const RingChart = ({ percent, size = 100, color = "#EA0000", tooltip = "" }) => 
         }}
       ></div>
       <div className="absolute inset-0 flex items-center justify-center z-10">
-        <div
-          className="bg-white rounded-full"
-          style={{ width: innerSize, height: innerSize }}
-        ></div>
+        <div className="bg-white rounded-full" style={{ width: innerSize, height: innerSize }}></div>
       </div>
       <div className="absolute inset-0 flex items-center justify-center z-20">
-        <span className="text-lg font-bold" style={{ color }}>
-          {animatedPercent}%
-        </span>
+        <span className="text-lg font-bold" style={{ color }}>{animatedPercent}%</span>
       </div>
     </div>
   );
@@ -52,11 +46,20 @@ const RingChart = ({ percent, size = 100, color = "#EA0000", tooltip = "" }) => 
 // ✅ 主頁元件含 AI 建議功能
 const TagsSuggestion = ({ userData, onNext }) => {
   const [activeTab, setActiveTab] = useState("居住");
-  const region = userData?.county || "未填地區";
-  const name = userData?.name || "你";
-
   const [adviceMap, setAdviceMap] = useState({});
   const [loading, setLoading] = useState(false);
+
+  // ✅ 防呆：沒有 userData 就直接給提示（避免白畫面）
+  if (!userData || !userData.county) {
+    return (
+      <div className="text-center text-red-600 font-bold p-6">
+        ⚠️ 錯誤：使用者資料尚未傳入，請重新開始測驗。
+      </div>
+    );
+  }
+
+  const region = userData.county;
+  const name = userData.name || "你";
 
   const tabContent = {
     居住: {
@@ -97,11 +100,11 @@ const TagsSuggestion = ({ userData, onNext }) => {
       const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
         method: "POST",
         headers: {
-          Authorization: "Bearer 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", // ✅ ← 這裡換成你的 OpenRouter API Key
+          Authorization: "Bearer sk-你的API金鑰", // ← 請替換成你自己的 Key
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "mistralai/mistral-7b-instruct", // 免費模型推薦
+          model: "mistralai/mistral-7b-instruct",
           messages: [
             { role: "system", content: "你是一位氣候顧問，請用繁體中文回答。" },
             { role: "user", content: prompt },
@@ -119,7 +122,6 @@ const TagsSuggestion = ({ userData, onNext }) => {
     }
   };
 
-  // ✅ 分頁切換時，如尚未生成建議則呼叫
   useEffect(() => {
     if (!adviceMap[activeTab]) {
       generateAdvice(activeTab);
@@ -133,11 +135,10 @@ const TagsSuggestion = ({ userData, onNext }) => {
         {["居住", "遊憩", "交通"].map((tab) => (
           <button
             key={tab}
-            className={`px-4 py-2 font-semibold ${
-              activeTab === tab
-                ? "border-b-2 border-black text-black"
-                : "text-gray-400"
-            }`}
+            className={`px-4 py-2 font-semibold ${activeTab === tab
+              ? "border-b-2 border-black text-black"
+              : "text-gray-400"
+              }`}
             onClick={() => setActiveTab(tab)}
           >
             {tab}
@@ -182,7 +183,7 @@ const TagsSuggestion = ({ userData, onNext }) => {
         />
       </div>
 
-      {/* ✅ AI 建議區塊 */}
+      {/* AI 建議區塊 */}
       <div className="mt-6 p-4 bg-gray-100 rounded-md">
         <h3 className="text-md font-bold mb-1">🤖 AI 建議：</h3>
         {loading ? (
