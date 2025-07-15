@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 
-// 📦 環形圖元件
+// ✅ 修正後環形圖元件
 const RingChart = ({ percent, size = 140, color = "#EA0000", tooltip = "" }) => {
   const innerSize = size * 0.65;
   const [animatedPercent, setAnimatedPercent] = useState(0);
@@ -29,32 +29,32 @@ const RingChart = ({ percent, size = 140, color = "#EA0000", tooltip = "" }) => 
 
   return (
     <div
-      className="relative shrink-0"
+      className="relative shrink-0 flex items-center justify-center"
       style={{ width: size, height: size }}
       title={tooltip}
     >
-      {/* 外圈進度 */}
+      {/* 外圈圓環 */}
       <div
-        className="absolute inset-0 rounded-full"
+        className="absolute rounded-full"
         style={{
+          width: size,
+          height: size,
           background: `conic-gradient(${color} ${animatedPercent}%, #e5e7eb ${animatedPercent}%)`,
         }}
-      />
+      ></div>
 
       {/* 內圈白色遮罩 */}
-      <div className="absolute inset-0 flex items-center justify-center z-10">
-        <div
-          className="bg-white rounded-full shadow-inner"
-          style={{ width: innerSize, height: innerSize }}
-        ></div>
-      </div>
+      <div
+        className="absolute bg-white rounded-full shadow-inner"
+        style={{
+          width: innerSize,
+          height: innerSize,
+        }}
+      ></div>
 
-      {/* 百分比數字 */}
-      <div className="absolute inset-0 flex items-center justify-center z-20">
-        <span
-          className="text-3xl font-bold"
-          style={{ color }}
-        >
+      {/* 百分比文字 */}
+      <div className="absolute z-10">
+        <span className="text-3xl font-bold" style={{ color }}>
           {animatedPercent}%
         </span>
       </div>
@@ -62,7 +62,7 @@ const RingChart = ({ percent, size = 140, color = "#EA0000", tooltip = "" }) => 
   );
 };
 
-// 📌 主元件
+// ✅ 主元件
 const TagsSuggestion = ({ userData, onNext }) => {
   const [activeTab, setActiveTab] = useState("居住");
   const region = userData?.county || "未填地區";
