@@ -96,7 +96,7 @@ const TagsSuggestion = ({ userData, onNext }) => {
       const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
         method: "POST",
         headers: {
-          Authorization: "Bearer sk-你的API金鑰", // ✅ ← 這裡換成你的 OpenRouter API Key
+          Authorization: "Bearer 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", // ✅ ← 這裡換成你的 OpenRouter API Key
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
