@@ -125,8 +125,14 @@ function App() {
         />
       )}
 
-      {step === steps.RADAR && (
-    )}
+      {step === steps.RADAR && userData?.scores && (
+        <RadarChartResult
+          scores={userData.scores}
+          mascot={userData.mascot}
+          regionSummary={userData.regionSummary}
+        />
+      )}
+
 
     </div>
   );
