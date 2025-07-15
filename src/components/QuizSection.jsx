@@ -48,8 +48,15 @@ function QuizSection({ onNext }) {
           exit={{ x: -300, opacity: 0 }}
           transition={{ duration: 0.4 }}
           className="absolute w-full"
-        >
-          {/* 進度條 */}
+        >           
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="h-8 w-8 rounded-full bg-red-500"></div>
+            </div>
+          </div>
+          <h2 className="text-xl font-semibold mb-4 text-green-800">
+            問題 {currentIndex + 1}：{current.question}
+          </h2>
+{/* 進度條 */}
           <div className="relative my-20 mx-5">
             <div className="rounded-full border border-red-500 p-1">
               <div
@@ -59,15 +66,6 @@ function QuizSection({ onNext }) {
                 <span className="p-1 text-white">85%</span>
               </div>
             </div>
-            
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="h-8 w-8 rounded-full bg-red-500"></div>
-            </div>
-          </div>
-          <h2 className="text-xl font-semibold mb-4 text-green-800">
-            問題 {currentIndex + 1}：{current.question}
-          </h2>
-
           <div className="space-y-3">
             {Object.entries(current.options).map(([key, text]) => (
               <button
