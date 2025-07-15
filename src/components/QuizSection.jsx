@@ -8,106 +8,49 @@ function QuizSection({ onNext }) {
   const [answers, setAnswers] = useState([]);
   const [selected, setSelected] = useState(null);
 
-  // 模擬問題數據
   const mockQuestions = [
     {
-      question: "面對氣候變化，你最希望改善哪個方面？",
+      question: "載入失敗，你最喜歡哪種天氣？",
       options: {
-        A: "提升居住環境的舒適度",
-        B: "改善交通工具的環保性",
-        C: "增加旅遊體驗的豐富度",
-        D: "提高整體生活的幸福感"
-      }
-    },
-    {
-      question: "你認為未來30年最重要的氣候適應策略是？",
-      options: {
-        A: "建設更多綠色建築",
-        B: "發展清潔能源交通",
-        C: "保護自然旅遊景點",
-        D: "提升社區適應能力"
-      }
-    },
-    {
-      question: "在極端天氣來臨時，你最優先考慮的是？",
-      options: {
-        A: "居住安全與舒適",
-        B: "交通便利與可靠",
-        C: "旅遊計劃的彈性",
-        D: "整體生活品質"
-      }
-    },
-    {
-      question: "你最願意在哪方面投資以應對氣候變化？",
-      options: {
-        A: "節能住宅設備",
-        B: "環保交通工具",
-        C: "永續旅遊體驗",
-        D: "社區環境改善"
-      }
-    },
-    {
-      question: "面對未來氣候挑戰，你希望政府優先發展？",
-      options: {
-        A: "防災住宅政策",
-        B: "綠色交通建設",
-        C: "生態旅遊推廣",
-        D: "全面環境保護"
-      }
-    },
-    {
-      question: "你認為個人可以為氣候適應做出的最大貢獻是？",
-      options: {
-        A: "選擇環保住宅",
-        B: "使用綠色交通",
-        C: "支持生態旅遊",
-        D: "推廣環保意識"
-      }
-    },
-    {
-      question: "在規劃未來生活時，你最重視的氣候因素是？",
-      options: {
-        A: "居住地的氣候穩定性",
-        B: "交通系統的氣候適應性",
-        C: "旅遊目的地的氣候友善度",
-        D: "整體環境的可持續性"
-      }
-    },
-    {
-      question: "你希望在氣候變化中保持哪種生活方式？",
-      options: {
-        A: "舒適安全的居住體驗",
-        B: "便捷環保的出行方式",
-        C: "豐富多元的旅遊體驗",
-        D: "平衡和諧的生活節奏"
+        A: "晴天",
+        B: "雨天",
+        C: "陰天",
+        D: "下雪天"
       }
     }
   ];
 
   useEffect(() => {
-    setTimeout(() => {
-      setQuestions(mockQuestions);
-      setLoading(false);
-    }, 500);
+    fetch(`${import.meta.env.BASE_URL}data/question_data.json`)
+      .then((res) => res.json())
+      .then((data) => {
+        setQuestions(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("❌ 載入問題失敗，使用預設問題：", err);
+        setQuestions(mockQuestions);
+        setLoading(false);
+      });
   }, []);
 
   useEffect(() => {
     if (questions.length > 0) {
       const progressPercent = ((currentIndex + 1) / questions.length) * 100;
-      const progressBar = document.querySelector('.progress-bar');
-      const progressCharacter = document.querySelector('.progress-character');
+      const progressBar = document.querySelector(".progress-bar");
+      const progressCharacter = document.querySelector(".progress-character");
       if (progressBar) {
         progressBar.style.width = `${progressPercent}%`;
       }
       if (progressCharacter) {
-        progressCharacter.style.left = `calc(${progressPercent}% - 12px)`;
+        progressCharacter.style.left = `calc(${progressPercent}% - 20px)`;
       }
     }
   }, [currentIndex, questions.length]);
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-orange-50 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-yellow-50">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto mb-4"></div>
           <p className="text-lg text-gray-600">載入問題中...</p>
@@ -134,30 +77,30 @@ function QuizSection({ onNext }) {
     }
   }
 
-return (
-  <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-orange-50 flex items-center justify-center px-4">
-    <div className="w-full max-w-md md:rounded-3xl md:shadow-lg md:bg-white/80 md:backdrop-blur-sm md:p-10 flex flex-col justify-center space-y-10">
-
-      <div className="relative h-6 w-full">
-        <div className="absolute top-1 left-0 w-full h-2 bg-orange-100 rounded-full overflow-hidden">
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-orange-50 flex items-center justify-center px-4">
+      <div className="w-full max-w-md md:rounded-3xl md:shadow-lg md:bg-white/80 md:backdrop-blur-sm md:p-10 flex flex-col justify-center space-y-10">
+        {/* 進度條 */}
+        <div className="relative h-6 w-full">
+          <div className="absolute top-1 left-0 w-full h-2 bg-orange-100 rounded-full overflow-hidden">
+            <div
+              className="progress-bar h-full bg-orange-400 transition-all duration-500"
+              style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
+            ></div>
+          </div>
           <div
-            className="progress-bar h-full bg-orange-400 transition-all duration-500"
-            style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
-          ></div>
+            className="progress-character absolute -top-6 transition-all duration-700 ease-out"
+            style={{ left: `calc(${((currentIndex + 1) / questions.length) * 100}% - 20px)` }}
+          >
+            <img
+              src={`${import.meta.env.BASE_URL}mascot/T6.png`}
+              alt="松鼠"
+              className="w-10 h-10 object-contain drop-shadow-md"
+            />
+          </div>
         </div>
-        <div
-          className="progress-character absolute -top-6 transition-all duration-700 ease-out"
-          style={{ left: `calc(${((currentIndex + 1) / questions.length) * 100}% - 20px)` }}
-        >
-          <img
-            src={`${import.meta.env.BASE_URL}assets/mascot/squirrel.png`}
-            alt="松鼠"
-            className="w-10 h-10 object-contain drop-shadow-md"
-          />
-        </div>
-        <div className="flex justify-between text-xs text-gray-500 mt-2"></div>
-      </div>
 
+        {/* 問題區塊 */}
         <AnimatePresence mode="wait">
           <motion.div
             key={currentIndex}
@@ -225,13 +168,6 @@ return (
         <div className="text-center text-gray-400 text-sm">
           <p>根據你的回答，我們將為你量身打造氣候適應建議</p>
         </div>
-      </div>
-
-      {/* 背景裝飾 */}
-      <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-32 h-32 bg-yellow-200 rounded-full blur-3xl opacity-30"></div>
-        <div className="absolute bottom-20 right-10 w-40 h-40 bg-orange-200 rounded-full blur-3xl opacity-30"></div>
-        <div className="absolute top-1/2 left-1/3 w-24 h-24 bg-red-200 rounded-full blur-2xl opacity-20"></div>
       </div>
     </div>
   );
