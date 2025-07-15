@@ -155,7 +155,7 @@ function QuizSection({ onNext }) {
               className="progress-character absolute -top-2 transition-all duration-700 ease-out"
               style={{ left: `calc(${((currentIndex + 1) / questions.length) * 100}% - 14px)` }}
             >
-              <div className="w-1 h-1 bg-white rounded-full shadow-lg flex items-center justify-center border-2 border-orange-400">
+              <div className="w-4 h-4 bg-white rounded-full shadow-lg flex items-center justify-center border-2 border-orange-400">
                 <span className="text-sm">🌱</span>
               </div>
             </div>
