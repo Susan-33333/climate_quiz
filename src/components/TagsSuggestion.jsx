@@ -27,6 +27,8 @@ const TagsSuggestion = ({ userData, onNext }) => {
   };
 
   const current = tabContent[activeTab];
+  const circumference = 2 * Math.PI * 40;
+  const strokeDasharray = `${(current.score / 100) * circumference} ${circumference}`;
 
   return (
     <div className="w-full max-w-2xl mx-auto p-6 border rounded-lg bg-white shadow">
@@ -49,10 +51,11 @@ const TagsSuggestion = ({ userData, onNext }) => {
 
       {/* 內容區塊 */}
       <div className="flex flex-col space-y-4">
-        {/* 標題與圓形分數（修正版） */}
+        {/* 標題與圓形分數 */}
         <div className="flex items-center space-x-6">
           <div className="relative w-24 h-24 flex items-center justify-center">
             <svg className="absolute w-full h-full transform -rotate-90" viewBox="0 0 96 96">
+              {/* 背景圓圈 */}
               <circle
                 cx="48"
                 cy="48"
@@ -61,6 +64,7 @@ const TagsSuggestion = ({ userData, onNext }) => {
                 strokeWidth="8"
                 fill="none"
               />
+              {/* 進度圓圈 */}
               <circle
                 cx="48"
                 cy="48"
@@ -68,7 +72,7 @@ const TagsSuggestion = ({ userData, onNext }) => {
                 stroke="#4b5563"
                 strokeWidth="8"
                 fill="none"
-                strokeDasharray={`${(current.score / 100) * (2 * Math.PI * 40)} ${2 * Math.PI * 40}`}
+                strokeDasharray={strokeDasharray}
                 strokeLinecap="round"
               />
             </svg>
