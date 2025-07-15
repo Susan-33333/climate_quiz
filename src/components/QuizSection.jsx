@@ -40,15 +40,18 @@ function QuizSection({ onNext }) {
 
   return (
     <div className="relative overflow-hidden min-h-[300px] px-4 pb-8">
-      {/* 進度條 */}
-          <div class="relative my-20 mx-5">
-            <div class="rounded-full border border-red-500 p-1">
-              <div class="flex h-6 items-center justify-center rounded-full bg-red-300 text-xs leading-none" style={{width: "85%", height: "85%"}}>
-                <span class="p-1 text-white">85%</span>
+        {/* 進度條（放到最上方） */}
+        <div className="relative mt-4 mb-8 mx-5">
+          <div className="rounded-full border border-red-500 p-1">
+            <div
+              className="flex h-6 items-center justify-center rounded-full bg-red-300 text-xs leading-none"
+              style={{ width: `${((currentIndex + 1) / questions.length) * 100}%`, height: '85%' }}
+            >
+              <span className="p-1 text-white">{Math.round(((currentIndex + 1) / questions.length) * 100)}%</span>
             </div>
           </div>
-          <div class="absolute inset-0 flex items-center justify-center">
-            <div class="h-8 w-8 rounded-full bg-red-500"></div>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="h-8 w-8 rounded-full bg-red-500"></div>
           </div>
         </div>
       <AnimatePresence mode="wait">
