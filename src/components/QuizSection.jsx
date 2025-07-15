@@ -1,30 +1,32 @@
 // QuizSection.jsx
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import RadarChartResult from './RadarChartResult'; // 確保引入 RadarChartResult
 
-function QuizSection({ onNext }) {
+function QuizSection() {
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState([]);
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = null; // 將其改為 null 確保初始沒有選取
+  const [quizCompleted, setQuizCompleted] = useState(false); // 新增狀態來判斷測驗是否完成
 
   useEffect(() => {
     const loadData = async () => {
       try {
+        // 從 public 資料夾載入 question_data.json
         const response = await fetch(`${import.meta.env.BASE_URL}question_data.json`);
         const data = await response.json();
         setQuestions(data);
       } catch (err) {
         console.error("載入問題失敗:", err);
-        // Fallback to mock data if JSON loading fails, though not strictly needed if JSON is guaranteed
-        // setQuestions(mockQuestions);
+        // 如果載入失敗，可以使用預設或模擬數據
       } finally {
         setLoading(false);
       }
     };
 
-    setTimeout(loadData, 500); // Simulate network delay
+    setTimeout(loadData, 500); // 模擬網路延遲
   }, []);
 
   if (loading) {
@@ -38,8 +40,38 @@ function QuizSection({ onNext }) {
     );
   }
 
+  // 如果測驗完成，直接渲染 RadarChartResult
+  if (quizCompleted) {
+    // 這裡需要根據實際的測驗結果來計算 scores, mascot, regionSummary
+    // 為了示範，這裡使用一些假數據
+    const dummyScores = {
+      happiness: 75,
+      adaptability: 80,
+      residence: 70,
+      transport: 90,
+      tourism: 85,
+      joy: 70,
+      explore: 95,
+    };
+    const dummyMascot = {
+      name: "綠能小松鼠",
+      image: "T6.png", // 使用您的松鼠圖片
+    };
+    const dummyRegionSummary = "根據您的選擇，您是一位熱愛戶外活動且注重永續生活的環保先鋒！您的氣候適應能力極佳，善於在各種環境中找到樂趣。";
+
+    return (
+      <RadarChartResult 
+        scores={dummyScores} 
+        mascot={dummyMascot} 
+        regionSummary={dummyRegionSummary} 
+      />
+    );
+  }
+
   const current = questions[currentIndex];
-  const progressPercent = ((currentIndex + 1) / questions.length) * 100;
+  // 進度條計算方式：已完成的題目數量 / 總題目數量
+  const progressPercent = (currentIndex / questions.length) * 100;
+
 
   function handleSelect(option) {
     setSelected(option);
@@ -48,23 +80,25 @@ function QuizSection({ onNext }) {
   function handleNext() {
     const updatedAnswers = [...answers, selected];
     setAnswers(updatedAnswers);
-    setSelected(null);
+    setSelected(null); // 清除選取狀態
 
     if (currentIndex + 1 < questions.length) {
       setCurrentIndex(currentIndex + 1);
     } else {
-      onNext(updatedAnswers);
+      // 測驗結束
+      setQuizCompleted(true);
+      // 在這裡可以處理所有的 answers，並傳遞給結果頁面
     }
   }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50 flex flex-col">
-      {/* Fixed top progress bar */}
+      {/* 固定頂部進度條 */}
       <div className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-sm shadow-sm">
         <div className="px-6 py-4">
-          {/* Progress bar container */}
-          <div className="relative h-3 bg-gray-200 rounded-full overflow-visible"> {/* Changed to overflow-visible */}
-            {/* Progress bar fill */}
+          {/* 進度條容器 */}
+          <div className="relative h-3 bg-gray-200 rounded-full overflow-visible"> {/* 允許內容溢出 */}
+            {/* 進度條填充 */}
             <motion.div
               className="absolute top-0 left-0 h-full bg-gradient-to-r from-green-400 to-blue-500 rounded-full"
               initial={{ width: 0 }}
@@ -72,9 +106,11 @@ function QuizSection({ onNext }) {
               transition={{ duration: 0.8, ease: "easeOut" }}
             />
             
-            {/* Squirrel on the progress bar */}
+            {/* 松鼠在進度條上跑動 */}
             <motion.div
-              className="absolute -top-6 transform -translate-x-1/2 z-10" /* Adjusted -top- to move it above */
+              className="absolute transform -translate-x-1/2 z-10"
+              // 松鼠的垂直位置調整，讓它稍微超出進度條
+              style={{ top: '-1.5rem' }} // 向上移動，可以調整這個值
               animate={{ 
                 left: `${progressPercent}%`
               }}
@@ -83,11 +119,14 @@ function QuizSection({ onNext }) {
                 ease: "easeOut" 
               }}
             >
-              <motion.div
-                className="w-12 h-12 relative" /* Increased size for better visibility, adjust as needed */
+              <motion.img
+                src={`${import.meta.env.BASE_URL}T6.png`} // 您的松鼠圖片路徑
+                alt="松鼠"
+                // 調整松鼠大小，使其小巧
+                className="w-8 h-8 object-contain drop-shadow-lg" // w-8 h-8 可以讓松鼠小巧，您可以調整
                 animate={{
-                  y: [0, -2, 0],
-                  rotate: [0, 3, -3, 0]
+                  y: [0, -4, 0], // 上下輕微浮動
+                  rotate: [0, 5, -5, 0] // 左右輕微搖擺
                 }}
                 transition={{
                   duration: 0.8,
@@ -95,30 +134,11 @@ function QuizSection({ onNext }) {
                   repeatType: "reverse",
                   ease: "easeInOut"
                 }}
-              >
-                <img
-                  src={`${import.meta.env.BASE_URL}T6.png`} // Directly using T6.png
-                  alt="松鼠"
-                  className="w-full h-full object-contain drop-shadow-lg"
-                  onError={(e) => {
-                    e.target.style.display = 'none';
-                    if (e.target.nextSibling) { // Check if nextSibling exists
-                      e.target.nextSibling.style.display = 'flex';
-                    }
-                  }}
-                />
-                {/* Fallback squirrel design (hidden by default) */}
-                <div 
-                  className="w-full h-full bg-gradient-to-br from-orange-400 to-orange-600 rounded-full items-center justify-center shadow-lg border-2 border-white hidden"
-                  style={{ display: 'none' }}
-                >
-                  <div className="text-xs">🐿️</div>
-                </div>
-              </motion.div>
+              />
             </motion.div>
           </div>
           
-          {/* Progress text */}
+          {/* 進度文字 */}
           <div className="flex justify-between items-center mt-2 text-sm text-gray-600">
             <span>氣候適應性測驗</span>
             <span>{currentIndex + 1} / {questions.length}</span>
@@ -126,7 +146,7 @@ function QuizSection({ onNext }) {
         </div>
       </div>
 
-      {/* Main content area */}
+      {/* 主要內容區域 */}
       <div className="flex-1 pt-24 px-4 flex items-center justify-center">
         <div className="w-full max-w-md mx-auto">
           <AnimatePresence mode="wait">
@@ -153,7 +173,7 @@ function QuizSection({ onNext }) {
                     <motion.button
                       key={key}
                       onClick={() => handleSelect(key)}
-                      className={`block w-full p-4 text-left rounded-xl border-2 transition-all duration-300 ${
+                      className={`block w-full py-3 px-4 text-left rounded-xl border-2 transition-all duration-300 ${ // 調整 padding (py-3 px-4)
                         selected === key
                           ? "bg-gradient-to-r from-green-400 to-blue-500 text-white border-green-400 shadow-lg"
                           : "bg-white/80 text-gray-700 border-gray-200 hover:bg-green-50 hover:border-green-300 hover:shadow-md"
@@ -166,7 +186,7 @@ function QuizSection({ onNext }) {
                     >
                       <div className="flex items-center">
                         <span className="text-sm font-semibold mr-3 opacity-80">{key}.</span>
-                        <span className="text-sm font-medium">{text}</span>
+                        <span className="text-base font-medium">{text}</span> {/* 調整文字大小 text-base */}
                       </div>
                     </motion.button>
                   ))}
@@ -175,14 +195,14 @@ function QuizSection({ onNext }) {
                 <div className="mt-8">
                   <motion.button
                     onClick={handleNext}
-                    disabled={!selected}
+                    disabled={selected === null} // 只有當有選取時才能按下一題
                     className={`w-full py-4 rounded-xl text-base font-semibold transition-all duration-300 ${
-                      selected
+                      selected !== null
                         ? "bg-gradient-to-r from-green-500 to-blue-600 text-white shadow-lg hover:shadow-xl"
                         : "bg-gray-200 text-gray-400 cursor-not-allowed"
                     }`}
-                    whileHover={selected ? { scale: 1.02, y: -2 } : {}}
-                    whileTap={selected ? { scale: 0.98 } : {}}
+                    whileHover={selected !== null ? { scale: 1.02, y: -2 } : {}}
+                    whileTap={selected !== null ? { scale: 0.98 } : {}}
                   >
                     {currentIndex + 1 === questions.length ? "查看結果" : "下一題 →"}
                   </motion.button>
@@ -200,71 +220,9 @@ function QuizSection({ onNext }) {
   );
 }
 
-// Main application component
+// 主要應用程式組件
 export default function ClimateQuizApp() {
-  const [currentStep, setCurrentStep] = useState('quiz');
-  const [results, setResults] = useState(null);
-
-  const handleQuizComplete = (answers) => {
-    // In a real application, you would process these answers to calculate scores
-    // and determine the mascot/region summary. For this example, we'll just pass
-    // dummy data to RadarChartResult.
-    const dummyScores = {
-      happiness: Math.floor(Math.random() * 100),
-      adaptability: Math.floor(Math.random() * 100),
-      residence: Math.floor(Math.random() * 100),
-      transport: Math.floor(Math.random() * 100),
-      tourism: Math.floor(Math.random() * 100),
-      joy: Math.floor(Math.random() * 100),
-      explore: Math.floor(Math.random() * 100),
-    };
-
-    const dummyMascot = {
-      name: "綠能小松鼠", // Example mascot name
-      image: "T6.png", // Use the squirrel image
-    };
-
-    const dummyRegionSummary = "根據您的選擇，您是一位熱愛戶外活動且注重永續生活的環保先鋒！您的氣候適應能力極佳，善於在各種環境中找到樂趣。";
-
-    setResults({ answers, scores: dummyScores, mascot: dummyMascot, regionSummary: dummyRegionSummary });
-    setCurrentStep('results');
-  };
-
-  if (currentStep === 'quiz') {
-    return <QuizSection onNext={handleQuizComplete} />;
-  }
-
-  // If currentStep is 'results', render RadarChartResult
-  if (currentStep === 'results' && results) {
-    return (
-      <RadarChartResult 
-        scores={results.scores} 
-        mascot={results.mascot} 
-        regionSummary={results.regionSummary} 
-      />
-    );
-  }
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full text-center">
-        <h2 className="text-2xl font-bold text-gray-800 mb-4">測驗完成！</h2>
-        <p className="text-gray-600 mb-6">感謝您完成氣候適應性測驗</p>
-        <div className="text-left bg-gray-50 rounded-lg p-4">
-          <h3 className="font-semibold mb-2">您的回答：</h3>
-          {results?.answers && results.answers.map((answer, index) => (
-            <div key={index} className="text-sm text-gray-600">
-              第 {index + 1} 題: {answer}
-            </div>
-          ))}
-        </div>
-        <button
-          onClick={() => setCurrentStep('quiz')}
-          className="mt-6 w-full bg-gradient-to-r from-green-500 to-blue-600 text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300"
-        >
-          重新測驗
-        </button>
-      </div>
-    </div>
-  );
+  // 將 currentStep 移除，直接使用 QuizSection 內部處理完成狀態
+  // 因為需求是測驗結束直接顯示 RadarChartResult，不需要外部的狀態管理來切換
+  return <QuizSection />;
 }
