@@ -52,7 +52,7 @@ const TagsSuggestion = ({ userData, onNext }) => {
         {/* 標題與圓形分數（修正版） */}
         <div className="flex items-center space-x-6">
           <div className="relative w-20 h-20 flex items-center justify-center">
-            <svg className="absolute w-full h-full transform -rotate-90">
+            <svg className="absolute w-full h-full transform -rotate-90" viewBox="0 0 80 80">
               <circle
                 cx="40"
                 cy="40"
