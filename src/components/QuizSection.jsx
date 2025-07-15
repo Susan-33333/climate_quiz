@@ -40,18 +40,29 @@ function QuizSection({ onNext }) {
 
   return (
     <div className="relative overflow-hidden min-h-[300px] px-4 pb-8">
-        {/* 進度條（放到最上方） */}
+        {/* 進度條（紅條 + 百分比 + 松鼠小點） */}
         <div className="relative mt-4 mb-8 mx-5">
           <div className="rounded-full border border-red-500 p-1">
             <div
-              className="flex h-6 items-center justify-center rounded-full bg-red-300 text-xs leading-none"
+              className="flex h-6 items-center justify-center rounded-full bg-red-300 text-xs leading-none transition-all duration-700 ease-out"
               style={{ width: `${((currentIndex + 1) / questions.length) * 100}%`, height: '85%' }}
             >
-              <span className="p-1 text-white">{Math.round(((currentIndex + 1) / questions.length) * 100)}%</span>
+              <span className="p-1 text-white">
+                {Math.round(((currentIndex + 1) / questions.length) * 100)}%
+              </span>
             </div>
           </div>
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="h-8 w-8 rounded-full bg-red-500"></div>
+
+          {/* 松鼠小點隨進度移動 */}
+          <div
+            className="absolute -top-3 z-10 transition-all duration-700 ease-out"
+            style={{ left: `calc(${((currentIndex + 1) / questions.length) * 100}% - 12px)` }}
+          >
+            <img
+              src={`${import.meta.env.BASE_URL}mascot/T6.png`}
+              alt="松鼠"
+              className="w-6 h-6 object-contain drop-shadow"
+            />
           </div>
         </div>
       <AnimatePresence mode="wait">
