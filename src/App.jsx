@@ -126,11 +126,25 @@ function App() {
       )}
 
       {step === steps.RADAR && (
-  <RadarChartResult
-    scores={userData.scores}
-    mascot={userData.mascot}
-    regionSummary={userData.regionSummary}
-  />
+      <ResultPersonality
+      userData={userData}
+      onNext={() => {
+        const scores = calculateScores(userData); // 你要自己實作這個函式
+        const mascot = findMascotByType(userData.answers); // 根據選項推回角色圖
+        const regionSummary = getRegionSummary(userData.county, userData.town); // 地區摘要
+
+        setUserData({
+          ...userData,
+          scores,
+          mascot,
+          regionSummary,
+        });
+
+        dispatch({ type: "NEXT", payload: steps.TAGS });
+      }}
+    />
+    onSummary={userData.regionSummary}
+      />
     )}
 
     </div>

@@ -2,6 +2,7 @@ import { RadarChart, PolarGrid, PolarAngleAxis, Radar, ResponsiveContainer } fro
 import html2canvas from "html2canvas";
 
 function RadarChartResult({ scores, mascot, regionSummary }) {
+
   const data = [
     { category: "幸福度", value: scores.happiness },
     { category: "氣候適應", value: scores.adaptability },
@@ -82,5 +83,5 @@ function RadarChartResult({ scores, mascot, regionSummary }) {
     </div>
   );
 }
-
+console.log("🐾 RadarChartResult loaded", { scores, mascot, regionSummary });
 export default RadarChartResult;
