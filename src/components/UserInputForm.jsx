@@ -11,7 +11,7 @@ export default function UserInputForm({ onNext, onSave }) {
   const [townMap, setTownMap] = useState({});
   const [loading, setLoading] = useState(true);
 
-  const counties = Object.keys(townMap); // 用 townMap 的 key 當縣市選單
+  const counties = Object.keys(townMap);
 
   useEffect(() => {
     fetch(`${import.meta.env.BASE_URL}data/town_data.json`)
@@ -55,7 +55,27 @@ export default function UserInputForm({ onNext, onSave }) {
     <div className="p-4 bg-white shadow-md rounded-lg max-w-md mx-auto">
       <h1 className="text-xl font-bold mb-4">填寫基本資料</h1>
 
-      {/* 姓名與年齡略過，維持原樣 */}
+      <div className="mb-4">
+        <label className="block text-gray-700">匿名</label>
+        <input
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          className="w-full border border-gray-300 rounded px-3 py-2 mt-1"
+        />
+      </div>
+
+      <div className="mb-4">
+        <label className="block text-gray-700">年齡</label>
+        <input
+          type="number"
+          name="age"
+          value={formData.age}
+          onChange={handleChange}
+          className="w-full border border-gray-300 rounded px-3 py-2 mt-1"
+        />
+      </div>
 
       <div className="mb-4">
         <label className="block text-gray-700">居住縣市</label>
