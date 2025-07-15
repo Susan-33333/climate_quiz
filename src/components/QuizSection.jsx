@@ -49,6 +49,21 @@ function QuizSection({ onNext }) {
           transition={{ duration: 0.4 }}
           className="absolute w-full"
         >
+          {/* 進度條 */}
+          <div className="relative my-20 mx-5">
+            <div className="rounded-full border border-red-500 p-1">
+              <div
+                className="flex h-6 items-center justify-center rounded-full bg-red-300 text-xs leading-none transition-all duration-700 ease-out"
+                style={{ width: `${progressPercent}%`, height: '85%' }}
+              >
+                <span className="p-1 text-white">85%</span>
+              </div>
+            </div>
+            
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="h-8 w-8 rounded-full bg-red-500"></div>
+            </div>
+          </div>
           <h2 className="text-xl font-semibold mb-4 text-green-800">
             問題 {currentIndex + 1}：{current.question}
           </h2>
@@ -67,20 +82,6 @@ function QuizSection({ onNext }) {
                 {key}. {text}
               </button>
             ))}
-          </div>
-          {/* 進度條 */}
-          <div className="relative my-20 mx-5">
-            <div className="rounded-full border border-red-500 p-1">
-              <div
-                className="flex h-6 items-center justify-center rounded-full bg-red-300 text-xs leading-none transition-all duration-700 ease-out"
-                style={{ width: "85%", height: "85%" }}
-              >
-                <span className="p-1 text-white">85%</span>
-              </div>
-            </div>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="h-8 w-8 rounded-full bg-red-500"></div>
-            </div>
           </div>
 
           <button
