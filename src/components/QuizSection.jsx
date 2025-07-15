@@ -89,9 +89,9 @@ function QuizSection({ onNext }) {
             transition={{ duration: 0.8, ease: "easeOut" }}
           />
           
-          {/* 松鼠角色在進度條上跑動 */}
+          {/* 松鼠角色在進度條上跑動 - 可以超出進度條 */}
           <motion.div
-            className="absolute top-0 transform -translate-y-1/2"
+            className="absolute -top-4 transform -translate-x-1/2 z-10"
             animate={{ 
               left: `calc(${progressPercent}% - 16px)`
             }}
@@ -114,7 +114,16 @@ function QuizSection({ onNext }) {
                 repeatType: "reverse",
                 ease: "easeInOut"
               }}
+              onError={(e) => {
+                // 如果圖片載入失敗，顯示 emoji 作為備用
+                e.target.style.display = 'none';
+                e.target.nextSibling.style.display = 'block';
+              }}
             />
+            {/* 備用 emoji 松鼠 */}
+            <div className="w-10 h-10 bg-orange-400 rounded-full flex items-center justify-center shadow-lg border-2 border-white" style={{display: 'none'}}>
+              <div className="text-sm">🐿️</div>
+            </div>
           </motion.div>
         </div>
       </div>
