@@ -40,33 +40,32 @@ function QuizSection({ onNext }) {
 
   return (
     <div className="relative overflow-hidden min-h-[300px] px-4 pb-8">
-        {/* 進度條區塊 */}
-        <div className="relative mt-6 mb-8 mx-5">
-          {/* 外框 + 背景條 */}
-          <div className="w-full h-6 bg-red-100 rounded-full overflow-hidden border border-red-500 relative">
-            {/* 動態進度紅條 */}
-            <div
-              className="h-full bg-red-400 transition-all duration-700 ease-out"
-              style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
-            ></div>
-            {/* 百分比文字 */}
-            <div className="absolute inset-0 flex items-center justify-center text-white text-sm font-semibold">
-              {Math.round(((currentIndex + 1) / questions.length) * 100)}%
-            </div>
-          </div>
-
-          {/* 松鼠浮在上方移動 */}
-          <div
-            className="absolute z-20 -top-6 transition-all duration-700 ease-out"
-            style={{ left: `calc(${((currentIndex + 1) / questions.length) * 100}% - 12px)` }}
-          >
-            <img
-              src={`${import.meta.env.BASE_URL}mascot/T6.png`}
-              alt="松鼠"
-              className="w-6 h-6 object-contain drop-shadow-md"
-            />
-          </div>
+      <div className="relative mt-6 mb-8 mx-5 h-10">
+        {/* 🐿️ 松鼠：重疊在進度條上方 */}
+        <div
+          className="absolute z-20 -top-3 transition-all duration-700 ease-out"
+          style={{
+            left: `calc(${((currentIndex + 1) / questions.length) * 100}% - 12px)`,
+          }}
+        >
+          <img
+            src={`${import.meta.env.BASE_URL}mascot/T6.png`}
+            alt="松鼠"
+            className="w-6 h-6 object-contain drop-shadow"
+          />
         </div>
+
+        {/* 🎯 彩色進度條（有底 + 填色動畫） */}
+        <div className="relative w-full h-4 bg-red-200 rounded-full overflow-hidden">
+          {/* 填色條 */}
+          <div
+            className="h-full bg-gradient-to-r from-red-400 to-pink-500 transition-all duration-700 ease-out"
+            style={{
+              width: `${((currentIndex + 1) / questions.length) * 100}%`,
+            }}
+          />
+        </div>
+      </div>
 
       <AnimatePresence mode="wait">
         <motion.div
