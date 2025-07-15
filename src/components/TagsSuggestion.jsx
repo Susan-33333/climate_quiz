@@ -53,7 +53,7 @@ const TagsSuggestion = ({ userData, onNext }) => {
       <div className="flex flex-col space-y-4">
         {/* 標題與圓形分數 */}
         <div className="flex items-center space-x-6">
-          <div className="relative w-24 h-24 flex items-center justify-center">
+          <div className="relative w-32 h-32 flex items-center justify-center">
             <svg className="absolute w-full h-full transform -rotate-90" viewBox="0 0 96 96">
               {/* 背景圓圈 */}
               <circle
@@ -76,12 +76,12 @@ const TagsSuggestion = ({ userData, onNext }) => {
                 strokeLinecap="round"
               />
             </svg>
-            <div className="relative z-10 text-lg font-bold text-center">
+            <div className="relative z-10 text-2xl font-bold text-center">
               {current.score}%
             </div>
           </div>
           <div>
-            <h2 className="text-lg font-bold">未來 30 年後 {region}：</h2>
+            <h2 className="text-xl font-bold">未來 30 年後 {region}：</h2>
             <p className="text-gray-700">{current.description}</p>
           </div>
         </div>
