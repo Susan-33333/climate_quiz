@@ -111,17 +111,6 @@ function App() {
           className="h-3 bg-green-500 rounded-full transition-all duration-500"
           style={{ width: `${progressPercent}%` }}
         />
-        <div
-          className="absolute -top-3 transition-all duration-500"
-          style={{ left: `calc(${progressPercent}% - 12px)` }}
-        >
-          <img
-            src={`${import.meta.env.BASE_URL}mascot/T6.png`}
-            alt="進度角色"
-            className="w-6 h-6"
-          />
-        </div>
-      </div>
 
       {/* 各步驟畫面 */}
       {step === steps.QUIZ_INTRO && (

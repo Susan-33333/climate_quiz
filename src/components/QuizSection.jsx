@@ -147,7 +147,7 @@ function QuizSection({ onNext }) {
         <div className="max-w-3xl mx-auto">
           <div className="relative w-full h-3 bg-gray-200 rounded-full overflow-hidden">
             <div
-              className="progress-bar h-3 bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 rounded-full transition-all duration-700 ease-out"
+              className="progress-bar h-3 bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 rounded-full transition-all duration-1000 ease-out"
               style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
             />
             {/* 進度條上的小人 */}
@@ -155,7 +155,7 @@ function QuizSection({ onNext }) {
               className="progress-character absolute -top-2 transition-all duration-700 ease-out"
               style={{ left: `calc(${((currentIndex + 1) / questions.length) * 100}% - 14px)` }}
             >
-              <div className="w-7 h-7 bg-white rounded-full shadow-lg flex items-center justify-center border-2 border-orange-400">
+              <div className="w-1 h-1 bg-white rounded-full shadow-lg flex items-center justify-center border-2 border-orange-400">
                 <span className="text-sm">🌱</span>
               </div>
             </div>
