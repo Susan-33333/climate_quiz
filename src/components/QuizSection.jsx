@@ -1,3 +1,4 @@
+// QuizSection.jsx
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -8,102 +9,22 @@ function QuizSection({ onNext }) {
   const [answers, setAnswers] = useState([]);
   const [selected, setSelected] = useState(null);
 
-  const mockQuestions = [
-    {
-      id: 1,
-      question: "你最不能忍受的天氣是？",
-      options: {
-        A: "冷到手腳冰冷",
-        B: "熱到汗流浹背",
-        C: "潮濕悶熱",
-        D: "乾燥到皮膚緊繃"
-      }
-    },
-    {
-      id: 2,
-      question: "你最常使用的交通工具是？",
-      options: {
-        A: "腳踏車或步行",
-        B: "大眾運輸",
-        C: "自己開車或騎機車"
-      }
-    },
-    {
-      id: 3,
-      question: "如果你有一天放假，你最想做什麼？",
-      options: {
-        A: "爬山健行",
-        B: "跟朋友去海邊",
-        C: "宅在家打電動"
-      }
-    },
-    {
-      id: 4,
-      question: "你認為環保這件事…",
-      options: {
-        A: "是每個人都該做的",
-        B: "政府要做更多",
-        C: "知道重要但很難做到"
-      }
-    },
-    {
-      id: 5,
-      question: "你選擇居住地的首要考量是？",
-      options: {
-        A: "氣候穩定、安全",
-        B: "交通便利、機能好",
-        C: "便宜、房租壓力小"
-      }
-    },
-    {
-      id: 6,
-      question: "你對氣候變遷的感受是？",
-      options: {
-        A: "很明顯有變化",
-        B: "有一點點，但無感",
-        C: "不太相信有什麼差"
-      }
-    },
-    {
-      id: 7,
-      question: "你會為了環保放棄便利嗎？",
-      options: {
-        A: "願意，甚至樂在其中",
-        B: "可以接受一點點",
-        C: "太不方便就不做了"
-      }
-    },
-    {
-      id: 8,
-      question: "你未來旅遊最想去哪裡？",
-      options: {
-        A: "永續生態村",
-        B: "熱門觀光景點",
-        C: "冷門秘境"
-      }
-    }
-  ];
-
   useEffect(() => {
-    // 模擬載入問題數據
     const loadData = async () => {
       try {
-        // 這裡會從您的 JSON 文件載入問題
-        // const response = await fetch(`${import.meta.env.BASE_URL}data/question_data.json`);
-        // const data = await response.json();
-        // setQuestions(data);
-        
-        // 暫時使用模擬數據
-        setQuestions(mockQuestions);
+        const response = await fetch(`${import.meta.env.BASE_URL}question_data.json`);
+        const data = await response.json();
+        setQuestions(data);
       } catch (err) {
-        console.error("載入問題失敗，使用預設問題：", err);
-        setQuestions(mockQuestions);
+        console.error("載入問題失敗:", err);
+        // Fallback to mock data if JSON loading fails, though not strictly needed if JSON is guaranteed
+        // setQuestions(mockQuestions);
       } finally {
         setLoading(false);
       }
     };
 
-    setTimeout(loadData, 500);
+    setTimeout(loadData, 500); // Simulate network delay
   }, []);
 
   if (loading) {
@@ -138,12 +59,12 @@ function QuizSection({ onNext }) {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50 flex flex-col">
-      {/* 固定頂部進度條 */}
+      {/* Fixed top progress bar */}
       <div className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-sm shadow-sm">
         <div className="px-6 py-4">
-          {/* 進度條容器 */}
-          <div className="relative h-3 bg-gray-200 rounded-full overflow-hidden">
-            {/* 進度條背景 */}
+          {/* Progress bar container */}
+          <div className="relative h-3 bg-gray-200 rounded-full overflow-visible"> {/* Changed to overflow-visible */}
+            {/* Progress bar fill */}
             <motion.div
               className="absolute top-0 left-0 h-full bg-gradient-to-r from-green-400 to-blue-500 rounded-full"
               initial={{ width: 0 }}
@@ -151,9 +72,9 @@ function QuizSection({ onNext }) {
               transition={{ duration: 0.8, ease: "easeOut" }}
             />
             
-            {/* 松鼠在進度條上 */}
+            {/* Squirrel on the progress bar */}
             <motion.div
-              className="absolute -top-2 transform -translate-x-1/2 z-10"
+              className="absolute -top-6 transform -translate-x-1/2 z-10" /* Adjusted -top- to move it above */
               animate={{ 
                 left: `${progressPercent}%`
               }}
@@ -162,9 +83,8 @@ function QuizSection({ onNext }) {
                 ease: "easeOut" 
               }}
             >
-              {/* 使用您的松鼠圖片 */}
               <motion.div
-                className="w-7 h-7 relative"
+                className="w-12 h-12 relative" /* Increased size for better visibility, adjust as needed */
                 animate={{
                   y: [0, -2, 0],
                   rotate: [0, 3, -3, 0]
@@ -177,16 +97,17 @@ function QuizSection({ onNext }) {
                 }}
               >
                 <img
-                  src={`${import.meta.env.BASE_URL}mascot/T6.png`}
+                  src={`${import.meta.env.BASE_URL}T6.png`} // Directly using T6.png
                   alt="松鼠"
                   className="w-full h-full object-contain drop-shadow-lg"
                   onError={(e) => {
-                    // 如果圖片載入失敗，使用您提供的松鼠造型
                     e.target.style.display = 'none';
-                    e.target.nextSibling.style.display = 'flex';
+                    if (e.target.nextSibling) { // Check if nextSibling exists
+                      e.target.nextSibling.style.display = 'flex';
+                    }
                   }}
                 />
-                {/* 備用松鼠設計 */}
+                {/* Fallback squirrel design (hidden by default) */}
                 <div 
                   className="w-full h-full bg-gradient-to-br from-orange-400 to-orange-600 rounded-full items-center justify-center shadow-lg border-2 border-white hidden"
                   style={{ display: 'none' }}
@@ -197,7 +118,7 @@ function QuizSection({ onNext }) {
             </motion.div>
           </div>
           
-          {/* 進度文字 */}
+          {/* Progress text */}
           <div className="flex justify-between items-center mt-2 text-sm text-gray-600">
             <span>氣候適應性測驗</span>
             <span>{currentIndex + 1} / {questions.length}</span>
@@ -205,7 +126,7 @@ function QuizSection({ onNext }) {
         </div>
       </div>
 
-      {/* 主要內容區域 */}
+      {/* Main content area */}
       <div className="flex-1 pt-24 px-4 flex items-center justify-center">
         <div className="w-full max-w-md mx-auto">
           <AnimatePresence mode="wait">
@@ -279,18 +200,49 @@ function QuizSection({ onNext }) {
   );
 }
 
-// 主要應用程式組件
+// Main application component
 export default function ClimateQuizApp() {
   const [currentStep, setCurrentStep] = useState('quiz');
   const [results, setResults] = useState(null);
 
   const handleQuizComplete = (answers) => {
-    setResults(answers);
+    // In a real application, you would process these answers to calculate scores
+    // and determine the mascot/region summary. For this example, we'll just pass
+    // dummy data to RadarChartResult.
+    const dummyScores = {
+      happiness: Math.floor(Math.random() * 100),
+      adaptability: Math.floor(Math.random() * 100),
+      residence: Math.floor(Math.random() * 100),
+      transport: Math.floor(Math.random() * 100),
+      tourism: Math.floor(Math.random() * 100),
+      joy: Math.floor(Math.random() * 100),
+      explore: Math.floor(Math.random() * 100),
+    };
+
+    const dummyMascot = {
+      name: "綠能小松鼠", // Example mascot name
+      image: "T6.png", // Use the squirrel image
+    };
+
+    const dummyRegionSummary = "根據您的選擇，您是一位熱愛戶外活動且注重永續生活的環保先鋒！您的氣候適應能力極佳，善於在各種環境中找到樂趣。";
+
+    setResults({ answers, scores: dummyScores, mascot: dummyMascot, regionSummary: dummyRegionSummary });
     setCurrentStep('results');
   };
 
   if (currentStep === 'quiz') {
     return <QuizSection onNext={handleQuizComplete} />;
+  }
+
+  // If currentStep is 'results', render RadarChartResult
+  if (currentStep === 'results' && results) {
+    return (
+      <RadarChartResult 
+        scores={results.scores} 
+        mascot={results.mascot} 
+        regionSummary={results.regionSummary} 
+      />
+    );
   }
 
   return (
@@ -300,7 +252,7 @@ export default function ClimateQuizApp() {
         <p className="text-gray-600 mb-6">感謝您完成氣候適應性測驗</p>
         <div className="text-left bg-gray-50 rounded-lg p-4">
           <h3 className="font-semibold mb-2">您的回答：</h3>
-          {results && results.map((answer, index) => (
+          {results?.answers && results.answers.map((answer, index) => (
             <div key={index} className="text-sm text-gray-600">
               第 {index + 1} 題: {answer}
             </div>

@@ -1,3 +1,4 @@
+// RadarChartResult.jsx
 import { RadarChart, PolarGrid, PolarAngleAxis, Radar, ResponsiveContainer } from "recharts";
 import html2canvas from "html2canvas";
 
@@ -58,25 +59,53 @@ function RadarChartResult({ scores, mascot, regionSummary }) {
           你的氣候適應性分析
         </h1>
 
-        {/* 五角雷達圖 */}
-        <div className="w-[300px] h-[300px] mx-auto mb-6">
-          <ResponsiveContainer width="100%" height="100%">
-            <RadarChart outerRadius={100} data={data}>
-              <PolarGrid gridType="polygon" />
-              <PolarAngleAxis 
-                dataKey="category" 
-                tick={{ fontSize: 12, fill: '#374151' }}
-              />
-              <Radar 
-                name="score" 
-                dataKey="value" 
-                stroke="#059669" 
-                fill="#059669" 
-                fillOpacity={0.3}
-                strokeWidth={2}
-              />
-            </RadarChart>
-          </ResponsiveContainer>
+        <div className="flex flex-col md:flex-row items-center md:items-start justify-center md:space-x-8 mb-6">
+          {/* 五角雷達圖 */}
+          <div className="w-[300px] h-[300px] mb-6 md:mb-0">
+            <ResponsiveContainer width="100%" height="100%">
+              <RadarChart outerRadius={100} data={data}>
+                <PolarGrid gridType="polygon" />
+                <PolarAngleAxis 
+                  dataKey="category" 
+                  tick={{ fontSize: 12, fill: '#374151' }}
+                />
+                <Radar 
+                  name="score" 
+                  dataKey="value" 
+                  stroke="#059669" 
+                  fill="#059669" 
+                  fillOpacity={0.3}
+                  strokeWidth={2}
+                />
+              </RadarChart>
+            </ResponsiveContainer>
+          </div>
+
+          {/* 角色圖片與描述 - Moved here for right side prominence */}
+          <div className="mt-6 md:mt-0 text-center md:text-left flex-shrink-0">
+            {mascot?.image && (
+              <div className="flex justify-center md:justify-start mb-4">
+                <img
+                  src={`${import.meta.env.BASE_URL}T6.png`} {/* Use T6.png directly */}
+                  alt={mascot.name || "你的代表角色"}
+                  className="w-[150px] h-auto rounded-lg shadow-lg" /* Slightly larger for prominence */
+                  onError={(e) => {
+                    console.error("圖片載入失敗:", e.target.src);
+                    e.target.style.display = 'none';
+                  }}
+                />
+              </div>
+            )}
+            
+            <div className="bg-white/80 backdrop-blur-sm rounded-lg p-4 shadow-md max-w-xs md:max-w-none">
+              <h3 className="text-lg font-semibold mb-2 text-gray-800">
+                {mascot?.name || "你的氣候夥伴"}
+              </h3>
+              <p className="text-gray-600 leading-relaxed text-sm">
+                {regionSummary || "正在分析你的氣候適應性..."}
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* 三條拉桿示意 */}
@@ -95,32 +124,6 @@ function RadarChartResult({ scores, mascot, regionSummary }) {
               </div>
             </div>
           ))}
-        </div>
-
-        {/* 角色圖片與描述 */}
-        <div className="mt-10 text-center">
-          {mascot?.image && (
-            <div className="flex justify-center mb-4">
-              <img
-                src={`${import.meta.env.BASE_URL}assets/mascot/${mascot.image}`}
-                alt={mascot.name || "你的代表角色"}
-                className="w-[120px] h-auto rounded-lg shadow-lg"
-                onError={(e) => {
-                  console.error("圖片載入失敗:", e.target.src);
-                  e.target.style.display = 'none';
-                }}
-              />
-            </div>
-          )}
-          
-          <div className="bg-white/80 backdrop-blur-sm rounded-lg p-4 shadow-md">
-            <h3 className="text-lg font-semibold mb-2 text-gray-800">
-              {mascot?.name || "你的氣候夥伴"}
-            </h3>
-            <p className="text-gray-600 leading-relaxed">
-              {regionSummary || "正在分析你的氣候適應性..."}
-            </p>
-          </div>
         </div>
 
         {/* 下載按鈕 */}
