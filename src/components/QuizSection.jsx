@@ -85,26 +85,20 @@ function QuizSection({ onNext }) {
   ];
 
   useEffect(() => {
-    // 模擬從API獲取問題
     setTimeout(() => {
       setQuestions(mockQuestions);
       setLoading(false);
     }, 500);
   }, []);
 
-  // 更新頁面進度條
   useEffect(() => {
     if (questions.length > 0) {
       const progressPercent = ((currentIndex + 1) / questions.length) * 100;
-      
-      // 找到進度條元素並更新
       const progressBar = document.querySelector('.progress-bar');
       const progressCharacter = document.querySelector('.progress-character');
-      
       if (progressBar) {
         progressBar.style.width = `${progressPercent}%`;
       }
-      
       if (progressCharacter) {
         progressCharacter.style.left = `calc(${progressPercent}% - 12px)`;
       }
@@ -141,6 +135,7 @@ function QuizSection({ onNext }) {
   }
 
   return (
+<<<<<<< HEAD
     <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-orange-50 relative">
       {/* 頂部進度條 */}
       <div className="flex items-center space-x-2">
@@ -165,89 +160,93 @@ function QuizSection({ onNext }) {
               alt="進度角色"
               className="w-8 h-8 rounded-full border-2 border-orange-400 shadow-md"
             />
+=======
+    <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-orange-50 flex items-center justify-center px-4">
+      <div className="w-full max-w-md md:rounded-3xl md:shadow-lg md:bg-white/80 md:backdrop-blur-sm md:p-10 flex flex-col justify-center space-y-10">
+
+        <div className="relative h-6 w-full">
+          <div className="absolute top-1 left-0 w-full h-2 bg-orange-100 rounded-full overflow-hidden">
+            <div
+              className="progress-bar h-full bg-orange-400 transition-all duration-500"
+              style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
+            ></div>
+          </div>
+          <div
+            className="progress-character absolute -top-2 transition-all duration-700 ease-out"
+            style={{ left: `calc(${((currentIndex + 1) / questions.length) * 100}% - 14px)` }}
+          >
+            <div className="w-5 h-5 bg-white rounded-full shadow-lg border-2 border-orange-400"></div>
+>>>>>>> be9c63319cadbc4b438426a081da6fda2d2a3e47
           </div>
           <div className="flex justify-between text-xs text-gray-500 mt-2"></div>
         </div>
-      </div>
 
-      {/* 主要內容區 */}
-      <div className="pt-24 pb-10 px-4">
-        <div className="max-w-2xl mx-auto">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentIndex}
-              initial={{ x: 300, opacity: 0, scale: 0.8 }}
-              animate={{ x: 0, opacity: 1, scale: 1 }}
-              exit={{ x: -300, opacity: 0, scale: 0.8 }}
-              transition={{ 
-                duration: 0.5,
-                type: "spring",
-                stiffness: 100,
-                damping: 15
-              }}
-            >
-              <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 mb-8">
-                <div className="text-center mb-8">
-                  <div className="inline-block px-4 py-2 bg-orange-100 text-orange-800 rounded-full text-sm font-medium mb-4">
-                    氣候適應性測驗
-                  </div>
-                  <h2 className="text-2xl md:text-3xl font-bold text-gray-800 leading-relaxed">
-                    {current.question}
-                  </h2>
-                </div>
-
-                <div className="space-y-4">
-                  {Object.entries(current.options).map(([key, text]) => (
-                    <motion.button
-                      key={key}
-                      onClick={() => handleSelect(key)}
-                      className={`w-full p-4 text-left rounded-2xl border-2 transition-all duration-300 ${
-                        selected === key
-                          ? "bg-gradient-to-r from-orange-400 to-yellow-400 text-white border-orange-400 shadow-lg transform scale-105"
-                          : "bg-white/50 text-gray-700 border-gray-200 hover:bg-orange-50 hover:border-orange-300"
-                      }`}
-                      whileHover={{ scale: selected === key ? 1.05 : 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <div className="flex items-center">
-                        <div className={`w-6 h-6 rounded-full border-2 mr-3 flex items-center justify-center ${
-                          selected === key 
-                            ? "bg-white border-white" 
-                            : "border-gray-300"
-                        }`}>
-                          {selected === key && (
-                            <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
-                          )}
-                        </div>
-                        <span className="text-base md:text-lg font-medium">{text}</span>
-                      </div>
-                    </motion.button>
-                  ))}
-                </div>
-
-                <div className="mt-8 text-center">
-                  <motion.button
-                    onClick={handleNext}
-                    disabled={!selected}
-                    className={`px-12 py-4 rounded-2xl text-lg font-semibold transition-all duration-300 ${
-                      selected
-                        ? "bg-gradient-to-r from-orange-500 to-yellow-500 text-white shadow-lg hover:shadow-xl transform hover:scale-105"
-                        : "bg-gray-200 text-gray-400 cursor-not-allowed"
-                    }`}
-                    whileHover={selected ? { scale: 1.05 } : {}}
-                    whileTap={selected ? { scale: 0.95 } : {}}
-                  >
-                    {currentIndex + 1 === questions.length ? "查看結果 🎉" : "下一題 →"}
-                  </motion.button>
-                </div>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentIndex}
+            initial={{ x: 300, opacity: 0, scale: 0.9 }}
+            animate={{ x: 0, opacity: 1, scale: 1 }}
+            exit={{ x: -300, opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.5, type: "spring", stiffness: 100, damping: 15 }}
+          >
+            <div className="text-center">
+              <div className="inline-block px-4 py-2 bg-orange-100 text-orange-800 rounded-full text-sm font-medium mb-4">
+                氣候適應性測驗
               </div>
-            </motion.div>
-          </AnimatePresence>
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-800 leading-relaxed mb-8">
+                {current.question}
+              </h2>
 
-          {/* 底部裝飾 */}
-          <div className="text-center text-gray-400 text-sm">
-            <p>根據你的回答，我們將為你量身打造氣候適應建議</p>
-          </div>
+              <div className="space-y-5">
+                {Object.entries(current.options).map(([key, text]) => (
+                  <motion.button
+                    key={key}
+                    onClick={() => handleSelect(key)}
+                    className={`w-full p-4 text-left rounded-2xl border-2 transition-all duration-300 ${
+                      selected === key
+                        ? "bg-gradient-to-r from-orange-400 to-yellow-400 text-white border-orange-400 shadow-lg transform scale-105"
+                        : "bg-white/50 text-gray-700 border-gray-200 hover:bg-orange-50 hover:border-orange-300"
+                    }`}
+                    whileHover={{ scale: selected === key ? 1.05 : 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <div className="flex items-center">
+                      <div
+                        className={`w-6 h-6 rounded-full border-2 mr-3 flex items-center justify-center ${
+                          selected === key ? "bg-white border-white" : "border-gray-300"
+                        }`}
+                      >
+                        {selected === key && (
+                          <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
+                        )}
+                      </div>
+                      <span className="text-base md:text-lg font-medium">{text}</span>
+                    </div>
+                  </motion.button>
+                ))}
+              </div>
+
+              <div className="mt-8 text-center">
+                <motion.button
+                  onClick={handleNext}
+                  disabled={!selected}
+                  className={`px-12 py-4 rounded-2xl text-lg font-semibold transition-all duration-300 ${
+                    selected
+                      ? "bg-gradient-to-r from-orange-500 to-yellow-500 text-white shadow-lg hover:shadow-xl transform hover:scale-105"
+                      : "bg-gray-200 text-gray-400 cursor-not-allowed"
+                  }`}
+                  whileHover={selected ? { scale: 1.05 } : {}}
+                  whileTap={selected ? { scale: 0.95 } : {}}
+                >
+                  {currentIndex + 1 === questions.length ? "查看結果 🎉" : "下一題 →"}
+                </motion.button>
+              </div>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+
+        <div className="text-center text-gray-400 text-sm">
+          <p>根據你的回答，我們將為你量身打造氣候適應建議</p>
         </div>
       </div>
 
