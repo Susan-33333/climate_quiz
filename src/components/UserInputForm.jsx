@@ -78,7 +78,7 @@ export default function UserInputForm({ onNext, onSave }) {
       </div>
 
       <div className="mb-4">
-        <label className="block text-gray-700">居住縣市</label>
+        <label className="block text-gray-700">居住地</label>
         <select
           name="county"
           value={formData.county}
