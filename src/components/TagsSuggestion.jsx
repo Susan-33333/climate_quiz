@@ -27,12 +27,14 @@ const TagsSuggestion = ({ userData, onNext }) => {
 
   const current = tabContent[activeTab];
 
+  // 動畫分數控制
   const [animatedScore, setAnimatedScore] = useState(0);
   const requestRef = useRef();
 
   useEffect(() => {
     let start;
     const duration = 800;
+
     const animate = (timestamp) => {
       if (!start) start = timestamp;
       const progress = timestamp - start;
@@ -41,18 +43,17 @@ const TagsSuggestion = ({ userData, onNext }) => {
         current.score
       );
       setAnimatedScore(Math.round(percentage));
+
       if (progress < duration) {
         requestRef.current = requestAnimationFrame(animate);
       }
     };
+
     cancelAnimationFrame(requestRef.current);
     requestRef.current = requestAnimationFrame(animate);
+
     return () => cancelAnimationFrame(requestRef.current);
   }, [current.score]);
-
-  const ringStyle = {
-    background: `conic-gradient(#EA0000 ${animatedScore}%, #e5e7eb ${animatedScore}%)`,
-  };
 
   return (
     <div className="w-full max-w-2xl mx-auto p-6 border rounded-lg bg-white shadow">
@@ -73,23 +74,27 @@ const TagsSuggestion = ({ userData, onNext }) => {
         ))}
       </div>
 
-      {/* 內容區塊 */}
+      {/* 主體內容區塊 */}
       <div className="flex flex-col space-y-4">
         {/* 環形進度條 + 說明 */}
         <div className="flex items-center justify-center space-x-6">
           <div className="relative w-[140px] h-[140px]">
-            {/* 外圈進度環 */}
+            {/* 外圈進度圓 */}
             <div
               className="w-full h-full rounded-full"
-              style={ringStyle}
+              style={{
+                background: `conic-gradient(#EA0000 ${animatedScore}%, #e5e7eb ${animatedScore}%)`,
+              }}
             ></div>
 
-            {/* 內圈遮罩（白色中空） */}
-            <div className="absolute top-1/2 left-1/2 w-[90px] h-[90px] -translate-x-1/2 -translate-y-1/2 bg-white rounded-full z-10"></div>
+            {/* 內圈遮罩：白色中空 */}
+            <div className="absolute inset-0 flex items-center justify-center z-10">
+              <div className="w-[90px] h-[90px] bg-white rounded-full shadow-inner"></div>
+            </div>
 
-            {/* 百分比文字 */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
-              <span className="text-3xl font-bold text-purple-700">
+            {/* 百分比數字 */}
+            <div className="absolute inset-0 flex items-center justify-center z-20">
+              <span className="text-3xl font-bold text-red-600">
                 {animatedScore}%
               </span>
             </div>
@@ -114,7 +119,7 @@ const TagsSuggestion = ({ userData, onNext }) => {
           <p className="text-gray-600">{current.recommend}</p>
         </div>
 
-        {/* 滑桿 */}
+        {/* 滑桿區 */}
         <div className="flex items-center space-x-2">
           <input
             type="range"
