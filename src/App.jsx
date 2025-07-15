@@ -83,8 +83,6 @@ function selectMascot(personalityType) {
     T2: { image: "T2.png", name: "氣候適應者" },
     T3: { image: "T3.png", name: "綠色生活家" },
     T4: { image: "T4.png", name: "永續實踐者" },
-    T5: { image: "T5.png", name: "生態守護者" },
-    T6: { image: "T6.png", name: "未來規劃師" }
   };
   return mascots[personalityType] || mascots.T1;
 }
