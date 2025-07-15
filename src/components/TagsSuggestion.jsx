@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 
-// ✅ 環形圖元件
-const RingChart = ({ percent, size = 140, color = "#EA0000", tooltip = "" }) => {
-  const innerSize = size * 0.65;
+// ✅ 完美對齊的環形圖元件
+const RingChart = ({ percent, size = 100, color = "#EA0000", tooltip = "" }) => {
+  const innerSize = size * 0.8; // 內圈大一點才有「環形」感
+  const thickness = size * 0.1;
   const [animatedPercent, setAnimatedPercent] = useState(0);
   const requestRef = useRef();
 
@@ -29,11 +30,11 @@ const RingChart = ({ percent, size = 140, color = "#EA0000", tooltip = "" }) => 
 
   return (
     <div
-      className="relative flex items-center justify-center"
+      className="relative"
       style={{ width: size, height: size }}
       title={tooltip}
     >
-      {/* 外圈環形 */}
+      {/* 外圈圓形進度 */}
       <div
         className="absolute rounded-full"
         style={{
@@ -43,17 +44,20 @@ const RingChart = ({ percent, size = 140, color = "#EA0000", tooltip = "" }) => 
         }}
       ></div>
 
-      {/* 內圈遮罩：一定要絕對定位 & 完全置中 */}
-      <div className="absolute inset-0 flex items-center justify-center z-10">
-        <div
-          className="bg-white rounded-full shadow-inner"
-          style={{ width: innerSize, height: innerSize }}
-        ></div>
-      </div>
+      {/* 內圈白色遮罩 */}
+      <div
+        className="absolute bg-white rounded-full"
+        style={{
+          width: innerSize,
+          height: innerSize,
+          top: (size - innerSize) / 2,
+          left: (size - innerSize) / 2,
+        }}
+      ></div>
 
       {/* 百分比文字 */}
-      <div className="absolute z-20">
-        <span className="text-3xl font-bold" style={{ color }}>
+      <div className="absolute inset-0 flex items-center justify-center z-10">
+        <span className="text-xl font-bold" style={{ color }}>
           {animatedPercent}%
         </span>
       </div>
@@ -61,7 +65,7 @@ const RingChart = ({ percent, size = 140, color = "#EA0000", tooltip = "" }) => 
   );
 };
 
-// ✅ 主組件
+// ✅ 主頁元件
 const TagsSuggestion = ({ userData, onNext }) => {
   const [activeTab, setActiveTab] = useState("居住");
   const region = userData?.county || "未填地區";
@@ -94,7 +98,7 @@ const TagsSuggestion = ({ userData, onNext }) => {
 
   return (
     <div className="w-full max-w-2xl mx-auto p-6 border rounded-lg bg-white shadow">
-      {/* 分頁選單 */}
+      {/* 分頁切換 */}
       <div className="flex justify-center mb-4 space-x-4">
         {["居住", "遊憩", "交通"].map((tab) => (
           <button
@@ -111,54 +115,51 @@ const TagsSuggestion = ({ userData, onNext }) => {
         ))}
       </div>
 
-      {/* 主內容 */}
-      <div className="flex flex-col space-y-4">
-        {/* 環形圖 + 說明 */}
-        <div className="flex items-center justify-center space-x-6">
-          <RingChart
-            percent={current.score}
-            color={current.color}
-            tooltip={`氣候評分：${current.score}%`}
-          />
-          <div>
-            <h2 className="text-xl font-bold">未來 30 年後 {region}：</h2>
-            <p className="text-gray-700">{current.description}</p>
-          </div>
-        </div>
-
-        {/* 災害敘述 */}
+      {/* 圖＋敘述 */}
+      <div className="flex items-center justify-center space-x-6">
+        <RingChart
+          percent={current.score}
+          color={current.color}
+          tooltip={`氣候評分：${current.score}%`}
+        />
         <div>
-          <p className="font-semibold">可能面臨災害：</p>
-          <p className="text-gray-600">{current.disaster}</p>
+          <h2 className="text-xl font-bold">未來 30 年後 {region}：</h2>
+          <p className="text-gray-700">{current.description}</p>
         </div>
+      </div>
 
-        {/* 推薦地點 */}
-        <div>
-          <p className="font-semibold">推薦養老地點：</p>
-          <p className="text-gray-600">{current.recommend}</p>
-        </div>
+      {/* 災害描述 */}
+      <div className="mt-4">
+        <p className="font-semibold">可能面臨災害：</p>
+        <p className="text-gray-600">{current.disaster}</p>
+      </div>
 
-        {/* 滑桿區 */}
-        <div className="flex items-center space-x-2">
-          <input
-            type="range"
-            min={0}
-            max={100}
-            value={current.score}
-            readOnly
-            className="w-full"
-          />
-        </div>
+      {/* 推薦地點 */}
+      <div>
+        <p className="font-semibold">推薦養老地點：</p>
+        <p className="text-gray-600">{current.recommend}</p>
+      </div>
 
-        {/* 下一步按鈕 */}
-        <div className="text-right">
-          <button
-            className="mt-4 bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded"
-            onClick={onNext}
-          >
-            下一步
-          </button>
-        </div>
+      {/* 滑桿 */}
+      <div className="flex items-center space-x-2 mt-2">
+        <input
+          type="range"
+          min={0}
+          max={100}
+          value={current.score}
+          readOnly
+          className="w-full"
+        />
+      </div>
+
+      {/* 下一步 */}
+      <div className="text-right">
+        <button
+          className="mt-4 bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded"
+          onClick={onNext}
+        >
+          下一步
+        </button>
       </div>
     </div>
   );
