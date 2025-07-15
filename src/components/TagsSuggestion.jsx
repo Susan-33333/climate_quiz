@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 
-// ✅ 完美對齊的環形圖元件
+// ✅ 完整修正版：真正環形的 RingChart
 const RingChart = ({ percent, size = 100, color = "#EA0000", tooltip = "" }) => {
-  const innerSize = size * 0.8; // 內圈大一點才有「環形」感
-  const thickness = size * 0.1;
+  const innerSize = size * 0.75; // 內圈 75% 可形成明顯環形
   const [animatedPercent, setAnimatedPercent] = useState(0);
   const requestRef = useRef();
 
@@ -34,9 +33,9 @@ const RingChart = ({ percent, size = 100, color = "#EA0000", tooltip = "" }) => 
       style={{ width: size, height: size }}
       title={tooltip}
     >
-      {/* 外圈圓形進度 */}
+      {/* 外圈進度圓 */}
       <div
-        className="absolute rounded-full"
+        className="absolute rounded-full z-0"
         style={{
           width: size,
           height: size,
@@ -44,20 +43,20 @@ const RingChart = ({ percent, size = 100, color = "#EA0000", tooltip = "" }) => 
         }}
       ></div>
 
-      {/* 內圈白色遮罩 */}
-      <div
-        className="absolute bg-white rounded-full"
-        style={{
-          width: innerSize,
-          height: innerSize,
-          top: (size - innerSize) / 2,
-          left: (size - innerSize) / 2,
-        }}
-      ></div>
-
-      {/* 百分比文字 */}
+      {/* 內圈遮罩置中形成環 */}
       <div className="absolute inset-0 flex items-center justify-center z-10">
-        <span className="text-xl font-bold" style={{ color }}>
+        <div
+          className="bg-white rounded-full"
+          style={{
+            width: innerSize,
+            height: innerSize,
+          }}
+        ></div>
+      </div>
+
+      {/* 中間百分比文字 */}
+      <div className="absolute inset-0 flex items-center justify-center z-20">
+        <span className="text-lg font-bold" style={{ color }}>
           {animatedPercent}%
         </span>
       </div>
@@ -115,7 +114,7 @@ const TagsSuggestion = ({ userData, onNext }) => {
         ))}
       </div>
 
-      {/* 圖＋敘述 */}
+      {/* 圖表與說明 */}
       <div className="flex items-center justify-center space-x-6">
         <RingChart
           percent={current.score}
