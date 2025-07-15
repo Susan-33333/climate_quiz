@@ -15,7 +15,7 @@ function QuizSection() {
     const loadData = async () => {
       try {
         // 從 public 資料夾載入 question_data.json
-        const response = await fetch(`${import.meta.env.BASE_URL}question_data.json`);
+        const response = await fetch(`${import.meta.env.BASE_URL}public/data/question_data.json`);
         const data = await response.json();
         setQuestions(data);
       } catch (err) {
