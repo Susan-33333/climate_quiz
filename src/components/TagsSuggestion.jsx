@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 
-// ✅ 修正後環形圖元件
+// ✅ 環形圖元件
 const RingChart = ({ percent, size = 140, color = "#EA0000", tooltip = "" }) => {
   const innerSize = size * 0.65;
   const [animatedPercent, setAnimatedPercent] = useState(0);
@@ -29,11 +29,11 @@ const RingChart = ({ percent, size = 140, color = "#EA0000", tooltip = "" }) => 
 
   return (
     <div
-      className="relative shrink-0 flex items-center justify-center"
+      className="relative flex items-center justify-center"
       style={{ width: size, height: size }}
       title={tooltip}
     >
-      {/* 外圈圓環 */}
+      {/* 外圈環形 */}
       <div
         className="absolute rounded-full"
         style={{
@@ -43,17 +43,16 @@ const RingChart = ({ percent, size = 140, color = "#EA0000", tooltip = "" }) => 
         }}
       ></div>
 
-      {/* 內圈白色遮罩 */}
-      <div
-        className="absolute bg-white rounded-full shadow-inner"
-        style={{
-          width: innerSize,
-          height: innerSize,
-        }}
-      ></div>
+      {/* 內圈遮罩：一定要絕對定位 & 完全置中 */}
+      <div className="absolute inset-0 flex items-center justify-center z-10">
+        <div
+          className="bg-white rounded-full shadow-inner"
+          style={{ width: innerSize, height: innerSize }}
+        ></div>
+      </div>
 
       {/* 百分比文字 */}
-      <div className="absolute z-10">
+      <div className="absolute z-20">
         <span className="text-3xl font-bold" style={{ color }}>
           {animatedPercent}%
         </span>
@@ -62,7 +61,7 @@ const RingChart = ({ percent, size = 140, color = "#EA0000", tooltip = "" }) => 
   );
 };
 
-// ✅ 主元件
+// ✅ 主組件
 const TagsSuggestion = ({ userData, onNext }) => {
   const [activeTab, setActiveTab] = useState("居住");
   const region = userData?.county || "未填地區";
