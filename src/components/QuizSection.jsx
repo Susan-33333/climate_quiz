@@ -64,16 +64,16 @@ function QuizSection({ onNext }) {
             transition={{ duration: 0.4 }}
           >
             <div className="text-center px-4">
-              <h2 className="text-xl font-bold text-gray-800 mb-4">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">
                 {current.question}
               </h2>
 
-              <div className="space-y-4">
+              <div className="space-y-5">
                 {Object.entries(current.options).map(([key, text]) => (
                   <button
                     key={key}
                     onClick={() => handleSelect(key)}
-                    className={`w-full border-2 rounded-full px-6 py-3 text-sm font-medium transition-colors duration-300 ${
+                    className={`w-full border-2 rounded-full px-6 py-4 text-base md:text-lg font-medium transition-colors duration-300 ${
                       selected === key
                         ? "bg-yellow-500 text-white border-yellow-500 shadow-lg ring-2 ring-yellow-600"
                         : "bg-white text-gray-800 border-gray-300 hover:bg-yellow-100"
@@ -88,7 +88,7 @@ function QuizSection({ onNext }) {
               <button
                 onClick={handleNext}
                 disabled={!selected}
-                className={`mt-10 px-8 py-3 rounded-lg font-semibold transition-colors duration-300 ${
+                className={`mt-10 px-10 py-4 rounded-lg text-lg font-semibold transition-colors duration-300 ${
                   selected
                     ? "bg-yellow-500 text-white hover:bg-yellow-600"
                     : "bg-gray-300 text-white cursor-not-allowed"
@@ -102,6 +102,10 @@ function QuizSection({ onNext }) {
       </div>
     </div>
   );
+}
+
+export default QuizSection;
+
 }
 
 export default QuizSection;
