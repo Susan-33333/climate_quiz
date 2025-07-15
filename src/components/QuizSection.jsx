@@ -91,14 +91,12 @@ function QuizSection({ onNext }) {
           
           {/* 松鼠角色在進度條上跑動 */}
           <motion.div
-            className="absolute top-0 transform -translate-y-1/2 transition-all duration-700 ease-out"
+            className="absolute top-0 transform -translate-y-1/2"
             animate={{ 
-              left: `calc(${progressPercent}% - 16px)`,
-              rotate: progressPercent > 0 ? [0, 10, -10, 0] : 0
+              left: `calc(${progressPercent}% - 16px)`
             }}
             transition={{ 
-              left: { duration: 0.8, ease: "easeOut" },
-              rotate: { duration: 0.6, repeat: Infinity, repeatType: "reverse" }
+              left: { duration: 0.8, ease: "easeOut" }
             }}
           >
             <motion.img
@@ -106,13 +104,15 @@ function QuizSection({ onNext }) {
               alt="松鼠"
               className="w-8 h-8 object-contain drop-shadow-lg"
               animate={{
-                y: [0, -2, 0],
-                scale: [1, 1.1, 1]
+                x: [0, 2, -2, 0],
+                y: [0, -1, 0],
+                rotate: [0, 5, -5, 0]
               }}
               transition={{
-                duration: 0.8,
+                duration: 0.6,
                 repeat: Infinity,
-                repeatType: "reverse"
+                repeatType: "reverse",
+                ease: "easeInOut"
               }}
             />
           </motion.div>
@@ -121,7 +121,7 @@ function QuizSection({ onNext }) {
 
       {/* 主要內容區域 */}
       <div className="flex-1 pt-20 px-4 flex items-center justify-center">
-        <div className="w-full max-w-md mx-auto">
+        <div className="w-full max-w-sm mx-auto">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentIndex}
@@ -129,14 +129,14 @@ function QuizSection({ onNext }) {
               animate={{ x: 0, opacity: 1, scale: 1 }}
               exit={{ x: -300, opacity: 0, scale: 0.9 }}
               transition={{ duration: 0.5, type: "spring", stiffness: 100, damping: 15 }}
-              className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-xl p-8 space-y-6"
+              className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-xl p-6 space-y-6"
             >
               <div className="text-center">
                 <div className="inline-block px-4 py-2 bg-purple-100 text-purple-800 rounded-full text-sm font-medium mb-6">
                   氣候適應性測驗 ({currentIndex + 1}/{questions.length})
                 </div>
                 
-                <h2 className="text-xl font-bold text-gray-800 leading-relaxed mb-8">
+                <h2 className="text-lg font-bold text-gray-800 leading-relaxed mb-8">
                   {current.question}
                 </h2>
 
@@ -145,7 +145,7 @@ function QuizSection({ onNext }) {
                     <motion.button
                       key={key}
                       onClick={() => handleSelect(key)}
-                      className={`block w-full p-4 text-center rounded-xl border-2 transition-all duration-300 ${
+                      className={`block w-full p-3 text-center rounded-xl border-2 transition-all duration-300 ${
                         selected === key
                           ? "bg-gradient-to-r from-purple-400 to-purple-600 text-white border-purple-400 shadow-lg transform scale-105"
                           : "bg-white/70 text-gray-700 border-gray-200 hover:bg-purple-50 hover:border-purple-300 hover:shadow-md"
@@ -156,7 +156,7 @@ function QuizSection({ onNext }) {
                       }}
                       whileTap={{ scale: 0.98 }}
                     >
-                      <span className="text-base font-medium">{text}</span>
+                      <span className="text-sm font-medium">{text}</span>
                     </motion.button>
                   ))}
                 </div>
@@ -165,7 +165,7 @@ function QuizSection({ onNext }) {
                   <motion.button
                     onClick={handleNext}
                     disabled={!selected}
-                    className={`w-full py-4 rounded-xl text-lg font-semibold transition-all duration-300 ${
+                    className={`w-full py-3 rounded-xl text-base font-semibold transition-all duration-300 ${
                       selected
                         ? "bg-gradient-to-r from-purple-500 to-purple-700 text-white shadow-lg hover:shadow-xl"
                         : "bg-gray-200 text-gray-400 cursor-not-allowed"
@@ -180,7 +180,7 @@ function QuizSection({ onNext }) {
             </motion.div>
           </AnimatePresence>
 
-          <div className="text-center text-gray-500 text-sm mt-6">
+          <div className="text-center text-gray-500 text-xs mt-4">
             <p>根據你的回答，我們將為你量身打造氣候適應建議</p>
           </div>
         </div>
