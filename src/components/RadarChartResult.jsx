@@ -80,7 +80,16 @@ function RadarChartResult({ scores, mascot, regionSummary }) {
               </RadarChart>
             </ResponsiveContainer>
           </div>
-
+          <div className="flex items-center space-x-2 mt-2">
+        <input
+          type="range"
+          min={0}
+          max={100}
+          value={current.score}
+          readOnly
+          className="w-full"
+        />
+        </div>
           {/* 角色圖片與描述 - Moved here for right side prominence */}
           <div className="mt-6 md:mt-0 text-center md:text-left flex-shrink-0">
             {mascot?.image && (

@@ -20,7 +20,7 @@ function ResultPersonality({ userData, onNext }) {
         speciality: "不怕下雨，能接受一週多日陰雨；對濕氣有高忍耐力但怕悶熱；喜歡水氣充足的環境",
         match: "濕潤氣候友善區、濕地社區、排水良好社區",
         mismatch: "乾旱或高溫地區、排水不良區域",
-        image: "T1.png",
+        image:  fetch(`${import.meta.env.BASE_URL}mascot/T1.png`),
         // 針對不同領域的偏好
         preferences: {
           residence: "濕潤氣候友善區、濕地社區、排水良好社區優先",
@@ -34,7 +34,7 @@ function ResultPersonality({ userData, onNext }) {
         speciality: "喜歡晴朗天氣，對高溫有良好適應力；偏好乾燥環境但需要充足日照",
         match: "太陽能社區、乾燥氣候區、戶外活動豐富地區",
         mismatch: "長期陰雨地區、高濕度環境",
-        image: "T2.png",
+        image:fetch(`${import.meta.env.BASE_URL}mascot/T2.png`),
         preferences: {
           residence: "日照充足地區、太陽能友善社區、乾燥氣候優先",
           transport: "偏好騎自行車、步行，喜歡戶外交通方式",
@@ -47,7 +47,7 @@ function ResultPersonality({ userData, onNext }) {
         speciality: "對溫度變化敏感，偏好穩定的氣候環境；重視數據分析與科學決策",
         match: "科技園區、氣候穩定區、創新研發社區",
         mismatch: "氣候極端變化地區、缺乏科技支援區域",
-        image: "T3.png",
+        image: fetch(`${import.meta.env.BASE_URL}mascot/T3.png`),
         preferences: {
           residence: "氣候穩定區、科技發達社區、創新園區優先",
           transport: "偏好智能交通、共享運輸，重視效率與環保",
@@ -60,37 +60,11 @@ function ResultPersonality({ userData, onNext }) {
         speciality: "對環境變化有很強適應力，偏好四季分明的氣候；重視傳統與創新平衡",
         match: "農業社區、生態保護區、傳統文化保存地",
         mismatch: "過度開發地區、缺乏綠地的都市區",
-        image: "T4.png",
+        image: fetch(`${import.meta.env.BASE_URL}mascot/T4.png`),
         preferences: {
           residence: "農業友善區、生態社區、傳統文化保存地優先",
           transport: "偏好大眾運輸、在地交通，重視社區連結",
           tourism: "偏好農場體驗、生態保護區、傳統文化景點"
-        }
-      },
-      T5: {
-        name: "活力海豚",
-        description: "熱愛海洋與水域環境，積極推動海洋保護與永續漁業，是動態適應型的海洋守護者",
-        speciality: "喜歡海洋性氣候，對濕度和海風有良好適應力；偏好沿海環境",
-        match: "沿海地區、海洋保護區、漁業社區",
-        mismatch: "內陸乾燥地區、空氣汙染嚴重區域",
-        image: "T5.png",
-        preferences: {
-          residence: "沿海地區、海洋性氣候區、漁業社區優先",
-          transport: "偏好海上交通、沿海自行車道，享受海風通勤",
-          tourism: "偏好海洋公園、潛水區、沿海生態區"
-        }
-      },
-      T6: {
-        name: "探索蝴蝶",
-        description: "對氣候變化極為敏感，推動生物多樣性保護，是敏感適應型的環境指標者",
-        speciality: "對微氣候變化敏感，偏好花季豐富的環境；重視生物多樣性",
-        match: "生物多樣性保護區、花卉農場、自然保護區",
-        mismatch: "單一作物區、生物貧乏地區",
-        image: "T6.png",
-        preferences: {
-          residence: "生物多樣性豐富區、花卉農場、自然保護區優先",
-          transport: "偏好綠色廊道、生態友善交通，避免破壞棲地",
-          tourism: "偏好植物園、蝴蝶園、生態步道"
         }
       }
     };
@@ -102,7 +76,7 @@ function ResultPersonality({ userData, onNext }) {
         processPersonality(data);
       })
       .catch((error) => {
-        console.error("載入人格資料失敗，使用預設資料:", error);
+        console.error("載入人格資料失敗", error);
         processPersonality(defaultProfiles);
       });
 
@@ -127,7 +101,6 @@ function ResultPersonality({ userData, onNext }) {
         B: "T2", // 陽光狐狸
         C: "T3", // 智慧貓頭鷹
         D: "T4", // 堅韌橡樹
-        // 可以根據需要調整對應關係
       };
 
       const personalityKey = personalityMap[maxOption] || "T1";
@@ -148,7 +121,7 @@ function ResultPersonality({ userData, onNext }) {
       <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mx-auto mb-4"></div>
-          <p className="text-lg text-gray-600">正在分析你的氣候人格...</p>
+          <p className="text-lg text-gray-600">正在分析您的氣候人格...</p>
         </div>
       </div>
     );
@@ -158,7 +131,7 @@ function ResultPersonality({ userData, onNext }) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center">
         <div className="text-center p-8 bg-white rounded-xl shadow-lg">
-          <p className="text-lg text-gray-600">無法載入人格分析結果</p>
+          <p className="text-lg text-gray-600">無法載入您的人格分析結果</p>
           <button
             onClick={onNext}
             className="mt-4 px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
@@ -205,7 +178,7 @@ function ResultPersonality({ userData, onNext }) {
           
           {/* 行動方式描述 */}
           <div className="mb-6 p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl">
-            <h3 className="font-semibold text-green-800 mb-2">🌟 行動方式</h3>
+            <h3 className="font-semibold text-green-800 mb-2">行動方式</h3>
             <p className="text-gray-700 leading-relaxed">
               {profile.description}
             </p>
@@ -213,7 +186,7 @@ function ResultPersonality({ userData, onNext }) {
 
           {/* 回答特質 */}
           <div className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-green-50 rounded-xl">
-            <h3 className="font-semibold text-blue-800 mb-2">🎯 回答特質</h3>
+            <h3 className="font-semibold text-blue-800 mb-2">回答特質</h3>
             <p className="text-gray-700 leading-relaxed">
               {profile.speciality}
             </p>
