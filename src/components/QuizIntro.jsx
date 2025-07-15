@@ -11,11 +11,11 @@ function QuizIntro({ onStart }) {
     <div className="min-h-screen bg-yellow-100 flex items-center justify-center px-4">
       <div className="relative w-full max-w-md flex flex-col justify-center items-center space-y-6 py-12">
         {/* 圖片 Hero 區 */}
-        <div className="relative w-full h-80 rounded-2xl overflow-hidden shadow-lg">
+        <div className="relative w-full aspect-[3/4] sm:aspect-[3/4] rounded-2xl overflow-hidden shadow-lg bg-white">
           <img
             src={bgImage}
             alt="開始測驗圖片"
-            className="absolute inset-0 w-full h-full object-cover"
+            className="w-full h-full object-fill sm:object-cover"
           />
           <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
             <h2 className="text-white text-3xl font-bold">準備好了嗎？</h2>
@@ -40,4 +40,5 @@ function QuizIntro({ onStart }) {
 }
 
 export default QuizIntro;
+
 
