@@ -1,3 +1,5 @@
+console.log("✅ TagsSuggestion 頁面載入了", userData);
+
 import React, { useState, useEffect, useRef } from "react";
 
 // ✅ 環形圖元件維持原樣
