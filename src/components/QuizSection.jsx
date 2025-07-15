@@ -43,16 +43,16 @@ function QuizSection({ onNext }) {
         progressBar.style.width = `${progressPercent}%`;
       }
       if (progressCharacter) {
-        progressCharacter.style.left = `calc(${progressPercent}% - 20px)`;
+        progressCharacter.style.left = `calc(${progressPercent}% - 16px)`;
       }
     }
   }, [currentIndex, questions.length]);
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-yellow-50">
+      <div className="min-h-screen flex items-center justify-center bg-purple-50">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500 mx-auto mb-4"></div>
           <p className="text-lg text-gray-600">載入問題中...</p>
         </div>
       </div>
@@ -78,29 +78,27 @@ function QuizSection({ onNext }) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-orange-50 flex items-center justify-center px-4">
-      <div className="w-full max-w-md md:rounded-3xl md:shadow-lg md:bg-white/80 md:backdrop-blur-sm md:p-10 flex flex-col justify-center space-y-10">
-        {/* 進度條 */}
-        <div className="relative h-6 w-full">
-          <div className="absolute top-1 left-0 w-full h-2 bg-orange-100 rounded-full overflow-hidden">
-            <div
-              className="progress-bar h-full bg-orange-400 transition-all duration-500"
-              style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
-            ></div>
-          </div>
-          <div
-            className="progress-character absolute -top-6 transition-all duration-700 ease-out"
-            style={{ left: `calc(${((currentIndex + 1) / questions.length) * 100}% - 20px)` }}
-          >
-            <img
-              src={`${import.meta.env.BASE_URL}mascot/T6.png`}
-              alt="松鼠"
-              className="w-7 h-7 object-contain drop-shadow-md"
-            />
-          </div>
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-purple-100 pt-16 px-4">
+      {/* 固定頂部進度條 */}
+      <div className="fixed top-0 left-0 right-0 z-50 h-4 bg-purple-100">
+        <div
+          className="progress-bar h-full bg-purple-400 transition-all duration-500"
+          style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
+        ></div>
+        <div
+          className="progress-character absolute -top-3 transition-all duration-700 ease-out"
+          style={{ left: `calc(${((currentIndex + 1) / questions.length) * 100}% - 16px)` }}
+        >
+          <img
+            src={`${import.meta.env.BASE_URL}mascot/T6.png`}
+            alt="松鼠"
+            className="w-6 h-6 object-contain"
+          />
         </div>
+      </div>
 
-        {/* 問題區塊 */}
+      {/* 問題卡片 */}
+      <div className="w-full max-w-md mx-auto md:rounded-3xl md:shadow-lg md:bg-white/80 md:backdrop-blur-sm md:p-10 flex flex-col justify-center space-y-10">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentIndex}
@@ -110,38 +108,27 @@ function QuizSection({ onNext }) {
             transition={{ duration: 0.5, type: "spring", stiffness: 100, damping: 15 }}
           >
             <div className="text-center">
-              <div className="inline-block px-4 py-2 bg-orange-100 text-orange-800 rounded-full text-sm font-medium mb-4">
+              <div className="inline-block px-4 py-2 bg-purple-100 text-purple-800 rounded-full text-sm font-medium mb-4">
                 氣候適應性測驗
               </div>
               <h2 className="text-2xl md:text-3xl font-bold text-gray-800 leading-relaxed mb-8">
                 {current.question}
               </h2>
 
-              <div className="space-y-5">
+              <div className="space-y-4">
                 {Object.entries(current.options).map(([key, text]) => (
                   <motion.button
                     key={key}
                     onClick={() => handleSelect(key)}
-                    className={`w-full p-4 text-left rounded-2xl border-2 transition-all duration-300 ${
+                    className={`block w-full max-w-sm mx-auto p-4 text-left rounded-2xl border-2 transition-all duration-300 ${
                       selected === key
-                        ? "bg-gradient-to-r from-orange-400 to-yellow-400 text-white border-orange-400 shadow-lg transform scale-105"
-                        : "bg-white/50 text-gray-700 border-gray-200 hover:bg-orange-50 hover:border-orange-300"
+                        ? "bg-gradient-to-r from-purple-400 to-purple-600 text-white border-purple-400 shadow-lg transform scale-105"
+                        : "bg-white/50 text-gray-700 border-gray-200 hover:bg-purple-100 hover:border-purple-300"
                     }`}
                     whileHover={{ scale: selected === key ? 1.05 : 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    <div className="flex items-center">
-                      <div
-                        className={`w-6 h-6 rounded-full border-2 mr-3 flex items-center justify-center ${
-                          selected === key ? "bg-white border-white" : "border-gray-300"
-                        }`}
-                      >
-                        {selected === key && (
-                          <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
-                        )}
-                      </div>
-                      <span className="text-base md:text-lg font-medium">{text}</span>
-                    </div>
+                    <span className="text-base md:text-lg font-medium">{text}</span>
                   </motion.button>
                 ))}
               </div>
@@ -152,7 +139,7 @@ function QuizSection({ onNext }) {
                   disabled={!selected}
                   className={`px-12 py-4 rounded-2xl text-lg font-semibold transition-all duration-300 ${
                     selected
-                      ? "bg-gradient-to-r from-orange-500 to-yellow-500 text-white shadow-lg hover:shadow-xl transform hover:scale-105"
+                      ? "bg-gradient-to-r from-purple-500 to-purple-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105"
                       : "bg-gray-200 text-gray-400 cursor-not-allowed"
                   }`}
                   whileHover={selected ? { scale: 1.05 } : {}}
