@@ -79,9 +79,9 @@ const TagsSuggestion = ({ userData, onNext }) => {
         {/* 環形進度條 + 說明 */}
         <div className="flex items-center justify-center space-x-6">
           <div className="relative w-[140px] h-[140px]">
-            {/* 外圈進度圓 */}
+            {/* 外圈進度圓（必須設為 absolute） */}
             <div
-              className="w-full h-full rounded-full"
+              className="absolute inset-0 rounded-full"
               style={{
                 background: `conic-gradient(#EA0000 ${animatedScore}%, #e5e7eb ${animatedScore}%)`,
               }}
