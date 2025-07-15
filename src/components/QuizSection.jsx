@@ -11,47 +11,106 @@ function QuizSection({ onNext }) {
   const mockQuestions = [
     {
       id: 1,
-      question: "載入失敗，你最不能忍受的天氣是？",
+      question: "你最不能忍受的天氣是？",
       options: {
         A: "冷到手腳冰冷",
         B: "熱到汗流浹背",
         C: "潮濕悶熱",
         D: "乾燥到皮膚緊繃"
       }
+    },
+    {
+      id: 2,
+      question: "你最常使用的交通工具是？",
+      options: {
+        A: "腳踏車或步行",
+        B: "大眾運輸",
+        C: "自己開車或騎機車"
+      }
+    },
+    {
+      id: 3,
+      question: "如果你有一天放假，你最想做什麼？",
+      options: {
+        A: "爬山健行",
+        B: "跟朋友去海邊",
+        C: "宅在家打電動"
+      }
+    },
+    {
+      id: 4,
+      question: "你認為環保這件事…",
+      options: {
+        A: "是每個人都該做的",
+        B: "政府要做更多",
+        C: "知道重要但很難做到"
+      }
+    },
+    {
+      id: 5,
+      question: "你選擇居住地的首要考量是？",
+      options: {
+        A: "氣候穩定、安全",
+        B: "交通便利、機能好",
+        C: "便宜、房租壓力小"
+      }
+    },
+    {
+      id: 6,
+      question: "你對氣候變遷的感受是？",
+      options: {
+        A: "很明顯有變化",
+        B: "有一點點，但無感",
+        C: "不太相信有什麼差"
+      }
+    },
+    {
+      id: 7,
+      question: "你會為了環保放棄便利嗎？",
+      options: {
+        A: "願意，甚至樂在其中",
+        B: "可以接受一點點",
+        C: "太不方便就不做了"
+      }
+    },
+    {
+      id: 8,
+      question: "你未來旅遊最想去哪裡？",
+      options: {
+        A: "永續生態村",
+        B: "熱門觀光景點",
+        C: "冷門秘境"
+      }
     }
   ];
 
   useEffect(() => {
-    // 模擬載入時間，讓使用者看到載入動畫
+    // 模擬載入問題數據
     const loadData = async () => {
       try {
-        const response = await fetch(`${import.meta.env.BASE_URL}data/question_data.json`);
-        if (!response.ok) throw new Error('Network response was not ok');
-        const data = await response.json();
+        // 這裡會從您的 JSON 文件載入問題
+        // const response = await fetch(`${import.meta.env.BASE_URL}data/question_data.json`);
+        // const data = await response.json();
+        // setQuestions(data);
         
-        // 確保數據格式正確
-        if (Array.isArray(data) && data.length > 0) {
-          setQuestions(data);
-        } else {
-          throw new Error('Invalid data format');
-        }
+        // 暫時使用模擬數據
+        setQuestions(mockQuestions);
       } catch (err) {
-        console.error("❌ 載入問題失敗，使用預設問題：", err);
+        console.error("載入問題失敗，使用預設問題：", err);
         setQuestions(mockQuestions);
       } finally {
         setLoading(false);
       }
     };
 
-    // 添加最小載入時間，讓動畫更流暢
     setTimeout(loadData, 500);
   }, []);
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-purple-50">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-blue-50">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mx-auto mb-4"></div>
           <p className="text-lg text-gray-600">載入問題中...</p>
         </div>
       </div>
@@ -78,74 +137,93 @@ function QuizSection({ onNext }) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-purple-100 flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50 flex flex-col">
       {/* 固定頂部進度條 */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm">
-        <div className="relative h-6 bg-purple-100 mx-4 my-2 rounded-full overflow-hidden">
-          <motion.div
-            className="h-full bg-gradient-to-r from-purple-400 to-purple-600 rounded-full"
-            initial={{ width: 0 }}
-            animate={{ width: `${progressPercent}%` }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          />
-          
-          {/* 松鼠角色在進度條上跑動 - 可以超出進度條 */}
-          <motion.div
-            className="absolute -top-4 transform -translate-x-1/2 z-10"
-            animate={{ 
-              left: `calc(${progressPercent}% - 16px)`
-            }}
-            transition={{ 
-              left: { duration: 0.8, ease: "easeOut" }
-            }}
-          >
-            <motion.img
-              src={`${import.meta.env.BASE_URL}mascot/T6.png`}
-              alt="松鼠"
-              className="w-10 h-10 object-contain drop-shadow-lg"
-              animate={{
-                x: [0, 2, -2, 0],
-                y: [0, -1, 0],
-                rotate: [0, 5, -5, 0]
-              }}
-              transition={{
-                duration: 0.6,
-                repeat: Infinity,
-                repeatType: "reverse",
-                ease: "easeInOut"
-              }}
-              onError={(e) => {
-                // 如果圖片載入失敗，顯示 emoji 作為備用
-                e.target.style.display = 'none';
-                e.target.nextSibling.style.display = 'block';
-              }}
+      <div className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-sm shadow-sm">
+        <div className="px-6 py-4">
+          {/* 進度條容器 */}
+          <div className="relative h-3 bg-gray-200 rounded-full overflow-hidden">
+            {/* 進度條背景 */}
+            <motion.div
+              className="absolute top-0 left-0 h-full bg-gradient-to-r from-green-400 to-blue-500 rounded-full"
+              initial={{ width: 0 }}
+              animate={{ width: `${progressPercent}%` }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
             />
-            {/* 備用 emoji 松鼠 */}
-            <div className="w-10 h-10 bg-orange-400 rounded-full flex items-center justify-center shadow-lg border-2 border-white" style={{display: 'none'}}>
-              <div className="text-sm">🐿️</div>
-            </div>
-          </motion.div>
+            
+            {/* 松鼠在進度條上 */}
+            <motion.div
+              className="absolute -top-2 transform -translate-x-1/2 z-10"
+              animate={{ 
+                left: `${progressPercent}%`
+              }}
+              transition={{ 
+                duration: 0.8, 
+                ease: "easeOut" 
+              }}
+            >
+              {/* 使用您的松鼠圖片 */}
+              <motion.div
+                className="w-7 h-7 relative"
+                animate={{
+                  y: [0, -2, 0],
+                  rotate: [0, 3, -3, 0]
+                }}
+                transition={{
+                  duration: 0.8,
+                  repeat: Infinity,
+                  repeatType: "reverse",
+                  ease: "easeInOut"
+                }}
+              >
+                <img
+                  src={`${import.meta.env.BASE_URL}mascot/T6.png`}
+                  alt="松鼠"
+                  className="w-full h-full object-contain drop-shadow-lg"
+                  onError={(e) => {
+                    // 如果圖片載入失敗，使用您提供的松鼠造型
+                    e.target.style.display = 'none';
+                    e.target.nextSibling.style.display = 'flex';
+                  }}
+                />
+                {/* 備用松鼠設計 */}
+                <div 
+                  className="w-full h-full bg-gradient-to-br from-orange-400 to-orange-600 rounded-full items-center justify-center shadow-lg border-2 border-white hidden"
+                  style={{ display: 'none' }}
+                >
+                  <div className="text-xs">🐿️</div>
+                </div>
+              </motion.div>
+            </motion.div>
+          </div>
+          
+          {/* 進度文字 */}
+          <div className="flex justify-between items-center mt-2 text-sm text-gray-600">
+            <span>氣候適應性測驗</span>
+            <span>{currentIndex + 1} / {questions.length}</span>
+          </div>
         </div>
       </div>
 
       {/* 主要內容區域 */}
-      <div className="flex-1 pt-20 px-4 flex items-center justify-center">
-        <div className="w-full max-w-sm mx-auto">
+      <div className="flex-1 pt-24 px-4 flex items-center justify-center">
+        <div className="w-full max-w-md mx-auto">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentIndex}
-              initial={{ x: 300, opacity: 0, scale: 0.9 }}
+              initial={{ x: 300, opacity: 0, scale: 0.95 }}
               animate={{ x: 0, opacity: 1, scale: 1 }}
-              exit={{ x: -300, opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.5, type: "spring", stiffness: 100, damping: 15 }}
-              className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-xl p-6 space-y-6"
+              exit={{ x: -300, opacity: 0, scale: 0.95 }}
+              transition={{ 
+                duration: 0.5, 
+                type: "spring", 
+                stiffness: 100, 
+                damping: 20 
+              }}
+              className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-6 space-y-6"
             >
               <div className="text-center">
-                <div className="inline-block px-4 py-2 bg-purple-100 text-purple-800 rounded-full text-sm font-medium mb-6">
-                  氣候適應性測驗 ({currentIndex + 1}/{questions.length})
-                </div>
-                
-                <h2 className="text-lg font-bold text-gray-800 leading-relaxed mb-8">
+                <h2 className="text-xl font-bold text-gray-800 leading-relaxed mb-8">
                   {current.question}
                 </h2>
 
@@ -154,18 +232,21 @@ function QuizSection({ onNext }) {
                     <motion.button
                       key={key}
                       onClick={() => handleSelect(key)}
-                      className={`block w-full p-3 text-center rounded-xl border-2 transition-all duration-300 ${
+                      className={`block w-full p-4 text-left rounded-xl border-2 transition-all duration-300 ${
                         selected === key
-                          ? "bg-gradient-to-r from-purple-400 to-purple-600 text-white border-purple-400 shadow-lg transform scale-105"
-                          : "bg-white/70 text-gray-700 border-gray-200 hover:bg-purple-50 hover:border-purple-300 hover:shadow-md"
+                          ? "bg-gradient-to-r from-green-400 to-blue-500 text-white border-green-400 shadow-lg"
+                          : "bg-white/80 text-gray-700 border-gray-200 hover:bg-green-50 hover:border-green-300 hover:shadow-md"
                       }`}
                       whileHover={{ 
-                        scale: selected === key ? 1.05 : 1.02,
-                        y: selected === key ? 0 : -2
+                        scale: 1.02,
+                        y: -1
                       }}
                       whileTap={{ scale: 0.98 }}
                     >
-                      <span className="text-sm font-medium">{text}</span>
+                      <div className="flex items-center">
+                        <span className="text-sm font-semibold mr-3 opacity-80">{key}.</span>
+                        <span className="text-sm font-medium">{text}</span>
+                      </div>
                     </motion.button>
                   ))}
                 </div>
@@ -174,15 +255,15 @@ function QuizSection({ onNext }) {
                   <motion.button
                     onClick={handleNext}
                     disabled={!selected}
-                    className={`w-full py-3 rounded-xl text-base font-semibold transition-all duration-300 ${
+                    className={`w-full py-4 rounded-xl text-base font-semibold transition-all duration-300 ${
                       selected
-                        ? "bg-gradient-to-r from-purple-500 to-purple-700 text-white shadow-lg hover:shadow-xl"
+                        ? "bg-gradient-to-r from-green-500 to-blue-600 text-white shadow-lg hover:shadow-xl"
                         : "bg-gray-200 text-gray-400 cursor-not-allowed"
                     }`}
                     whileHover={selected ? { scale: 1.02, y: -2 } : {}}
                     whileTap={selected ? { scale: 0.98 } : {}}
                   >
-                    {currentIndex + 1 === questions.length ? "查看結果 🎉" : "下一題 →"}
+                    {currentIndex + 1 === questions.length ? "查看結果" : "下一題 →"}
                   </motion.button>
                 </div>
               </div>
@@ -198,4 +279,40 @@ function QuizSection({ onNext }) {
   );
 }
 
-export default QuizSection;
+// 主要應用程式組件
+export default function ClimateQuizApp() {
+  const [currentStep, setCurrentStep] = useState('quiz');
+  const [results, setResults] = useState(null);
+
+  const handleQuizComplete = (answers) => {
+    setResults(answers);
+    setCurrentStep('results');
+  };
+
+  if (currentStep === 'quiz') {
+    return <QuizSection onNext={handleQuizComplete} />;
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full text-center">
+        <h2 className="text-2xl font-bold text-gray-800 mb-4">測驗完成！</h2>
+        <p className="text-gray-600 mb-6">感謝您完成氣候適應性測驗</p>
+        <div className="text-left bg-gray-50 rounded-lg p-4">
+          <h3 className="font-semibold mb-2">您的回答：</h3>
+          {results && results.map((answer, index) => (
+            <div key={index} className="text-sm text-gray-600">
+              第 {index + 1} 題: {answer}
+            </div>
+          ))}
+        </div>
+        <button
+          onClick={() => setCurrentStep('quiz')}
+          className="mt-6 w-full bg-gradient-to-r from-green-500 to-blue-600 text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300"
+        >
+          重新測驗
+        </button>
+      </div>
+    </div>
+  );
+}
