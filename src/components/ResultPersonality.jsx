@@ -20,7 +20,7 @@ function ResultPersonality({ userData, onNext }) {
         speciality: "不怕下雨，能接受一週多日陰雨；對濕氣有高忍耐力但怕悶熱；喜歡水氣充足的環境",
         match: "濕潤氣候友善區、濕地社區、排水良好社區",
         mismatch: "乾旱或高溫地區、排水不良區域",
-        image:  fetch(`${import.meta.env.BASE_URL}public/mascot/T1.png`),
+        image:  fetch(`${import.meta.env.BASE_URL}mascot/T1.png`),
         // 針對不同領域的偏好
         preferences: {
           residence: "濕潤氣候友善區、濕地社區、排水良好社區優先",
@@ -34,7 +34,7 @@ function ResultPersonality({ userData, onNext }) {
         speciality: "喜歡晴朗天氣，對高溫有良好適應力；偏好乾燥環境但需要充足日照",
         match: "太陽能社區、乾燥氣候區、戶外活動豐富地區",
         mismatch: "長期陰雨地區、高濕度環境",
-        image:fetch(`${import.meta.env.BASE_URL}public/mascot/T2.png`),
+        image:fetch(`${import.meta.env.BASE_URL}mascot/T2.png`),
         preferences: {
           residence: "日照充足地區、太陽能友善社區、乾燥氣候優先",
           transport: "偏好騎自行車、步行，喜歡戶外交通方式",
@@ -47,7 +47,7 @@ function ResultPersonality({ userData, onNext }) {
         speciality: "對溫度變化敏感，偏好穩定的氣候環境；重視數據分析與科學決策",
         match: "科技園區、氣候穩定區、創新研發社區",
         mismatch: "氣候極端變化地區、缺乏科技支援區域",
-        image: fetch(`${import.meta.env.BASE_URL}public/mascot/T3.png`),
+        image: fetch(`${import.meta.env.BASE_URL}mascot/T3.png`),
         preferences: {
           residence: "氣候穩定區、科技發達社區、創新園區優先",
           transport: "偏好智能交通、共享運輸，重視效率與環保",
@@ -60,7 +60,7 @@ function ResultPersonality({ userData, onNext }) {
         speciality: "對環境變化有很強適應力，偏好四季分明的氣候；重視傳統與創新平衡",
         match: "農業社區、生態保護區、傳統文化保存地",
         mismatch: "過度開發地區、缺乏綠地的都市區",
-        image: fetch(`${import.meta.env.BASE_URL}public/mascot/T4.png`),
+        image: fetch(`${import.meta.env.BASE_URL}mascot/T4.png`),
         preferences: {
           residence: "農業友善區、生態社區、傳統文化保存地優先",
           transport: "偏好大眾運輸、在地交通，重視社區連結",

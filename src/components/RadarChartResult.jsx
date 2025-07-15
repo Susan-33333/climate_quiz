@@ -85,7 +85,7 @@ function RadarChartResult({ scores, mascot, regionSummary }) {
             {mascot?.image && (
               <div className="flex justify-center md:justify-start mb-4">
                 <img
-                  src={`${import.meta.env.BASE_URL}T6.png`} 
+                  src={`${import.meta.env.BASE_URL}mascot/${mascot.image}`}
                   alt={mascot.name || "你的代表角色"}
                   className="w-[150px] h-auto rounded-lg shadow-lg" /* Slightly larger for prominence */
                   onError={(e) => {
