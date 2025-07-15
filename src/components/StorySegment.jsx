@@ -12,7 +12,7 @@ export default function StorySegment({ userData, onNext }) {
 
     if (projectedAge <= 40) {
       setStory("你是一位年輕的生活探險家，正在學會與氣候共舞...");
-      setBgImage(`${import.meta.env.BASE_URL}public/mascot/young.jpg`);
+      setBgImage(`${import.meta.env.BASE_URL}public/mascot/youth.jpg`);
     } else if (projectedAge <= 65) {
       setStory("你在壯年努力生活，環境的變遷開始對你產生實際影響...");
       setBgImage(`${import.meta.env.BASE_URL}public/mascot/adult.jpg`);

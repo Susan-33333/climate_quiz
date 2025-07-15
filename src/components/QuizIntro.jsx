@@ -23,7 +23,7 @@ function QuizIntro({ onStart }) {
         </div>
 
         {/* 說明文字 + CTA 按鈕 */}
-        <div className="bg-white/90 backdrop-blur-md p-6 rounded-2xl shadow text-center w-full">
+        <div className="bg-white/90 backdrop-blur-md p-6 rounded-2xl shadow text-center w-auto">
           <p className="text-gray-700 text-lg mb-4">
             這份測驗將會探究你與氣候之間的相性
           </p>
