@@ -79,12 +79,10 @@ function calculateScores(answers) {
 // 根據人格選擇吉祥物
 function selectMascot(personalityType) {
   const mascots = {
-    T1: { image: "T1.png", name: "環保探險家" },
-    T2: { image: "T2.png", name: "氣候適應者" },
-    T3: { image: "T3.png", name: "綠色生活家" },
-    T4: { image: "T4.png", name: "永續實踐者" },
-    T5: { image: "T5.png", name: "生態守護者" },
-    T6: { image: "T6.png", name: "未來規劃師" }
+    T1: { image: `${import.meta.env.BASE_URL}/public/mascots/T1.png`, name: "環保探險家" },
+    T2: { image: `${import.meta.env.BASE_URL}/public/mascots/T2.png`, name: "氣候適應者" },
+    T3: { image: `${import.meta.env.BASE_URL}/public/mascots/T3.png`, name: "綠色生活家" },
+    T4: { image: `${import.meta.env.BASE_URL}/public/mascots/T4.png`, name: "永續實踐者" },
   };
   return mascots[personalityType] || mascots.T1;
 }
@@ -108,22 +106,16 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-100 p-4 max-w-3xl mx-auto">
       {/* 進度條 */}
-      <div className="relative w-full h-3 bg-gray-300 rounded-full mb-6">
-        <div
-          className="h-3 bg-green-500 rounded-full transition-all duration-500"
-          style={{ width: `${progressPercent}%` }}
-        />
-        <div
-          className="absolute -top-3 transition-all duration-500"
-          style={{ left: `calc(${progressPercent}% - 12px)` }}
-        >
-          <img
-            src={`${import.meta.env.BASE_URL}mascot/T6.png`}
-            alt="進度角色"
-            className="w-6 h-6"
-          />
+      <div class="relative my-20 mx-5">
+        <div class="rounded-full border border-red-500 p-1">
+          <div class="flex h-6 items-center justify-center rounded-full bg-red-300 text-xs leading-none" style="width: 85%; height: 85%;">
+            <span class="p-1 text-white">85%</span>
         </div>
       </div>
+      <div class="absolute inset-0 flex items-center justify-center">
+        <div class="h-8 w-8 rounded-full bg-red-500"></div>
+      </div>
+    </div>
 
       {/* 各步驟畫面 */}
       {step === steps.QUIZ_INTRO && (
@@ -222,6 +214,7 @@ function App() {
           regionSummary={userData.regionSummary}
         />
       )}
+      </div>
     </div>
   );
 }
