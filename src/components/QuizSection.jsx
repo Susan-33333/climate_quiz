@@ -146,10 +146,14 @@ return (
           ></div>
         </div>
         <div
-          className="progress-character absolute -top-2 transition-all duration-700 ease-out"
-          style={{ left: `calc(${((currentIndex + 1) / questions.length) * 100}% - 14px)` }}
+          className="progress-character absolute -top-6 transition-all duration-700 ease-out"
+          style={{ left: `calc(${((currentIndex + 1) / questions.length) * 100}% - 20px)` }}
         >
-          <div className="w-5 h-5 bg-white rounded-full shadow-lg border-2 border-orange-400"></div>
+          <img
+            src={`${import.meta.env.BASE_URL}assets/mascot/squirrel.png`}
+            alt="松鼠"
+            className="w-10 h-10 object-contain drop-shadow-md"
+          />
         </div>
         <div className="flex justify-between text-xs text-gray-500 mt-2"></div>
       </div>
