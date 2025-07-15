@@ -45,7 +45,7 @@ function QuizSection({ onNext }) {
         <div className="flex justify-center space-x-2">
           {questions.map((q, idx) => (
             <div
-              key={q.question || idx} // 使用 question 文字當作 key，若未定義則退回 idx
+              key={q.question || idx}
               className={`w-4 h-4 rounded-full transition-transform ${
                 idx === currentIndex
                   ? "bg-yellow-500 scale-125"
@@ -75,9 +75,10 @@ function QuizSection({ onNext }) {
                     onClick={() => handleSelect(key)}
                     className={`w-full border-2 rounded-full px-6 py-3 text-sm font-medium transition-colors duration-300 ${
                       selected === key
-                        ? "bg-yellow-500 text-white border-yellow-500 shadow-lg"
+                        ? "bg-yellow-500 text-white border-yellow-500 shadow-lg ring-2 ring-yellow-600"
                         : "bg-white text-gray-800 border-gray-300 hover:bg-yellow-100"
                     }`}
+                    aria-pressed={selected === key}
                   >
                     {text}
                   </button>
@@ -102,4 +103,5 @@ function QuizSection({ onNext }) {
     </div>
   );
 }
+
 export default QuizSection;
