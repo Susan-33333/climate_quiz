@@ -105,18 +105,6 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-100 p-4 max-w-3xl mx-auto">
-      {/* 進度條 */}
-      <div class="relative my-20 mx-5">
-        <div class="rounded-full border border-red-500 p-1">
-          <div class="flex h-6 items-center justify-center rounded-full bg-red-300 text-xs leading-none" style="width: 85%; height: 85%;">
-            <span class="p-1 text-white">85%</span>
-        </div>
-      </div>
-      <div class="absolute inset-0 flex items-center justify-center">
-        <div class="h-8 w-8 rounded-full bg-red-500"></div>
-      </div>
-    </div>
-
       {/* 各步驟畫面 */}
       {step === steps.QUIZ_INTRO && (
         <QuizIntro
