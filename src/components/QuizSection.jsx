@@ -143,26 +143,28 @@ function QuizSection({ onNext }) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-orange-50 relative">
       {/* 頂部進度條 */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm shadow-sm p-4">
-        <div className="max-w-3xl mx-auto">
-          <div className="relative w-full h-3 bg-gray-200 rounded-full overflow-hidden">
-            <div
-              className="progress-bar h-3 bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 rounded-full transition-all duration-1000 ease-out"
-              style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
-            />
+        <div className="flex items-center space-x-2">
+          <input
+            type="range"
+            min={0}
+            max={100}
+            value={current.score}
+            readOnly
+            className="w-full"
+          />
+      <div className="pt-24 pb-10 px-4">
+        <div className="max-w-2xl mx-auto">
             {/* 進度條上的小人 */}
             <div
               className="progress-character absolute -top-2 transition-all duration-700 ease-out"
               style={{ left: `calc(${((currentIndex + 1) / questions.length) * 100}% - 14px)` }}
             >
               <div className="w-4 h-4 bg-white rounded-full shadow-lg flex items-center justify-center border-2 border-orange-400">
-                <span className="text-sm">🌱</span>
+                <span className="text-sm"> </span>
               </div>
             </div>
           </div>
           <div className="flex justify-between text-xs text-gray-500 mt-2">
-            <span>第 {currentIndex + 1} 題</span>
-            <span>共 {questions.length} 題</span>
           </div>
         </div>
       </div>
