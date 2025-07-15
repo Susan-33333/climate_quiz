@@ -95,7 +95,7 @@ function QuizSection({ onNext }) {
             <img
               src={`${import.meta.env.BASE_URL}mascot/T6.png`}
               alt="松鼠"
-              className="w-10 h-10 object-contain drop-shadow-md"
+              className="w-7 h-7 object-contain drop-shadow-md"
             />
           </div>
         </div>
