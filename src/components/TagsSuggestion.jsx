@@ -1,34 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 
-const TagsSuggestion = ({ userData, onNext }) => {
-  const [activeTab, setActiveTab] = useState("居住");
-  const region = userData?.county || "未填地區";
-
-  const tabContent = {
-    居住: {
-      score: 75,
-      description: "溫度年平均上升 2.3°C，降雨集中度提升。",
-      disaster: "極端高溫、淹水",
-      recommend: "南投鹿谷",
-    },
-    遊憩: {
-      score: 85,
-      description: "乾季延長適合山林活動，濕季應避免露營。",
-      disaster: "乾旱、落石",
-      recommend: "花蓮玉里",
-    },
-    交通: {
-      score: 60,
-      description: "豪雨增加影響道路通行，需加強基礎建設。",
-      disaster: "強降雨、土石流",
-      recommend: "台中霧峰",
-    },
-  };
-
-  const current = tabContent[activeTab];
-
-  // 動畫分數控制
-  const [animatedScore, setAnimatedScore] = useState(0);
+// 📦 環形圖元件
+const RingChart = ({ percent, size = 140, color = "#EA0000", tooltip = "" }) => {
+  const innerSize = size * 0.65;
+  const [animatedPercent, setAnimatedPercent] = useState(0);
   const requestRef = useRef();
 
   useEffect(() => {
@@ -38,11 +13,8 @@ const TagsSuggestion = ({ userData, onNext }) => {
     const animate = (timestamp) => {
       if (!start) start = timestamp;
       const progress = timestamp - start;
-      const percentage = Math.min(
-        current.score * (progress / duration),
-        current.score
-      );
-      setAnimatedScore(Math.round(percentage));
+      const current = Math.min((percent * progress) / duration, percent);
+      setAnimatedPercent(Math.round(current));
 
       if (progress < duration) {
         requestRef.current = requestAnimationFrame(animate);
@@ -53,7 +25,73 @@ const TagsSuggestion = ({ userData, onNext }) => {
     requestRef.current = requestAnimationFrame(animate);
 
     return () => cancelAnimationFrame(requestRef.current);
-  }, [current.score]);
+  }, [percent]);
+
+  return (
+    <div
+      className="relative shrink-0"
+      style={{ width: size, height: size }}
+      title={tooltip}
+    >
+      {/* 外圈進度 */}
+      <div
+        className="absolute inset-0 rounded-full"
+        style={{
+          background: `conic-gradient(${color} ${animatedPercent}%, #e5e7eb ${animatedPercent}%)`,
+        }}
+      />
+
+      {/* 內圈白色遮罩 */}
+      <div className="absolute inset-0 flex items-center justify-center z-10">
+        <div
+          className="bg-white rounded-full shadow-inner"
+          style={{ width: innerSize, height: innerSize }}
+        ></div>
+      </div>
+
+      {/* 百分比數字 */}
+      <div className="absolute inset-0 flex items-center justify-center z-20">
+        <span
+          className="text-3xl font-bold"
+          style={{ color }}
+        >
+          {animatedPercent}%
+        </span>
+      </div>
+    </div>
+  );
+};
+
+// 📌 主元件
+const TagsSuggestion = ({ userData, onNext }) => {
+  const [activeTab, setActiveTab] = useState("居住");
+  const region = userData?.county || "未填地區";
+
+  const tabContent = {
+    居住: {
+      score: 75,
+      color: "#EA0000",
+      description: "溫度年平均上升 2.3°C，降雨集中度提升。",
+      disaster: "極端高溫、淹水",
+      recommend: "南投鹿谷",
+    },
+    遊憩: {
+      score: 85,
+      color: "#10b981",
+      description: "乾季延長適合山林活動，濕季應避免露營。",
+      disaster: "乾旱、落石",
+      recommend: "花蓮玉里",
+    },
+    交通: {
+      score: 60,
+      color: "#6366f1",
+      description: "豪雨增加影響道路通行，需加強基礎建設。",
+      disaster: "強降雨、土石流",
+      recommend: "台中霧峰",
+    },
+  };
+
+  const current = tabContent[activeTab];
 
   return (
     <div className="w-full max-w-2xl mx-auto p-6 border rounded-lg bg-white shadow">
@@ -74,33 +112,15 @@ const TagsSuggestion = ({ userData, onNext }) => {
         ))}
       </div>
 
-      {/* 主體內容區塊 */}
+      {/* 主內容 */}
       <div className="flex flex-col space-y-4">
-        {/* 環形進度條 + 說明 */}
+        {/* 環形圖 + 說明 */}
         <div className="flex items-center justify-center space-x-6">
-          <div className="relative w-[140px] h-[140px]">
-            {/* 外圈進度圓（必須設為 absolute） */}
-            <div
-              className="absolute inset-0 rounded-full"
-              style={{
-                background: `conic-gradient(#EA0000 ${animatedScore}%, #e5e7eb ${animatedScore}%)`,
-              }}
-            ></div>
-
-            {/* 內圈遮罩：白色中空 */}
-            <div className="absolute inset-0 flex items-center justify-center z-10">
-              <div className="w-[90px] h-[90px] bg-white rounded-full shadow-inner"></div>
-            </div>
-
-            {/* 百分比數字 */}
-            <div className="absolute inset-0 flex items-center justify-center z-20">
-              <span className="text-3xl font-bold text-red-600">
-                {animatedScore}%
-              </span>
-            </div>
-          </div>
-
-          {/* 說明文字 */}
+          <RingChart
+            percent={current.score}
+            color={current.color}
+            tooltip={`氣候評分：${current.score}%`}
+          />
           <div>
             <h2 className="text-xl font-bold">未來 30 年後 {region}：</h2>
             <p className="text-gray-700">{current.description}</p>
