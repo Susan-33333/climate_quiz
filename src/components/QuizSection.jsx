@@ -40,31 +40,34 @@ function QuizSection({ onNext }) {
 
   return (
     <div className="relative overflow-hidden min-h-[300px] px-4 pb-8">
-        {/* 進度條（紅條 + 百分比 + 松鼠小點） */}
-        <div className="relative mt-4 mb-8 mx-5">
-          <div className="rounded-full border border-red-500 p-1">
+        {/* 進度條區塊 */}
+        <div className="relative mt-6 mb-8 mx-5">
+          {/* 外框 + 背景條 */}
+          <div className="w-full h-6 bg-red-100 rounded-full overflow-hidden border border-red-500 relative">
+            {/* 動態進度紅條 */}
             <div
-              className="flex h-6 items-center justify-center rounded-full bg-red-300 text-xs leading-none transition-all duration-700 ease-out"
-              style={{ width: `${((currentIndex + 1) / questions.length) * 100}%`, height: '85%' }}
-            >
-              <span className="p-1 text-white">
-                {Math.round(((currentIndex + 1) / questions.length) * 100)}%
-              </span>
+              className="h-full bg-red-400 transition-all duration-700 ease-out"
+              style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
+            ></div>
+            {/* 百分比文字 */}
+            <div className="absolute inset-0 flex items-center justify-center text-white text-sm font-semibold">
+              {Math.round(((currentIndex + 1) / questions.length) * 100)}%
             </div>
           </div>
 
-          {/* 松鼠小點隨進度移動 */}
+          {/* 松鼠浮在上方移動 */}
           <div
-            className="absolute -top-3 z-10 transition-all duration-700 ease-out"
+            className="absolute z-20 -top-6 transition-all duration-700 ease-out"
             style={{ left: `calc(${((currentIndex + 1) / questions.length) * 100}% - 12px)` }}
           >
             <img
               src={`${import.meta.env.BASE_URL}mascot/T6.png`}
               alt="松鼠"
-              className="w-6 h-6 object-contain drop-shadow"
+              className="w-6 h-6 object-contain drop-shadow-md"
             />
           </div>
         </div>
+
       <AnimatePresence mode="wait">
         <motion.div
           key={currentIndex}
