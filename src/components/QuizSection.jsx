@@ -48,24 +48,11 @@ function QuizSection({ onNext }) {
           exit={{ x: -300, opacity: 0 }}
           transition={{ duration: 0.4 }}
           className="absolute w-full"
-        >           
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="h-8 w-8 rounded-full bg-red-500"></div>
-            </div>
-          </div>
+        >
           <h2 className="text-xl font-semibold mb-4 text-green-800">
             問題 {currentIndex + 1}：{current.question}
           </h2>
-{/* 進度條 */}
-          <div className="relative my-20 mx-5">
-            <div className="rounded-full border border-red-500 p-1">
-              <div
-                className="flex h-6 items-center justify-center rounded-full bg-red-300 text-xs leading-none transition-all duration-700 ease-out"
-                style={{ width: `${progressPercent}%`, height: '85%' }}
-              >
-                <span className="p-1 text-white">85%</span>
-              </div>
-            </div>
+
           <div className="space-y-3">
             {Object.entries(current.options).map(([key, text]) => (
               <button
@@ -81,7 +68,17 @@ function QuizSection({ onNext }) {
               </button>
             ))}
           </div>
-
+      {/* 進度條 */}
+            <div class="relative my-20 mx-5">
+              <div class="rounded-full border border-red-500 p-1">
+                <div class="flex h-6 items-center justify-center rounded-full bg-red-300 text-xs leading-none" style="width: 85%; height: 85%;">
+                  <span class="p-1 text-white">85%</span>
+              </div>
+            </div>
+            <div class="absolute inset-0 flex items-center justify-center">
+              <div class="h-8 w-8 rounded-full bg-red-500"></div>
+            </div>
+          </div>
           <button
             onClick={handleNext}
             disabled={!selected}
