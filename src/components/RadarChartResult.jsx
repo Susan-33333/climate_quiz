@@ -59,11 +59,14 @@ function RadarChartResult({ scores, mascot, regionSummary }) {
 
       {/* 角色圖片與描述 */}
       <div className="mt-8 flex justify-center">
-        <img
-          src={`${import.meta.env.BASE_URL}assets/mascot/${mascot.image}`}
-          alt="你的代表角色"
-          className="w-[120px] h-auto"
-        />
+        {mascot?.image && (
+          <img
+            src={`${import.meta.env.BASE_URL}assets/mascot/${mascot.image}`}
+            alt="你的代表角色"
+            className="w-[120px] h-auto"
+          />
+        )}
+
       </div>
       <div className="mt-4 text-center text-xl">{regionSummary}</div>
 
