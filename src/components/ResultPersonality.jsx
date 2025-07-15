@@ -69,5 +69,5 @@ function ResultPersonality({ userData, onNext }) {
     </div>
   );
 }
-
+console.log("目前 userData", userData);
 export default ResultPersonality;

@@ -61,7 +61,7 @@ function App() {
           style={{ left: `calc(${progressPercent}% - 12px)` }}
         >
           <img
-            src={`${import.meta.env.BASE_URL}assets/icon.png`}
+            src={`${import.meta.env.BASE_URL}mascot/T6.png`}
             alt="進度角色"
             className="w-6 h-6"
           />
@@ -79,15 +79,16 @@ function App() {
       {step === steps.USER_INPUT && (
         <UserInputForm
           onSave={async (data) => {
-            setUserData(data);
-            try {
-              const docRef = await addDoc(collection(db, "users"), data);
-              console.log("✅ Firestore 儲存成功，ID:", docRef.id);
-            } catch (err) {
-              console.error("❌ 儲存失敗：", err);
-              alert("儲存使用者資料失敗，請稍後再試");
-            }
-          }}
+          try {
+            await addDoc(collection(db, "users"), data);
+            setUserData(data); // 要寫在成功後！
+            dispatch({ type: "NEXT", payload: steps.STORY });
+          } catch (err) {
+            alert("資料儲存失敗，請再試一次！");
+            console.error("❌", err);
+          }
+        }}
+
           onNext={() => dispatch({ type: "NEXT", payload: steps.STORY })}
         />
       )}
@@ -100,21 +101,14 @@ function App() {
       )}
 
       {step === steps.QUIZ_MAIN && (
-        <QuizSection
-          onNext={(answers) => {
-          const scores = calculateScores(answers);
-          const mascot = getMascot(answers);
-          const updatedData = {
-            ...userData,
-            answers,
-            scores,
-            mascot,
-            regionSummary: getRegionSummary(userData.county, userData.township),
-          };
-          setUserData(updatedData);
+              <QuizSection
+        onNext={(answers) => {
+          const updatedData = { ...userData, answers };
+          setUserData(updatedData); // 確保有 set
           dispatch({ type: "NEXT", payload: steps.RESULT });
         }}
-        />
+      />
+
       )}
 
       {step === steps.RESULT && (
