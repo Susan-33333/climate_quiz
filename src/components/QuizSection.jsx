@@ -10,43 +10,42 @@ function QuizSection({ onNext }) {
 
   const mockQuestions = [
     {
-      question: "載入失敗，你最喜歡哪種天氣？",
+      id: 1,
+      question: "載入失敗，你最不能忍受的天氣是？",
       options: {
-        A: "晴天",
-        B: "雨天",
-        C: "陰天",
-        D: "下雪天"
+        A: "冷到手腳冰冷",
+        B: "熱到汗流浹背",
+        C: "潮濕悶熱",
+        D: "乾燥到皮膚緊繃"
       }
     }
   ];
 
   useEffect(() => {
-    fetch(`${import.meta.env.BASE_URL}data/question_data.json`)
-      .then((res) => res.json())
-      .then((data) => {
-        setQuestions(data);
-        setLoading(false);
-      })
-      .catch((err) => {
+    // 模擬載入時間，讓使用者看到載入動畫
+    const loadData = async () => {
+      try {
+        const response = await fetch(`${import.meta.env.BASE_URL}data/question_data.json`);
+        if (!response.ok) throw new Error('Network response was not ok');
+        const data = await response.json();
+        
+        // 確保數據格式正確
+        if (Array.isArray(data) && data.length > 0) {
+          setQuestions(data);
+        } else {
+          throw new Error('Invalid data format');
+        }
+      } catch (err) {
         console.error("❌ 載入問題失敗，使用預設問題：", err);
         setQuestions(mockQuestions);
+      } finally {
         setLoading(false);
-      });
-  }, []);
+      }
+    };
 
-  useEffect(() => {
-    if (questions.length > 0) {
-      const progressPercent = ((currentIndex + 1) / questions.length) * 100;
-      const progressBar = document.querySelector(".progress-bar");
-      const progressCharacter = document.querySelector(".progress-character");
-      if (progressBar) {
-        progressBar.style.width = `${progressPercent}%`;
-      }
-      if (progressCharacter) {
-        progressCharacter.style.left = `calc(${progressPercent}% - 16px)`;
-      }
-    }
-  }, [currentIndex, questions.length]);
+    // 添加最小載入時間，讓動畫更流暢
+    setTimeout(loadData, 500);
+  }, []);
 
   if (loading) {
     return (
@@ -60,6 +59,7 @@ function QuizSection({ onNext }) {
   }
 
   const current = questions[currentIndex];
+  const progressPercent = ((currentIndex + 1) / questions.length) * 100;
 
   function handleSelect(option) {
     setSelected(option);
@@ -78,83 +78,111 @@ function QuizSection({ onNext }) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-purple-100 pt-16 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-purple-100 flex flex-col">
       {/* 固定頂部進度條 */}
-      <div className="fixed top-0 left-0 right-0 z-50 h-4 bg-purple-100">
-        <div
-          className="progress-bar h-full bg-purple-400 transition-all duration-500"
-          style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
-        ></div>
-        <div
-          className="progress-character absolute -top-3 transition-all duration-700 ease-out"
-          style={{ left: `calc(${((currentIndex + 1) / questions.length) * 100}% - 16px)` }}
-        >
-      <img
-        src={`${import.meta.env.BASE_URL}mascot/T6.png`}
-        alt="松鼠"
-        className="w-6 h-6 object-contain !w-6 !h-6"
-      />
-
+      <div className="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm">
+        <div className="relative h-6 bg-purple-100 mx-4 my-2 rounded-full overflow-hidden">
+          <motion.div
+            className="h-full bg-gradient-to-r from-purple-400 to-purple-600 rounded-full"
+            initial={{ width: 0 }}
+            animate={{ width: `${progressPercent}%` }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          />
+          
+          {/* 松鼠角色在進度條上跑動 */}
+          <motion.div
+            className="absolute top-0 transform -translate-y-1/2 transition-all duration-700 ease-out"
+            animate={{ 
+              left: `calc(${progressPercent}% - 16px)`,
+              rotate: progressPercent > 0 ? [0, 10, -10, 0] : 0
+            }}
+            transition={{ 
+              left: { duration: 0.8, ease: "easeOut" },
+              rotate: { duration: 0.6, repeat: Infinity, repeatType: "reverse" }
+            }}
+          >
+            <motion.img
+              src={`${import.meta.env.BASE_URL}mascot/T6.png`}
+              alt="松鼠"
+              className="w-8 h-8 object-contain drop-shadow-lg"
+              animate={{
+                y: [0, -2, 0],
+                scale: [1, 1.1, 1]
+              }}
+              transition={{
+                duration: 0.8,
+                repeat: Infinity,
+                repeatType: "reverse"
+              }}
+            />
+          </motion.div>
         </div>
       </div>
 
-      {/* 問題卡片 */}
-      <div className="w-full max-w-md mx-auto md:rounded-3xl md:shadow-lg md:bg-white/80 md:backdrop-blur-sm md:p-10 flex flex-col justify-center space-y-10">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentIndex}
-            initial={{ x: 300, opacity: 0, scale: 0.9 }}
-            animate={{ x: 0, opacity: 1, scale: 1 }}
-            exit={{ x: -300, opacity: 0, scale: 0.9 }}
-            transition={{ duration: 0.5, type: "spring", stiffness: 100, damping: 15 }}
-          >
-            <div className="text-center">
-              <div className="inline-block px-4 py-2 bg-purple-100 text-purple-800 rounded-full text-sm font-medium mb-4">
-                氣候適應性測驗
-              </div>
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-800 leading-relaxed mb-8">
-                {current.question}
-              </h2>
+      {/* 主要內容區域 */}
+      <div className="flex-1 pt-20 px-4 flex items-center justify-center">
+        <div className="w-full max-w-md mx-auto">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentIndex}
+              initial={{ x: 300, opacity: 0, scale: 0.9 }}
+              animate={{ x: 0, opacity: 1, scale: 1 }}
+              exit={{ x: -300, opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.5, type: "spring", stiffness: 100, damping: 15 }}
+              className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-xl p-8 space-y-6"
+            >
+              <div className="text-center">
+                <div className="inline-block px-4 py-2 bg-purple-100 text-purple-800 rounded-full text-sm font-medium mb-6">
+                  氣候適應性測驗 ({currentIndex + 1}/{questions.length})
+                </div>
+                
+                <h2 className="text-xl font-bold text-gray-800 leading-relaxed mb-8">
+                  {current.question}
+                </h2>
 
-              <div className="space-y-4">
-                {Object.entries(current.options).map(([key, text]) => (
+                <div className="space-y-3">
+                  {Object.entries(current.options).map(([key, text]) => (
+                    <motion.button
+                      key={key}
+                      onClick={() => handleSelect(key)}
+                      className={`block w-full p-4 text-center rounded-xl border-2 transition-all duration-300 ${
+                        selected === key
+                          ? "bg-gradient-to-r from-purple-400 to-purple-600 text-white border-purple-400 shadow-lg transform scale-105"
+                          : "bg-white/70 text-gray-700 border-gray-200 hover:bg-purple-50 hover:border-purple-300 hover:shadow-md"
+                      }`}
+                      whileHover={{ 
+                        scale: selected === key ? 1.05 : 1.02,
+                        y: selected === key ? 0 : -2
+                      }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <span className="text-base font-medium">{text}</span>
+                    </motion.button>
+                  ))}
+                </div>
+
+                <div className="mt-8">
                   <motion.button
-                    key={key}
-                    onClick={() => handleSelect(key)}
-                    className={`block w-full max-w-sm mx-auto p-4 text-left rounded-2xl border-2 transition-all duration-300 ${
-                      selected === key
-                        ? "bg-gradient-to-r from-purple-400 to-purple-600 text-white border-purple-400 shadow-lg transform scale-105"
-                        : "bg-white/50 text-gray-700 border-gray-200 hover:bg-purple-100 hover:border-purple-300"
+                    onClick={handleNext}
+                    disabled={!selected}
+                    className={`w-full py-4 rounded-xl text-lg font-semibold transition-all duration-300 ${
+                      selected
+                        ? "bg-gradient-to-r from-purple-500 to-purple-700 text-white shadow-lg hover:shadow-xl"
+                        : "bg-gray-200 text-gray-400 cursor-not-allowed"
                     }`}
-                    whileHover={{ scale: selected === key ? 1.05 : 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                    whileHover={selected ? { scale: 1.02, y: -2 } : {}}
+                    whileTap={selected ? { scale: 0.98 } : {}}
                   >
-                    <span className="text-base md:text-lg font-medium">{text}</span>
+                    {currentIndex + 1 === questions.length ? "查看結果 🎉" : "下一題 →"}
                   </motion.button>
-                ))}
+                </div>
               </div>
+            </motion.div>
+          </AnimatePresence>
 
-              <div className="mt-8 text-center">
-                <motion.button
-                  onClick={handleNext}
-                  disabled={!selected}
-                  className={`px-12 py-4 rounded-2xl text-lg font-semibold transition-all duration-300 ${
-                    selected
-                      ? "bg-gradient-to-r from-purple-500 to-purple-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105"
-                      : "bg-gray-200 text-gray-400 cursor-not-allowed"
-                  }`}
-                  whileHover={selected ? { scale: 1.05 } : {}}
-                  whileTap={selected ? { scale: 0.95 } : {}}
-                >
-                  {currentIndex + 1 === questions.length ? "查看結果 🎉" : "下一題 →"}
-                </motion.button>
-              </div>
-            </div>
-          </motion.div>
-        </AnimatePresence>
-
-        <div className="text-center text-gray-400 text-sm">
-          <p>根據你的回答，我們將為你量身打造氣候適應建議</p>
+          <div className="text-center text-gray-500 text-sm mt-6">
+            <p>根據你的回答，我們將為你量身打造氣候適應建議</p>
+          </div>
         </div>
       </div>
     </div>
