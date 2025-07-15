@@ -143,29 +143,30 @@ function QuizSection({ onNext }) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-orange-50 relative">
       {/* 頂部進度條 */}
-        <div className="flex items-center space-x-2">
-          <input
-            type="range"
-            min={0}
-            max={100}
-            value={current.score}
-            readOnly
-            className="w-full"
-          />
+      <div className="flex items-center space-x-2">
+        <input
+          type="range"
+          min={0}
+          max={100}
+          value={current.score}
+          readOnly
+          className="w-full"
+        />
+      </div>
       <div className="pt-24 pb-10 px-4">
-        <div className="max-w-2xl mx-auto">
-            {/* 進度條上的小人 */}
-            <div
-              className="progress-character absolute -top-2 transition-all duration-700 ease-out"
-              style={{ left: `calc(${((currentIndex + 1) / questions.length) * 100}% - 14px)` }}
-            >
-              <div className="w-4 h-4 bg-white rounded-full shadow-lg flex items-center justify-center border-2 border-orange-400">
-                <span className="text-sm"> </span>
-              </div>
-            </div>
+        <div className="max-w-2xl mx-auto relative">
+          {/* 進度條上的小人圖片 */}
+          <div
+            className="progress-character absolute -top-3 transition-all duration-700 ease-out"
+            style={{ left: `calc(${((currentIndex + 1) / questions.length) * 100}% - 16px)` }}
+          >
+            <img
+              src={`${import.meta.env.BASE_URL}mascot/T6.png`}
+              alt="進度角色"
+              className="w-8 h-8 rounded-full border-2 border-orange-400 shadow-md"
+            />
           </div>
-          <div className="flex justify-between text-xs text-gray-500 mt-2">
-          </div>
+          <div className="flex justify-between text-xs text-gray-500 mt-2"></div>
         </div>
       </div>
 
