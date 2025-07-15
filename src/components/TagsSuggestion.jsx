@@ -49,10 +49,10 @@ const TagsSuggestion = ({ userData, onNext }) => {
 
       {/* 內容區塊 */}
       <div className="flex flex-col space-y-4">
-        {/* 標題與圓形分數（簡化版） */}
+        {/* 標題與圓形分數（修正版） */}
         <div className="flex items-center space-x-6">
-          <div className="relative w-20 h-20">
-            <svg className="w-full h-full transform -rotate-90">
+          <div className="relative w-20 h-20 flex items-center justify-center">
+            <svg className="absolute w-full h-full transform -rotate-90">
               <circle
                 cx="40"
                 cy="40"
@@ -69,9 +69,10 @@ const TagsSuggestion = ({ userData, onNext }) => {
                 strokeWidth="8"
                 fill="none"
                 strokeDasharray={`${(current.score / 100) * 220} 220`}
+                strokeLinecap="round"
               />
             </svg>
-            <div className="absolute inset-0 flex items-center justify-center text-xl font-bold">
+            <div className="relative z-10 text-xl font-bold text-center">
               {current.score}%
             </div>
           </div>
