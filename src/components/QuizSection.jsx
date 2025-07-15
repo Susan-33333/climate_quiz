@@ -134,52 +134,25 @@ function QuizSection({ onNext }) {
     }
   }
 
-  return (
-<<<<<<< HEAD
-    <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-orange-50 relative">
-      {/* 頂部進度條 */}
-      <div className="flex items-center space-x-2">
-        <input
-          type="range"
-          min={0}
-          max={100}
-          value={current.score}
-          readOnly
-          className="w-full"
-        />
-      </div>
-      <div className="pt-24 pb-10 px-4">
-        <div className="max-w-2xl mx-auto relative">
-          {/* 進度條上的小人圖片 */}
-          <div
-            className="progress-character absolute -top-3 transition-all duration-700 ease-out"
-            style={{ left: `calc(${((currentIndex + 1) / questions.length) * 100}% - 16px)` }}
-          >
-            <img
-              src={`${import.meta.env.BASE_URL}mascot/T6.png`}
-              alt="進度角色"
-              className="w-8 h-8 rounded-full border-2 border-orange-400 shadow-md"
-            />
-=======
-    <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-orange-50 flex items-center justify-center px-4">
-      <div className="w-full max-w-md md:rounded-3xl md:shadow-lg md:bg-white/80 md:backdrop-blur-sm md:p-10 flex flex-col justify-center space-y-10">
+return (
+  <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-orange-50 flex items-center justify-center px-4">
+    <div className="w-full max-w-md md:rounded-3xl md:shadow-lg md:bg-white/80 md:backdrop-blur-sm md:p-10 flex flex-col justify-center space-y-10">
 
-        <div className="relative h-6 w-full">
-          <div className="absolute top-1 left-0 w-full h-2 bg-orange-100 rounded-full overflow-hidden">
-            <div
-              className="progress-bar h-full bg-orange-400 transition-all duration-500"
-              style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
-            ></div>
-          </div>
+      <div className="relative h-6 w-full">
+        <div className="absolute top-1 left-0 w-full h-2 bg-orange-100 rounded-full overflow-hidden">
           <div
-            className="progress-character absolute -top-2 transition-all duration-700 ease-out"
-            style={{ left: `calc(${((currentIndex + 1) / questions.length) * 100}% - 14px)` }}
-          >
-            <div className="w-5 h-5 bg-white rounded-full shadow-lg border-2 border-orange-400"></div>
->>>>>>> be9c63319cadbc4b438426a081da6fda2d2a3e47
-          </div>
-          <div className="flex justify-between text-xs text-gray-500 mt-2"></div>
+            className="progress-bar h-full bg-orange-400 transition-all duration-500"
+            style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
+          ></div>
         </div>
+        <div
+          className="progress-character absolute -top-2 transition-all duration-700 ease-out"
+          style={{ left: `calc(${((currentIndex + 1) / questions.length) * 100}% - 14px)` }}
+        >
+          <div className="w-5 h-5 bg-white rounded-full shadow-lg border-2 border-orange-400"></div>
+        </div>
+        <div className="flex justify-between text-xs text-gray-500 mt-2"></div>
+      </div>
 
         <AnimatePresence mode="wait">
           <motion.div
