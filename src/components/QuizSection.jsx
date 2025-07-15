@@ -89,11 +89,12 @@ function QuizSection({ onNext }) {
           className="progress-character absolute -top-3 transition-all duration-700 ease-out"
           style={{ left: `calc(${((currentIndex + 1) / questions.length) * 100}% - 16px)` }}
         >
-          <img
-            src={`${import.meta.env.BASE_URL}mascot/T6.png`}
-            alt="松鼠"
-            className="w-6 h-6 object-contain"
-          />
+      <img
+        src={`${import.meta.env.BASE_URL}mascot/T6.png`}
+        alt="松鼠"
+        className="w-6 h-6 object-contain !w-6 !h-6"
+      />
+
         </div>
       </div>
 
