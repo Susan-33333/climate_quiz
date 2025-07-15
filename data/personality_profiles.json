@@ -1,32 +1,74 @@
 {
   "T1": {
-    "name": "氣候浪人",
-    "description": "你總是想逃離高溫，追求舒適與自由的生活環境。",
-    "image": "assets/personality_T1.png"
+    "name": "滴答浣熊",
+    "description": "喜歡雨天的靜謐節奏，推廣雨水回收與都市友善排水設計，是柔性適應型的生活行動者",
+    "speciality": "不怕下雨，能接受一週多日陰雨；對濕氣有高忍耐力但怕悶熱；喜歡水氣充足的環境",
+    "match": "濕潤氣候友善區、濕地社區、排水良好社區",
+    "mismatch": "乾旱或高溫地區、排水不良區域",
+    "image": "T1.png",
+    "preferences": {
+      "residence": "濕潤氣候友善區、濕地社區、排水良好社區優先",
+      "transport": "願意雨中步行或搭車，不喜歡在雨中騎車或等待交通",
+      "tourism": "偏好雨林、瀑布、濕地，避開乾旱或高溫地區，喜歡有雨的浪漫行程"
+    },
+    "recommendations": {
+      "residence_location": "新北市汐止區",
+      "tourism_location": "太魯閣國家公園",
+      "climate_score": 78
+    }
   },
   "T2": {
-    "name": "節能勇士",
-    "description": "你對能源議題充滿熱情，是減碳的行動派代表。",
-    "image": "assets/personality_T2.png"
+    "name": "陽光狐狸",
+    "description": "熱愛陽光與戶外活動，積極推廣太陽能與綠色能源，是主動適應型的環保實踐者",
+    "speciality": "喜歡晴朗天氣，對高溫有良好適應力；偏好乾燥環境但需要充足日照",
+    "match": "太陽能社區、乾燥氣候區、戶外活動豐富地區",
+    "mismatch": "長期陰雨地區、高濕度環境",
+    "image": "T2.png",
+    "preferences": {
+      "residence": "日照充足地區、太陽能友善社區、乾燥氣候優先",
+      "transport": "偏好騎自行車、步行，喜歡戶外交通方式",
+      "tourism": "偏好沙漠、高原、陽光海灘，避開多雨或陰霾地區"
+    },
+    "recommendations": {
+      "residence_location": "高雄市鳳山區",
+      "tourism_location": "墾丁國家公園",
+      "climate_score": 85
+    }
   },
   "T3": {
-    "name": "綠色旅人",
-    "description": "你喜歡搭大眾運輸、支持在地旅遊，是永續的支持者。",
-    "image": "assets/personality_T3.png"
+    "name": "智慧貓頭鷹",
+    "description": "善於分析氣候數據，推動科技創新解決環境問題，是理性分析型的未來規劃者",
+    "speciality": "對溫度變化敏感，偏好穩定的氣候環境；重視數據分析與科學決策",
+    "match": "科技園區、氣候穩定區、創新研發社區",
+    "mismatch": "氣候極端變化地區、缺乏科技支援區域",
+    "image": "T3.png",
+    "preferences": {
+      "residence": "氣候穩定區、科技發達社區、創新園區優先",
+      "transport": "偏好智能交通、共享運輸，重視效率與環保",
+      "tourism": "偏好科技館、生態研究中心、氣候觀測站"
+    },
+    "recommendations": {
+      "residence_location": "台中市西屯區",
+      "tourism_location": "日月潭國家風景區",
+      "climate_score": 82
+    }
   },
   "T4": {
-    "name": "社區守護者",
-    "description": "你熱愛參與社區活動，為氣候韌性盡一份心力。",
-    "image": "assets/personality_T4.png"
-  },
-  "T5": {
-    "name": "轉型觀察員",
-    "description": "你理性思考變遷，觀察並學習氣候政策與社會走向。",
-    "image": "assets/personality_T5.png"
-  },
-  "T6": {
-    "name": "氣候實踐家",
-    "description": "你會在日常實踐低碳生活，是最行動派的綠色領袖！",
-    "image": "assets/personality_T6.png"
+    "name": "堅韌橡樹",
+    "description": "深耕在地社區，推動傳統智慧與現代環保結合，是穩定守護型的生態守護者",
+    "speciality": "對環境變化有很強適應力，偏好四季分明的氣候；重視傳統與創新平衡",
+    "match": "農業社區、生態保護區、傳統文化保存地",
+    "mismatch": "過度開發地區、缺乏綠地的都市區",
+    "image": "T4.png",
+    "preferences": {
+      "residence": "農業友善區、生態社區、傳統文化保存地優先",
+      "transport": "偏好大眾運輸、在地交通，重視社區連結",
+      "tourism": "偏好農場體驗、生態保護區、傳統文化景點"
+    },
+    "recommendations": {
+      "residence_location": "南投縣埔里鎮",
+      "tourism_location": "阿里山國家森林遊樂區",
+      "climate_score": 88
+  }
   }
 }
