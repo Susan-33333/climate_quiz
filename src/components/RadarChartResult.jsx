@@ -2,13 +2,14 @@ import { RadarChart, PolarGrid, PolarAngleAxis, Radar, ResponsiveContainer } fro
 import html2canvas from "html2canvas";
 
 function RadarChartResult({ scores, mascot, regionSummary }) {
+  console.log("🐾 RadarChartResult loaded", { scores, mascot, regionSummary });
 
   const data = [
-    { category: "幸福度", value: scores.happiness },
-    { category: "氣候適應", value: scores.adaptability },
-    { category: "居住環境", value: scores.residence },
-    { category: "交通綠能", value: scores.transport },
-    { category: "旅遊分數", value: scores.tourism },
+    { category: "幸福度", value: scores?.happiness || 0 },
+    { category: "氣候適應", value: scores?.adaptability || 0 },
+    { category: "居住環境", value: scores?.residence || 0 },
+    { category: "交通綠能", value: scores?.transport || 0 },
+    { category: "旅遊分數", value: scores?.tourism || 0 },
   ];
 
   const barItems = [
@@ -18,70 +19,122 @@ function RadarChartResult({ scores, mascot, regionSummary }) {
   ];
 
   const downloadImage = async () => {
-    const node = document.getElementById("result-card");
-    const canvas = await html2canvas(node);
-    const link = document.createElement("a");
-    link.download = "climate_result.png";
-    link.href = canvas.toDataURL();
-    link.click();
+    try {
+      const node = document.getElementById("result-card");
+      if (!node) {
+        alert("無法找到結果卡片");
+        return;
+      }
+      
+      const canvas = await html2canvas(node, {
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: "#faf7ef"
+      });
+      
+      const link = document.createElement("a");
+      link.download = "climate_result.png";
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    } catch (error) {
+      console.error("下載圖片失敗：", error);
+      alert("下載圖片失敗，請重試");
+    }
   };
+
+  // 如果沒有分數數據，顯示載入中
+  if (!scores) {
+    return (
+      <div className="bg-[#faf7ef] min-h-screen flex items-center justify-center">
+        <p className="text-center text-lg">載入結果中...</p>
+      </div>
+    );
+  }
 
   return (
     <div id="result-card" className="bg-[#faf7ef] min-h-screen px-4 py-10 relative">
-      {/* 五角雷達圖 */}
-      <div className="w-[250px] h-[250px] mx-auto">
-        <ResponsiveContainer width="100%" height="100%">
-          <RadarChart outerRadius={80} width={300} height={250} data={data}>
-            <PolarGrid gridType="polygon" />
-            <PolarAngleAxis dataKey="category" />
-            <Radar name="score" dataKey="value" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
-          </RadarChart>
-        </ResponsiveContainer>
-      </div>
+      <div className="max-w-md mx-auto">
+        <h1 className="text-2xl font-bold text-center mb-6 text-gray-800">
+          你的氣候適應性分析
+        </h1>
 
-      {/* 三條拉桿示意 */}
-      <div className="mt-6 space-y-4 max-w-sm mx-auto">
-        {barItems.map(({ label, key }, i) => (
-          <div key={i}>
-            <p className="text-lg font-bold">{label}</p>
-            <div className="w-full h-3 bg-gray-200 rounded relative">
-              <div
-                className="h-3 bg-yellow-500 rounded absolute"
-                style={{ width: `${scores[key] || 0}%` }}
+        {/* 五角雷達圖 */}
+        <div className="w-[300px] h-[300px] mx-auto mb-6">
+          <ResponsiveContainer width="100%" height="100%">
+            <RadarChart outerRadius={100} data={data}>
+              <PolarGrid gridType="polygon" />
+              <PolarAngleAxis 
+                dataKey="category" 
+                tick={{ fontSize: 12, fill: '#374151' }}
               />
-              <div
-                className="w-3 h-3 bg-black absolute top-0.5 rounded-full"
-                style={{ left: `calc(${scores[key] || 0}% - 6px)` }}
+              <Radar 
+                name="score" 
+                dataKey="value" 
+                stroke="#059669" 
+                fill="#059669" 
+                fillOpacity={0.3}
+                strokeWidth={2}
+              />
+            </RadarChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* 三條拉桿示意 */}
+        <div className="mt-8 space-y-4">
+          {barItems.map(({ label, key }) => (
+            <div key={key} className="mb-4">
+              <div className="flex justify-between items-center mb-2">
+                <p className="text-lg font-medium text-gray-700">{label}</p>
+                <span className="text-sm text-gray-500">{scores[key] || 0}%</span>
+              </div>
+              <div className="w-full h-4 bg-gray-200 rounded-full relative overflow-hidden">
+                <div
+                  className="h-full bg-gradient-to-r from-green-400 to-green-600 rounded-full transition-all duration-1000 ease-out"
+                  style={{ width: `${Math.max(scores[key] || 0, 5)}%` }}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* 角色圖片與描述 */}
+        <div className="mt-10 text-center">
+          {mascot?.image && (
+            <div className="flex justify-center mb-4">
+              <img
+                src={`${import.meta.env.BASE_URL}assets/mascot/${mascot.image}`}
+                alt={mascot.name || "你的代表角色"}
+                className="w-[120px] h-auto rounded-lg shadow-lg"
+                onError={(e) => {
+                  console.error("圖片載入失敗:", e.target.src);
+                  e.target.style.display = 'none';
+                }}
               />
             </div>
+          )}
+          
+          <div className="bg-white/80 backdrop-blur-sm rounded-lg p-4 shadow-md">
+            <h3 className="text-lg font-semibold mb-2 text-gray-800">
+              {mascot?.name || "你的氣候夥伴"}
+            </h3>
+            <p className="text-gray-600 leading-relaxed">
+              {regionSummary || "正在分析你的氣候適應性..."}
+            </p>
           </div>
-        ))}
-      </div>
+        </div>
 
-      {/* 角色圖片與描述 */}
-      <div className="mt-8 flex justify-center">
-        {mascot?.image && (
-          <img
-            src={`${import.meta.env.BASE_URL}assets/mascot/${mascot.image}`}
-            alt="你的代表角色"
-            className="w-[120px] h-auto"
-          />
-        )}
-
-      </div>
-      <div className="mt-4 text-center text-xl">{regionSummary}</div>
-
-      {/* 下載按鈕 */}
-      <div className="mt-6 flex justify-center">
-        <button
-          onClick={downloadImage}
-          className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
-        >
-          下載圖片 / 分享到 IG
-        </button>
+        {/* 下載按鈕 */}
+        <div className="mt-8 flex justify-center">
+          <button
+            onClick={downloadImage}
+            className="px-8 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg hover:from-green-600 hover:to-green-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+          >
+            📸 下載圖片 / 分享到 IG
+          </button>
+        </div>
       </div>
     </div>
   );
 }
-console.log("🐾 RadarChartResult loaded", { scores, mascot, regionSummary });
+
 export default RadarChartResult;

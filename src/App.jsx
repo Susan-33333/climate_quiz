@@ -40,8 +40,65 @@ function stepReducer(state, action) {
   }
 }
 
+// 計算分數的函數
+function calculateScores(answers) {
+  // 這裡你可以根據實際的計分邏輯調整
+  // 暫時使用簡單的隨機計分作為示例
+  const scoreMap = {
+    A: { happiness: 20, adaptability: 15, residence: 25, transport: 10, tourism: 20, joy: 18, explore: 22 },
+    B: { happiness: 15, adaptability: 20, residence: 20, transport: 25, tourism: 15, joy: 20, explore: 18 },
+    C: { happiness: 25, adaptability: 25, residence: 15, transport: 20, tourism: 25, joy: 25, explore: 20 },
+    D: { happiness: 10, adaptability: 30, residence: 30, transport: 15, tourism: 20, joy: 15, explore: 25 }
+  };
+
+  const scores = {
+    happiness: 0,
+    adaptability: 0,
+    residence: 0,
+    transport: 0,
+    tourism: 0,
+    joy: 0,
+    explore: 0
+  };
+
+  answers.forEach(answer => {
+    const answerScores = scoreMap[answer] || scoreMap.A;
+    Object.keys(scores).forEach(key => {
+      scores[key] += answerScores[key];
+    });
+  });
+
+  // 將分數轉換為百分比（假設每個領域最高分為200）
+  Object.keys(scores).forEach(key => {
+    scores[key] = Math.min(Math.round((scores[key] / 200) * 100), 100);
+  });
+
+  return scores;
+}
+
+// 根據人格選擇吉祥物
+function selectMascot(personalityType) {
+  const mascots = {
+    T1: { image: "T1.png", name: "環保探險家" },
+    T2: { image: "T2.png", name: "氣候適應者" },
+    T3: { image: "T3.png", name: "綠色生活家" },
+    T4: { image: "T4.png", name: "永續實踐者" },
+    T5: { image: "T5.png", name: "生態守護者" },
+    T6: { image: "T6.png", name: "未來規劃師" }
+  };
+  return mascots[personalityType] || mascots.T1;
+}
+
+// 生成地區總結
+function generateRegionSummary(userData, scores) {
+  const { county, town } = userData;
+  const avgScore = Math.round((scores.happiness + scores.adaptability + scores.residence + scores.transport + scores.tourism) / 5);
+  
+  return `根據分析，${county}${town}在未來30年的氣候適應性評分為${avgScore}分，建議關注居住環境和交通綠能的改善。`;
+}
+
 function App() {
-  const [step, dispatch] = useReducer(stepReducer, steps.QUIZ_INTRO); // 初始為 Intro
+  const [step, dispatch] = useReducer(stepReducer, steps.QUIZ_INTRO);
   const [userData, setUserData] = useState({});
 
   const currentStepIndex = stepList.indexOf(step);
@@ -68,7 +125,6 @@ function App() {
         </div>
       </div>
 
-
       {/* 各步驟畫面 */}
       {step === steps.QUIZ_INTRO && (
         <QuizIntro
@@ -79,16 +135,15 @@ function App() {
       {step === steps.USER_INPUT && (
         <UserInputForm
           onSave={async (data) => {
-          try {
-            await addDoc(collection(db, "users"), data);
-            setUserData(data); // 要寫在成功後！
-            dispatch({ type: "NEXT", payload: steps.STORY });
-          } catch (err) {
-            alert("資料儲存失敗，請再試一次！");
-            console.error("❌", err);
-          }
-        }}
-
+            try {
+              await addDoc(collection(db, "users"), data);
+              setUserData(data);
+              dispatch({ type: "NEXT", payload: steps.STORY });
+            } catch (err) {
+              alert("資料儲存失敗，請再試一次！");
+              console.error("❌", err);
+            }
+          }}
           onNext={() => dispatch({ type: "NEXT", payload: steps.STORY })}
         />
       )}
@@ -101,14 +156,13 @@ function App() {
       )}
 
       {step === steps.QUIZ_MAIN && (
-              <QuizSection
-        onNext={(answers) => {
-          const updatedData = { ...userData, answers };
-          setUserData(updatedData); // 確保有 set
-          dispatch({ type: "NEXT", payload: steps.RESULT });
-        }}
-      />
-
+        <QuizSection
+          onNext={(answers) => {
+            const updatedData = { ...userData, answers };
+            setUserData(updatedData);
+            dispatch({ type: "NEXT", payload: steps.RESULT });
+          }}
+        />
       )}
 
       {step === steps.RESULT && (
@@ -121,7 +175,43 @@ function App() {
       {step === steps.TAGS && (
         <TagsSuggestion
           userData={userData}
-          onNext={() => dispatch({ type: "NEXT", payload: steps.RADAR })}
+          onNext={() => {
+            // 在進入雷達圖之前計算所有必要的數據
+            const scores = calculateScores(userData.answers);
+            
+            // 根據答案確定人格類型
+            const count = { A: 0, B: 0, C: 0, D: 0 };
+            userData.answers.forEach((ans) => {
+              if (count[ans]) {
+                count[ans]++;
+              } else {
+                count[ans] = 1;
+              }
+            });
+            
+            const maxOption = Object.entries(count).sort((a, b) => b[1] - a[1])[0][0];
+            const personalityMap = {
+              A: "T1",
+              B: "T2", 
+              C: "T3",
+              D: "T4",
+            };
+            
+            const personalityType = personalityMap[maxOption] || "T1";
+            const mascot = selectMascot(personalityType);
+            const regionSummary = generateRegionSummary(userData, scores);
+            
+            const finalData = {
+              ...userData,
+              scores,
+              mascot,
+              regionSummary,
+              personalityType
+            };
+            
+            setUserData(finalData);
+            dispatch({ type: "NEXT", payload: steps.RADAR });
+          }}
         />
       )}
 
@@ -132,8 +222,6 @@ function App() {
           regionSummary={userData.regionSummary}
         />
       )}
-
-
     </div>
   );
 }
