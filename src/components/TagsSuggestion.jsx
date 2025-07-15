@@ -27,14 +27,12 @@ const TagsSuggestion = ({ userData, onNext }) => {
 
   const current = tabContent[activeTab];
 
-  // 動畫用 state
   const [animatedScore, setAnimatedScore] = useState(0);
   const requestRef = useRef();
 
   useEffect(() => {
     let start;
     const duration = 800;
-
     const animate = (timestamp) => {
       if (!start) start = timestamp;
       const progress = timestamp - start;
@@ -43,20 +41,17 @@ const TagsSuggestion = ({ userData, onNext }) => {
         current.score
       );
       setAnimatedScore(Math.round(percentage));
-
       if (progress < duration) {
         requestRef.current = requestAnimationFrame(animate);
       }
     };
-
     cancelAnimationFrame(requestRef.current);
     requestRef.current = requestAnimationFrame(animate);
-
     return () => cancelAnimationFrame(requestRef.current);
   }, [current.score]);
 
   const ringStyle = {
-    background: `conic-gradient(#7c3aed ${animatedScore}%, #e5e7eb ${animatedScore}%)`,
+    background: `conic-gradient(#EA0000 ${animatedScore}%, #e5e7eb ${animatedScore}%)`,
   };
 
   return (
@@ -80,20 +75,24 @@ const TagsSuggestion = ({ userData, onNext }) => {
 
       {/* 內容區塊 */}
       <div className="flex flex-col space-y-4">
-        {/* 分數圓環 + 說明 */}
+        {/* 環形進度條 + 說明 */}
         <div className="flex items-center justify-center space-x-6">
-          {/* 外層圓形進度環 */}
-          <div
-            className="w-[140px] h-[140px] rounded-full relative flex items-center justify-center"
-            style={ringStyle}
-          >
-            {/* 內層白圓遮罩 */}
-            <div className="w-[100px] h-[100px] bg-white rounded-full absolute shadow-inner"></div>
+          <div className="relative w-[140px] h-[140px]">
+            {/* 外圈進度環 */}
+            <div
+              className="w-full h-full rounded-full"
+              style={ringStyle}
+            ></div>
 
-            {/* 百分比數字 */}
-            <span className="absolute text-3xl font-bold text-purple-700">
-              {animatedScore}%
-            </span>
+            {/* 內圈遮罩（白色中空） */}
+            <div className="absolute top-1/2 left-1/2 w-[90px] h-[90px] -translate-x-1/2 -translate-y-1/2 bg-white rounded-full z-10"></div>
+
+            {/* 百分比文字 */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
+              <span className="text-3xl font-bold text-purple-700">
+                {animatedScore}%
+              </span>
+            </div>
           </div>
 
           {/* 說明文字 */}
