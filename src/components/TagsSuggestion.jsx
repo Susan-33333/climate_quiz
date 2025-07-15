@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 const TagsSuggestion = ({ userData, onNext }) => {
   const [activeTab, setActiveTab] = useState("居住");
-
   const region = userData?.county || "未填地區";
 
   const tabContent = {
@@ -27,8 +26,38 @@ const TagsSuggestion = ({ userData, onNext }) => {
   };
 
   const current = tabContent[activeTab];
-  const circumference = 2 * Math.PI * 40;
-  const strokeDasharray = `${(current.score / 100) * circumference} ${circumference}`;
+
+  // 動畫用：每次切換分數會重新從 0 漸增
+  const [animatedScore, setAnimatedScore] = useState(0);
+  const requestRef = useRef();
+
+  useEffect(() => {
+    let start;
+    const duration = 800; // 動畫持續時間 (ms)
+
+    const animate = (timestamp) => {
+      if (!start) start = timestamp;
+      const progress = timestamp - start;
+      const percentage = Math.min(
+        current.score * (progress / duration),
+        current.score
+      );
+      setAnimatedScore(Math.round(percentage));
+
+      if (progress < duration) {
+        requestRef.current = requestAnimationFrame(animate);
+      }
+    };
+
+    cancelAnimationFrame(requestRef.current);
+    requestRef.current = requestAnimationFrame(animate);
+
+    return () => cancelAnimationFrame(requestRef.current);
+  }, [current.score]);
+
+  const ringStyle = {
+    background: `conic-gradient(#7c3aed ${animatedScore}%, #e5e7eb ${animatedScore}%)`,
+  };
 
   return (
     <div className="w-full max-w-2xl mx-auto p-6 border rounded-lg bg-white shadow">
@@ -51,33 +80,16 @@ const TagsSuggestion = ({ userData, onNext }) => {
 
       {/* 內容區塊 */}
       <div className="flex flex-col space-y-4">
-        {/* 標題與圓形分數 */}
+        {/* 標題與進度環 */}
         <div className="flex items-center space-x-6">
-          <div className="relative w-32 h-32 flex items-center justify-center">
-            <svg className="absolute w-full h-full transform -rotate-90" viewBox="0 0 96 96">
-              {/* 背景圓圈 */}
-              <circle
-                cx="48"
-                cy="48"
-                r="40"
-                stroke="#e5e7eb"
-                strokeWidth="8"
-                fill="none"
-              />
-              {/* 進度圓圈 */}
-              <circle
-                cx="48"
-                cy="48"
-                r="40"
-                stroke="#4b5563"
-                strokeWidth="8"
-                fill="none"
-                strokeDasharray={strokeDasharray}
-                strokeLinecap="round"
-              />
-            </svg>
-            <div className="relative z-10 text-2xl font-bold text-center">
-              {current.score}%
+          <div
+            className="w-32 h-32 rounded-full flex items-center justify-center relative"
+            style={ringStyle}
+          >
+            <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-inner">
+              <span className="text-2xl font-bold text-purple-700">
+                {animatedScore}%
+              </span>
             </div>
           </div>
           <div>
