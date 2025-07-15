@@ -202,7 +202,6 @@ function App() {
           regionSummary={userData.regionSummary}
         />
       )}
-      </div>
     </div>
   );
 }
