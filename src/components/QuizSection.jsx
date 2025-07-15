@@ -105,7 +105,3 @@ function QuizSection({ onNext }) {
 }
 
 export default QuizSection;
-
-}
-
-export default QuizSection;
