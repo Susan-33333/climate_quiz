@@ -72,8 +72,8 @@ function RadarChartResult({ scores, mascot, regionSummary }) {
                 <Radar 
                   name="score" 
                   dataKey="value" 
-                  stroke="#059669" 
-                  fill="#059669" 
+                  stroke="#fe92d4ff" 
+                  fill="#fdabe5ff" 
                   fillOpacity={0.3}
                   strokeWidth={2}
                 />
@@ -85,7 +85,7 @@ function RadarChartResult({ scores, mascot, regionSummary }) {
             {mascot?.image && (
               <div className="flex justify-center md:justify-start mb-4">
                 <img
-                  src={`${import.meta.env.BASE_URL}mascot/${mascot.image}`}
+                  src={`${import.meta.env.BASE_URL}mascot${mascot.image}`}
                   alt={mascot.name || "你的代表角色"}
                   className="w-[150px] h-auto rounded-lg shadow-lg" /* Slightly larger for prominence */
                   onError={(e) => {
