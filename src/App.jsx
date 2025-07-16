@@ -79,10 +79,10 @@ function calculateScores(answers) {
 // 根據人格選擇吉祥物
 function selectMascot(personalityType) {
   const mascot = {
-    T1: { image: `${import.meta.env.BASE_URL}public/mascot/T1.png`, name: "環保探險家" },
-    T2: { image: `${import.meta.env.BASE_URL}public/mascot/T2.png`, name: "氣候適應者" },
-    T3: { image: `${import.meta.env.BASE_URL}public/mascot/T3.png`, name: "綠色生活家" },
-    T4: { image: `${import.meta.env.BASE_URL}public/mascot/T4.png`, name: "永續實踐者" },
+    T1: { image: `${import.meta.env.BASE_URL}mascot/T1.png`, name: "滴答浣熊" },
+    T2: { image: `${import.meta.env.BASE_URL}mascot/T2.png`, name: "氣候適應者" },
+    T3: { image: `${import.meta.env.BASE_URL}mascot/T3.png`, name: "綠色生活家" },
+    T4: { image: `${import.meta.env.BASE_URL}mascot/T4.png`, name: "永續實踐者" },
   };
   return mascot[personalityType] || mascot.T1;
 }
