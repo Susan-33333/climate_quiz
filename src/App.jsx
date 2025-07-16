@@ -78,13 +78,13 @@ function calculateScores(answers) {
 
 // 根據人格選擇吉祥物
 function selectMascot(personalityType) {
-  const mascots = {
-    T1: { image: `${import.meta.env.BASE_URL}public/mascots/T1.png`, name: "環保探險家" },
-    T2: { image: `${import.meta.env.BASE_URL}public/mascots/T2.png`, name: "氣候適應者" },
-    T3: { image: `${import.meta.env.BASE_URL}public/mascots/T3.png`, name: "綠色生活家" },
-    T4: { image: `${import.meta.env.BASE_URL}public/mascots/T4.png`, name: "永續實踐者" },
+  const mascot = {
+    T1: { image: `${import.meta.env.BASE_URL}public/mascot/T1.png`, name: "環保探險家" },
+    T2: { image: `${import.meta.env.BASE_URL}public/mascot/T2.png`, name: "氣候適應者" },
+    T3: { image: `${import.meta.env.BASE_URL}public/mascot/T3.png`, name: "綠色生活家" },
+    T4: { image: `${import.meta.env.BASE_URL}public/mascot/T4.png`, name: "永續實踐者" },
   };
-  return mascots[personalityType] || mascots.T1;
+  return mascot[personalityType] || mascot.T1;
 }
 
 // 生成地區總結
