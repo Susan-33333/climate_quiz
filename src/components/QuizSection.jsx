@@ -9,7 +9,6 @@ function QuizSection({ onNext }) {
   const [selected, setSelected] = useState(null);
 
   // 讀取 public 裡的 question_data.json
-  // 讀取 public 裡的 question_data.json
   useEffect(() => {
     fetch(`${import.meta.env.BASE_URL}data/question_data.json`)
       .then((res) => res.json())
@@ -39,39 +38,37 @@ function QuizSection({ onNext }) {
     }
   }
 
+  {/* 進度條浮在上方 */}
+<div className="w-full px-6 pt-4 fixed top-0 left-0 z-30 bg-white/80 backdrop-blur shadow-sm">
+  <div className="relative h-6">
+    <div
+      className="absolute z-20 -top-4 transition-all duration-700 ease-out"
+      style={{
+        left: `calc(${((currentIndex + 1) / questions.length) * 100}% - 12px)`,
+      }}
+    >
+      <img
+        src={`${import.meta.env.BASE_URL}mascot/T6.png`}
+        alt="松鼠"
+        className="w-6 h-6 object-contain drop-shadow"
+      />
+    </div>
+    <div className="relative w-full h-3 bg-red-200 rounded-full overflow-hidden">
+      <div
+        className="h-full bg-red-500 transition-all duration-700 ease-out"
+        style={{
+          width: `${((currentIndex + 1) / questions.length) * 100}%`,
+        }}
+      />
+    </div>
+  </div>
+</div>
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center p-4">
       {/* 主要內容容器 - 響應式設計 */}
       <div className="w-full max-w-md mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
         <div className="relative min-h-[400px] px-6 py-8">
-          {/* 進度條區域 */}
-          <div className="relative mt-2 mb-8 mx-2 h-10">
-            {/* 🐿️ 松鼠：重疊在進度條上方 */}
-            <div
-              className="absolute z-20 -top-3 transition-all duration-700 ease-out"
-              style={{
-                left: `calc(${((currentIndex + 1) / questions.length) * 100}% - 12px)`,
-              }}
-            >
-              <img
-                src={`${import.meta.env.BASE_URL}mascot/T6.png`}
-                alt="松鼠"
-                className="w-6 h-6 object-contain drop-shadow"
-              />
-            </div>
-
-            {/* 🎯 彩色進度條（有底 + 填色動畫） */}
-            <div className="relative w-full h-4 bg-red-200 rounded-full overflow-hidden">
-              {/* 填色條 */}
-              <div
-                className="h-full bg-gradient-to-r from-red-400 to-pink-500 transition-all duration-700 ease-out"
-                style={{
-                  width: `${((currentIndex + 1) / questions.length) * 100}%`,
-                }}
-              />
-            </div>
-          </div>
-
           {/* 問題內容區域 */}
           <AnimatePresence mode="wait">
             <motion.div
