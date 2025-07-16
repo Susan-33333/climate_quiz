@@ -158,7 +158,7 @@ function ResultPersonality({ userData, onNext }) {
           <div className="relative mb-8">
             <div className="w-32 h-32 mx-auto rounded-full bg-gradient-to-br from-green-100 to-blue-100 flex items-center justify-center overflow-hidden shadow-lg">
               <img
-                src={`${import.meta.env.BASE_URL}assets/mascot/${profile.image}`}
+                src={profile.image}
                 alt={profile.name}
                 className="w-28 h-28 object-cover rounded-full transform hover:scale-105 transition-transform duration-300"
                 onError={(e) => {
