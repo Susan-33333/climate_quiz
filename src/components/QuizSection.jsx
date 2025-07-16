@@ -14,16 +14,11 @@ function QuizSection({ onNext }) {
     fetch(`${import.meta.env.BASE_URL}data/question_data.json`)
       .then((res) => res.json())
       .then((data) => {
-    fetch(`${import.meta.env.BASE_URL}data/question_data.json`)
-      .then((res) => res.json())
-      .then((data) => {
         setQuestions(data);
         setLoading(false);
       });
-      });
   }, []);
 
-  if (loading) return <p className="text-center">載入中...</p>;
   if (loading) return <p className="text-center">載入中...</p>;
 
   const current = questions[currentIndex];
@@ -40,7 +35,6 @@ function QuizSection({ onNext }) {
     if (currentIndex + 1 < questions.length) {
       setCurrentIndex(currentIndex + 1);
     } else {
-      onNext(updatedAnswers); // 全部完成，傳出 answers 給 App.jsx
       onNext(updatedAnswers); // 全部完成，傳出 answers 給 App.jsx
     }
   }
