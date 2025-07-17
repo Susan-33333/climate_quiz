@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import ProgressBar from "../components/ProgressBar"; // 這行要放在最上方
+import ProgressBar from "../components/ProgressBar"; // Make sure the path is correct
 
 function QuizSection({ onNext }) {
   const [questions, setQuestions] = useState([]);
@@ -13,44 +13,48 @@ function QuizSection({ onNext }) {
     fetch(`${import.meta.env.BASE_URL}data/question_data.json`)
       .then((res) => res.json())
       .then((data) => {
+        // Assuming there are at least 8 questions as requested
         setQuestions(data);
         setLoading(false);
       });
   }, []);
 
+  // When a user selects an option
+  function handleSelect(optionKey) {
+    // 1. Set the selected option to give immediate visual feedback
+    setSelected(optionKey);
+
+    // 2. Wait for a moment before moving to the next question
+    setTimeout(() => {
+      const updatedAnswers = [...answers, optionKey];
+      setAnswers(updatedAnswers);
+      setSelected(null); // Reset selection for the next question
+
+      // 3. Check if the quiz is over or move to the next question
+      if (currentIndex + 1 < questions.length) {
+        setCurrentIndex(currentIndex + 1);
+      } else {
+        onNext(updatedAnswers); // End of quiz, show results
+      }
+    }, 400); // 400ms delay for a smooth transition
+  }
+  
   if (loading) return <p className="text-center">載入中...</p>;
 
   const current = questions[currentIndex];
-
-  function handleSelect(option) {
-    setSelected(option);
-  }
-
-  function handleNext() {
-    const updatedAnswers = [...answers, selected];
-    setAnswers(updatedAnswers);
-    setSelected(null);
-
-    if (currentIndex + 1 < questions.length) {
-      setCurrentIndex(currentIndex + 1);
-    } else {
-      onNext(updatedAnswers);
-    }
-  }
+  // Calculate progress. Assuming 8 questions total for a full bar as requested.
+  const progressPercentage = ((currentIndex + 1) / 8) * 100;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex flex-col items-center pt-20 p-4">
-      <div className="w-full max-w-md flex flex-col justify-center py-24 space-y-8 relative">
-        {/* 頂部進度條 */}
-        <div className="w-full fixed top-0 left-0 z-50 bg-white/80 backdrop-blur-md shadow-md px-6 pt-4">
-          <ProgressBar
-            currentStep={currentIndex + 1}
-            totalSteps={questions.length}
-            mascotSrc={`${import.meta.env.BASE_URL}mascot/T6.png`}
-          />
+      <div className="w-full max-w-md flex flex-col justify-center py-12 space-y-8 relative">
+        {/* Top Progress Bar */}
+        <div className="w-full fixed top-0 left-0 z-50 bg-white/80 backdrop-blur-md shadow-md px-6 py-4">
+          {/* The progress prop now takes a percentage */}
+          <ProgressBar progress={progressPercentage} />
         </div>
 
-        {/* 問題卡片區塊 */}
+        {/* Question Card Area */}
         <div className="w-full bg-white rounded-2xl shadow-lg p-6">
           <div className="relative min-h-[400px]">
             <AnimatePresence mode="wait">
@@ -75,11 +79,18 @@ function QuizSection({ onNext }) {
                   {Object.entries(current.options).map(([key, text]) => (
                     <button
                       key={key}
+                      // Disable all buttons once an option is selected
+                      disabled={selected !== null}
                       onClick={() => handleSelect(key)}
+                      // The className controls the button's size and appearance.
+                      // 'px-6 py-5' creates the large button size you wanted.
                       className={`block w-full rounded-[36px] border-2 px-6 py-5 text-center font-bold text-lg transition-all duration-300 ${
                         selected === key
                           ? "bg-[#70472d] text-white border-[#70472d] shadow-lg ring-4 ring-yellow-100"
                           : "bg-white text-[#70472d] border-[#70472d] hover:shadow-[0_0_0_3px_rgba(112,71,45,0.4)]"
+                      } ${
+                        // Dims the other options when one is selected
+                        selected !== null && selected !== key ? "opacity-50" : ""
                       }`}
                     >
                       {text}
@@ -87,19 +98,7 @@ function QuizSection({ onNext }) {
                   ))}
                 </div>
 
-                <div className="flex justify-center">
-                  <button
-                    onClick={handleNext}
-                    disabled={!selected}
-                    className={`px-8 py-3 rounded-xl font-semibold text-white transition-all duration-300 transform hover:scale-105 active:scale-95 ${
-                      selected
-                        ? "bg-green-600 hover:bg-green-700 shadow-lg hover:shadow-xl"
-                        : "bg-gray-400 cursor-not-allowed opacity-50"
-                    }`}
-                  >
-                    {currentIndex + 1 === questions.length ? "查看結果" : "下一題"}
-                  </button>
-                </div>
+                {/* The "Next" button has been removed */}
               </motion.div>
             </AnimatePresence>
           </div>
@@ -110,4 +109,3 @@ function QuizSection({ onNext }) {
 }
 
 export default QuizSection;
-
