@@ -44,7 +44,7 @@ function QuizSection({ onNext }) {
   }
 
   return (
-    <div className="min-h-screen bg-[#fdf8f4] flex justify-center px-4">
+    <div className="min-h-screen bg-[#fdf8f4] flex justify-center px-10 sm:px-8">
       <div className="w-full max-w-md flex flex-col justify-center py-24 space-y-8 relative">
         {/* 頂部進度條 */}
         <div className="w-full fixed top-0 left-0 z-50 bg-white/80 backdrop-blur-md shadow-md px-6 py-4">
