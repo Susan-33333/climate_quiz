@@ -1,16 +1,15 @@
 export default async function handler(req, res) {
-  // 處理 CORS 預檢
+  // CORS 預檢處理
   if (req.method === 'OPTIONS') {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    res.status(204).end();
-    return;
+    return res.status(204).end();
   }
 
   if (req.method !== 'POST') {
-    res.status(405).json({ error: 'Method Not Allowed' });
-    return;
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    return res.status(405).json({ error: 'Method Not Allowed' });
   }
 
   try {
@@ -24,7 +23,7 @@ export default async function handler(req, res) {
 
     const apiKey = process.env.OPENAI_API_KEY;
 
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    const openAIRes = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${apiKey}`,
@@ -39,14 +38,21 @@ export default async function handler(req, res) {
       }),
     });
 
-    const data = await response.json();
+    if (!openAIRes.ok) {
+      const errorText = await openAIRes.text();
+      console.error("OpenAI 錯誤：", errorText);
+      res.setHeader('Access-Control-Allow-Origin', '*');
+      return res.status(500).json({ result: "⚠️ 發生錯誤，請稍後再試。" });
+    }
+
+    const data = await openAIRes.json();
     const reply = data?.choices?.[0]?.message?.content || "目前無法取得建議。";
 
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.status(200).json({ result: reply });
+    return res.status(200).json({ result: reply });
   } catch (err) {
     console.error("API Error:", err);
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.status(500).json({ result: "⚠️ 發生錯誤，請稍後再試。" });
+    return res.status(500).json({ result: "⚠️ 發生錯誤，請稍後再試。" });
   }
 }
