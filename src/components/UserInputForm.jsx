@@ -1,75 +1,129 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-function UserInputForm({ onSubmit }) {
-  const [name, setName] = useState("");
-  const [region, setRegion] = useState("");
+export default function UserInputForm({ onNext, onSave }) {
+  const [formData, setFormData] = useState({
+    name: "",
+    age: "",
+    county: "",
+    town: ""
+  });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (name && region) {
-      onSubmit({ name, region });
+  const [townMap, setTownMap] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  const counties = Object.keys(townMap);
+
+  useEffect(() => {
+    fetch(`${import.meta.env.BASE_URL}data/town_data.json`)
+      .then((res) => res.json())
+      .then((data) => {
+        setTownMap(data);
+        setLoading(false);
+      });
+  }, []);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+      ...(name === "county" ? { town: "" } : {})
+    }));
+  };
+
+  const isValid = () => {
+    const age = Number(formData.age);
+    return (
+      formData.name.trim() !== "" &&
+      formData.county !== "" &&
+      formData.town !== "" &&
+      !isNaN(age) &&
+      age > 3 && age < 100
+    );
+  };
+
+  const handleSubmit = () => {
+    if (isValid()) {
+      onSave?.(formData);
+      onNext?.();
     }
   };
 
+  if (loading) return <p className="text-center">載入中...</p>;
+
   return (
     <div className="min-h-screen bg-[#fdf8f4] flex justify-center px-4">
-      <div className="w-full max-w-md flex flex-col justify-center py-16 space-y-8">
-        <h2 className="text-2xl font-bold text-center text-brown-800">
-          請填寫你的基本資訊
-        </h2>
+      <div className="w-full max-w-md flex flex-col justify-center py-16">
+        <div className="bg-white shadow-md rounded-2xl p-6 space-y-6">
+          <h1 className="text-2xl font-bold text-center text-brown-800">填寫基本資料</h1>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block mb-2 text-sm font-medium text-brown-700">
-              你的名字
-            </label>
+            <label className="block text-sm font-medium text-brown-700">匿稱</label>
             <input
               type="text"
-              value={name}
-              placeholder="輸入名稱"
-              onChange={(e) => setName(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brown-300"
-              required
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded-lg px-4 py-3 mt-1 focus:ring-2 focus:ring-brown-300 focus:outline-none"
             />
           </div>
 
           <div>
-            <label className="block mb-2 text-sm font-medium text-brown-700">
-              居住縣市
-            </label>
+            <label className="block text-sm font-medium text-brown-700">年齡</label>
+            <input
+              type="number"
+              name="age"
+              value={formData.age}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded-lg px-4 py-3 mt-1 focus:ring-2 focus:ring-brown-300 focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-brown-700">居住地</label>
             <select
-              value={region}
-              onChange={(e) => setRegion(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brown-300"
-              required
+              name="county"
+              value={formData.county}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded-lg px-4 py-3 mt-1 focus:ring-2 focus:ring-brown-300 focus:outline-none"
             >
               <option value="">請選擇</option>
-              <option value="台北市">台北市</option>
-              <option value="新北市">新北市</option>
-              <option value="台中市">台中市</option>
-              <option value="高雄市">高雄市</option>
-              <option value="花蓮縣">花蓮縣</option>
-              {/* 可依需要增加更多縣市 */}
+              {counties.map((c) => (
+                <option key={c} value={c}>{c}</option>
+              ))}
             </select>
           </div>
 
-          <div className="text-center">
-            <button
-              type="submit"
-              disabled={!name || !region}
-              className={`px-8 py-3 rounded-full text-white text-base font-semibold transition ${
-                name && region
-                  ? "bg-brown-600 hover:bg-brown-700"
-                  : "bg-gray-300 cursor-not-allowed"
-              }`}
-            >
-              開始分析
-            </button>
-          </div>
-        </form>
+          {formData.county && (
+            <div>
+              <label className="block text-sm font-medium text-brown-700">鄉鎮市區</label>
+              <select
+                name="town"
+                value={formData.town}
+                onChange={handleChange}
+                className="w-full border border-gray-300 rounded-lg px-4 py-3 mt-1 focus:ring-2 focus:ring-brown-300 focus:outline-none"
+              >
+                <option value="">請選擇</option>
+                {townMap[formData.county].map((t) => (
+                  <option key={t} value={t}>{t}</option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          <button
+            onClick={handleSubmit}
+            disabled={!isValid()}
+            className={`w-full py-3 px-6 rounded-full text-white font-semibold text-base transition ${
+              isValid()
+                ? "bg-brown-600 hover:bg-brown-700"
+                : "bg-gray-300 cursor-not-allowed"
+            }`}
+          >
+            下一步
+          </button>
+        </div>
       </div>
     </div>
   );
 }
-
-export default UserInputForm;
