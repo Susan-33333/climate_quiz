@@ -49,9 +49,15 @@ function QuizSection({ onNext }) {
       relative">
         {/* 頂部進度條 */}
         <div className="w-full fixed top-10 left-10 z-50 bg-white/80 backdrop-blur-md shadow-md px-4 sm:px-6 py-3 sm:py-4">
-          <ProgressBar progress={progressPercentage} />
+          <ProgressBar
+            currentStep={currentIndex + 1}
+            totalSteps={questions.length}
+            mascotSrc={`${import.meta.env.BASE_URL}mascot/T6.png`}
+          />
         </div>
-
+        <p style={{ fontFamily: 'jf-openhuninn' }}>
+        這段應該要是手寫體，如果不是代表字型真的沒作用
+        </p>
         {/* 問題卡片區塊 */}
         <div className="w-full bg- [#AE00AE] rounded-2xl shadow-lg p-4 sm:p-6">
           <div className="relative min-h-[450px] sm:min-h-[400px] ">
