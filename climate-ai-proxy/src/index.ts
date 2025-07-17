@@ -23,11 +23,12 @@ export default {
 主要氣候風險：${disaster}
 推薦地點：${recommend}`;
 
-      // ✅ 正確取得 secret
+      const apiKey = env.OPENAI_API_KEY;
+
       const openAIRes = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${env.OPENAI_API_KEY}`,
+          Authorization: `Bearer ${apiKey}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -44,7 +45,7 @@ export default {
         console.error("OpenAI 錯誤：", errorText);
         return new Response(JSON.stringify({ result: "⚠️ 發生錯誤，請稍後再試。" }), {
           status: 500,
-          headers: corsHeaders()
+          headers: corsHeaders(),
         });
       }
 
@@ -55,8 +56,8 @@ export default {
         status: 200,
         headers: {
           ...corsHeaders(),
-          "Content-Type": "application/json"
-        }
+          "Content-Type": "application/json",
+        },
       });
     } catch (err) {
       console.error("API Error:", err);
@@ -64,8 +65,8 @@ export default {
         status: 500,
         headers: {
           ...corsHeaders(),
-          "Content-Type": "application/json"
-        }
+          "Content-Type": "application/json",
+        },
       });
     }
   }
