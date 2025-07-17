@@ -6,6 +6,7 @@ export default function StorySegment({ userData, onNext }) {
 
   useEffect(() => {
     const age = parseInt(userData.age, 10);
+    if (isNaN(age)) return;
     const projectedAge = age + 30;
 
     const base = import.meta.env.BASE_URL || "/";
