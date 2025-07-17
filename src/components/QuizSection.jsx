@@ -42,7 +42,7 @@ function QuizSection({ onNext }) {
     <div className="min-h-screen bg-[#fdf8f4] flex justify-center px-4">
       <div className="w-full max-w-md flex flex-col justify-center py-24 space-y-8 relative">
         {/* 頂部進度條 */}
-        <div className="w-full fixed top-0 left-0 z-30 px-6 pt-4 bg-white/80 backdrop-blur shadow-sm">
+        <div className="w-full fixed top-0 left-0 z-50 bg-white/80 backdrop-blur-md shadow-md px-6 pt-4">
           <ProgressBar
             currentStep={currentIndex + 1}
             totalSteps={questions.length}
