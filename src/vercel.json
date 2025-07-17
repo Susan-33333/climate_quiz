@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/generateAdvice.js": {
+      "runtime": "edge"
+    }
+  }
+}
