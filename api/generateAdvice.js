@@ -3,6 +3,18 @@ export const config = {
 };
 
 export default async function handler(req) {
+  // 處理 OPTIONS 預請求（Preflight）
+  if (req.method === "OPTIONS") {
+    return new Response(null, {
+      status: 204,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type",
+      },
+    });
+  }
+
   if (req.method !== "POST") {
     return new Response(JSON.stringify({ error: "Method Not Allowed" }), {
       status: 405,
@@ -45,7 +57,7 @@ export default async function handler(req) {
       status: 200,
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*", // ✅ 這行很重要！
+        "Access-Control-Allow-Origin": "*", // ✅ 讓 GitHub Pages 可以存取
       },
     });
   } catch (error) {
@@ -54,7 +66,7 @@ export default async function handler(req) {
       status: 500,
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*", // ✅ 出錯也要能回傳跨域回應
+        "Access-Control-Allow-Origin": "*", // ✅ 即使錯誤也要回應跨域
       },
     });
   }
