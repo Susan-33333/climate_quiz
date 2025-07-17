@@ -12,7 +12,8 @@ export default {
       },
     },
     fontFamily: {
-        huninn: ['jf-openhuninn', 'sans-serif'],
+      sans: ['jf-openhuninn', 'sans-serif'],
+      huninn: ['jf-openhuninn', 'sans-serif'],
       },
   },
 },
