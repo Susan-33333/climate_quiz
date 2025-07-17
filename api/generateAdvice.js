@@ -2,27 +2,31 @@ export const config = {
   runtime: 'edge',
 };
 
-export default async function handler(req) 
-  // ✅ DEBUG: 確認環境變數是否讀到
-  console.log("OPENAI_API_KEY:", process.env.OPENAI_API_KEY);
-
-
-export default async function handler(req, res) {
-  // CORS 預檢處理
-  if (req.method === 'OPTIONS') {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    return res.status(204).end();
+export default async function handler(request) {
+  // 處理 CORS 預檢請求
+  if (request.method === 'OPTIONS') {
+    return new Response(null, {
+      status: 204,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
+      },
+    });
   }
 
-  if (req.method !== 'POST') {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    return res.status(405).json({ error: 'Method Not Allowed' });
+  if (request.method !== 'POST') {
+    return new Response(JSON.stringify({ error: 'Method Not Allowed' }), {
+      status: 405,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+    });
   }
 
   try {
-    const { tab, region, score, disaster, recommend } = req.body;
+    const { tab, region, score, disaster, recommend } = await request.json();
 
     const prompt = `你是一位氣候風險顧問，請針對以下資訊，用繁體中文生成一段不超過100字的「${tab}」建議，語氣自然具體：
 地區：${region}
@@ -50,18 +54,30 @@ export default async function handler(req, res) {
     if (!openAIRes.ok) {
       const errorText = await openAIRes.text();
       console.error("OpenAI 錯誤：", errorText);
-      res.setHeader('Access-Control-Allow-Origin', '*');
-      return res.status(500).json({ result: "⚠️ 發生錯誤，請稍後再試。" });
+      return new Response(JSON.stringify({ result: "⚠️ 發生錯誤，請稍後再試。" }), {
+        status: 500,
+        headers: { "Access-Control-Allow-Origin": "*" },
+      });
     }
 
     const data = await openAIRes.json();
     const reply = data?.choices?.[0]?.message?.content || "目前無法取得建議。";
 
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    return res.status(200).json({ result: reply });
+    return new Response(JSON.stringify({ result: reply }), {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+    });
   } catch (err) {
     console.error("API Error:", err);
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    return res.status(500).json({ result: "⚠️ 發生錯誤，請稍後再試。" });
+    return new Response(JSON.stringify({ result: "⚠️ 發生錯誤，請稍後再試。" }), {
+      status: 500,
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+    });
   }
 }
