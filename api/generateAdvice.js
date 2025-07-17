@@ -3,7 +3,6 @@ export const config = {
 };
 
 export default async function handler(request) {
-  // 處理 CORS 預檢請求
   if (request.method === 'OPTIONS') {
     return new Response(null, {
       status: 204,
