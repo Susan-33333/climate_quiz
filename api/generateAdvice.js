@@ -3,25 +3,25 @@ export const config = {
 };
 
 export default async function handler(req) {
-  // 處理預檢請求（CORS）
+  const headers = {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+  };
+
+  // ✅ 處理預檢請求（OPTIONS）
   if (req.method === 'OPTIONS') {
     return new Response(null, {
       status: 204,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type',
-      },
+      headers,
     });
   }
 
   if (req.method !== 'POST') {
     return new Response(JSON.stringify({ error: 'Method Not Allowed' }), {
       status: 405,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-      },
+      headers,
     });
   }
 
@@ -36,7 +36,7 @@ export default async function handler(req) {
 
     const apiKey = process.env.OPENAI_API_KEY;
 
-    const openAIRes = await fetch("https://api.openai.com/v1/chat/completions", {
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${apiKey}`,
@@ -51,33 +51,27 @@ export default async function handler(req) {
       }),
     });
 
-    if (!openAIRes.ok) {
-      const errorText = await openAIRes.text();
+    if (!response.ok) {
+      const errorText = await response.text();
       console.error("OpenAI 錯誤：", errorText);
       return new Response(JSON.stringify({ result: "⚠️ 發生錯誤，請稍後再試。" }), {
         status: 500,
-        headers: { "Access-Control-Allow-Origin": "*" },
+        headers,
       });
     }
 
-    const data = await openAIRes.json();
+    const data = await response.json();
     const reply = data?.choices?.[0]?.message?.content || "目前無法取得建議。";
 
     return new Response(JSON.stringify({ result: reply }), {
       status: 200,
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
+      headers,
     });
   } catch (err) {
     console.error("API Error:", err);
     return new Response(JSON.stringify({ result: "⚠️ 發生錯誤，請稍後再試。" }), {
       status: 500,
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
+      headers,
     });
   }
 }
