@@ -49,7 +49,6 @@ const TagsSuggestion = ({ userData, onNext }) => {
   const [adviceMap, setAdviceMap] = useState({});
   const [loading, setLoading] = useState(false);
 
-  // ✅ 防呆：沒有 userData 就直接給提示（避免白畫面）
   if (!userData || !userData.county) {
     return (
       <div className="text-center text-red-600 font-bold p-6">
@@ -59,7 +58,6 @@ const TagsSuggestion = ({ userData, onNext }) => {
   }
 
   const region = userData.county;
-  const name = userData.name || "你";
 
   const tabContent = {
     居住: {
@@ -87,35 +85,31 @@ const TagsSuggestion = ({ userData, onNext }) => {
 
   const current = tabContent[activeTab];
 
-  // ✅ 呼叫 OpenRouter 串接 GPT 模型
+  // ✅ 改為呼叫自己的 API 端點
   const generateAdvice = async (tab) => {
     setLoading(true);
-    const prompt = `你是一位氣候風險顧問，請針對以下資訊，用繁體中文生成一段不超過100字的「${tab}」建議，語氣自然具體：
-地區：${region}
-得分：${tabContent[tab].score}
-主要氣候風險：${tabContent[tab].disaster}
-推薦地點：${tabContent[tab].recommend}`;
+    const payload = {
+      tab,
+      region,
+      score: tabContent[tab].score,
+      disaster: tabContent[tab].disaster,
+      recommend: tabContent[tab].recommend,
+    };
 
     try {
-      const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+      const res = await fetch("/api/generateAdvice", {
         method: "POST",
         headers: {
-          Authorization: "Bearer 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", // ← 請替換成你自己的 Key
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          model: "mistralai/mistral-7b-instruct",
-          messages: [
-            { role: "system", content: "你是一位氣候顧問，請用繁體中文回答。" },
-            { role: "user", content: prompt },
-          ],
-        }),
+        body: JSON.stringify(payload),
       });
 
       const data = await res.json();
-      const reply = data?.choices?.[0]?.message?.content || "目前無法取得建議。";
+      const reply = data?.result || "目前無法取得建議。";
       setAdviceMap((prev) => ({ ...prev, [tab]: reply }));
     } catch (error) {
+      console.error("fetch error", error);
       setAdviceMap((prev) => ({ ...prev, [tab]: "⚠️ 發生錯誤，請稍後再試。" }));
     } finally {
       setLoading(false);
