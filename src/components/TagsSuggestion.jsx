@@ -85,7 +85,7 @@ const TagsSuggestion = ({ userData, onNext }) => {
 
   const current = tabContent[activeTab];
 
-  // ✅ 改為呼叫自己的 API 端點
+  // ✅ 改為呼叫 Cloudflare Worker
   const generateAdvice = async (tab) => {
     setLoading(true);
     const payload = {
@@ -97,7 +97,7 @@ const TagsSuggestion = ({ userData, onNext }) => {
     };
 
     try {
-      const res = await fetch("https://climate-quiz-mai6z47ja-susan-33333s-projects.vercel.app/api/generateAdvice", {
+      const res = await fetch("https://climate-ai-proxy.climate-quiz-yuchen.workers.dev", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
