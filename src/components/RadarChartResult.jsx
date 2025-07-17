@@ -99,7 +99,6 @@ function RadarChartResult({ scores, mascot, regionSummary }) {
             </div>
             </div>
           </div>
-        </div>
 
         {/* 下載按鈕 */}
         <div className="mt-8 flex justify-center">
