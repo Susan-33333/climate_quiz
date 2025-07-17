@@ -13,10 +13,16 @@ export default async function handler(req) {
 主要氣候風險：${disaster}
 推薦地點：${recommend}`;
 
+    const apiKey = process.env.OPENROUTER_API_KEY;
+
+    if (!apiKey) {
+      throw new Error("未設定 OPENROUTER_API_KEY");
+    }
+
     const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
+        Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -36,7 +42,7 @@ export default async function handler(req) {
       headers: { "Content-Type": "application/json" },
     });
   } catch (error) {
-    console.error("OpenRouter API Error:", error);
+    console.error("OpenRouter API Error:", error.message || error);
     return new Response(JSON.stringify({ result: "⚠️ 發生錯誤，請稍後再試。" }), {
       status: 500,
       headers: { "Content-Type": "application/json" },
