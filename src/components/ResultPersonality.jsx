@@ -83,10 +83,10 @@ function ResultPersonality({ userData, onNext }) {
             <div className="absolute -bottom-2 -left-2 text-3xl">🍃</div>
           </div>
 
-          {/* ✅ 修改這一段讓名字正常顯示漸層 */}
+          {/* ✅ 修正：穩定顯示角色名稱 */}
           <h2 className="text-3xl font-bold mb-6 text-gray-800">
             你是{" "}
-            <span className="inline-block bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+            <span className="inline-block px-2 py-1 rounded bg-gradient-to-r from-green-300 to-blue-300 text-gray-800">
               {profile.name}
             </span>
             ！
