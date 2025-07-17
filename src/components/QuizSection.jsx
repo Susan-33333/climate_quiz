@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import ProgressBar from "../components/ProgressBar"; // 這行要放在最上方
 
 function QuizSection({ onNext }) {
   const [questions, setQuestions] = useState([]);
@@ -9,7 +8,6 @@ function QuizSection({ onNext }) {
   const [answers, setAnswers] = useState([]);
   const [selected, setSelected] = useState(null);
 
-  // 讀取 public 裡的 question_data.json
   useEffect(() => {
     fetch(`${import.meta.env.BASE_URL}data/question_data.json`)
       .then((res) => res.json())
@@ -35,12 +33,12 @@ function QuizSection({ onNext }) {
     if (currentIndex + 1 < questions.length) {
       setCurrentIndex(currentIndex + 1);
     } else {
-      onNext(updatedAnswers); // 全部完成，傳出 answers 給 App.jsx
+      onNext(updatedAnswers);
     }
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex flex-col items-center pt-20 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center p-4">
       <div className="w-full px-6 pt-4 fixed top-0 left-0 z-30 bg-white/80 backdrop-blur shadow-sm">
         <ProgressBar
           currentStep={currentIndex + 1}
@@ -72,40 +70,39 @@ function QuizSection({ onNext }) {
                 </h2>
               </div>
 
-              {/* 選項按鈕 */}
-              <div className="space-y-3 mb-8">
-                {Object.entries(current.options).map(([key, text]) => (
-                  <button
-                    key={key}
-                    onClick={() => handleSelect(key)}
-                    className={`block w-full rounded-[36px] border-2 px-6 py-6 text-center font-bold text-lg transition-all duration-300 ${
-                      selected === key
-                        ? "bg-[#70472d] text-white border-[#70472d] shadow-lg ring-4 ring-yellow-100"
-                        : "bg-white text-[#70472d] border-[#70472d] hover:shadow-[0_0_0_3px_rgba(112,71,45,0.4)]"
-                    }`}
-                  >
-                    {text}
-                  </button>
-                ))}
-              </div>
-
-              {/* 下一題按鈕 */}
-              <div className="flex justify-center">
+            {/* 選項按鈕 */}
+            <div className="space-y-4">
+              {Object.entries(current.options).map(([key, text]) => (
                 <button
-                  onClick={handleNext}
-                    disabled={!selected}
-                    className={`px-8 py-3 rounded-xl font-semibold text-white transition-all duration-300 transform hover:scale-105 active:scale-95 ${
-                      selected 
-                        ? "bg-green-600 hover:bg-green-700 shadow-lg hover:shadow-xl" 
-                        : "bg-gray-400 cursor-not-allowed opacity-50"
-                    }`}
-                  >
-                    {currentIndex + 1 === questions.length ? "查看結果" : "下一題"}
-                  </button>
-              </div>
-            </motion.div>
-          </AnimatePresence>
-        </div>
+                  key={key}
+                  onClick={() => handleSelect(key)}
+                  className={`w-full border-2 rounded-full px-6 py-3 text-sm font-medium transition ${
+                    selected === key
+                      ? "bg-brown-500 text-white border-brown-500 shadow"
+                      : "bg-white text-brown-700 border-brown-300 hover:bg-brown-50"
+                  }`}
+                >
+                  {text}
+                </button>
+              ))}
+            </div>
+
+            {/* 下一題 */}
+            <div className="text-center">
+              <button
+                onClick={handleNext}
+                disabled={!selected}
+                className={`mt-6 px-8 py-3 rounded-full text-white text-base font-semibold transition ${
+                  selected
+                    ? "bg-brown-600 hover:bg-brown-700"
+                    : "bg-gray-300 cursor-not-allowed"
+                }`}
+              >
+                {currentIndex + 1 === questions.length ? "查看結果" : "下一題"}
+              </button>
+            </div>
+          </motion.div>
+        </AnimatePresence>
       </div>
     </div>
   );
