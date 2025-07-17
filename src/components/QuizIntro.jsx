@@ -9,8 +9,8 @@ function QuizIntro({ onStart }) {
 
   return (
     <div className="min-h-screen bg-[#fdf8f4] flex justify-center px-4">
-      <div className="w-full max-w-md flex flex-col justify-center items-center space-y-8 py-16">
-        {/* 圖片區塊 */}
+      <div className="w-full max-w-md flex flex-col justify-center items-center space-y-6 py-16">
+        {/* 圖片區 */}
         <div className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden shadow-lg">
           <img
             src={bgImage}
@@ -22,14 +22,14 @@ function QuizIntro({ onStart }) {
           </div>
         </div>
 
-        {/* 文字與按鈕 */}
-        <div className="w-full text-center bg-white/90 backdrop-blur p-6 rounded-2xl shadow">
-          <p className="text-gray-700 text-lg mb-6">
+        {/* 說明與按鈕 */}
+        <div className="w-full bg-white/90 backdrop-blur-md p-6 rounded-2xl shadow text-center">
+          <p className="text-gray-700 text-lg mb-4">
             這份測驗將會探究你與氣候之間的相性
           </p>
           <button
             onClick={onStart}
-            className="bg-brown-600 hover:bg-brown-700 text-white text-lg font-semibold px-6 py-3 rounded-full transition"
+            className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl text-lg transition font-semibold"
           >
             開始測驗
           </button>
@@ -40,6 +40,7 @@ function QuizIntro({ onStart }) {
 }
 
 export default QuizIntro;
+
 
 
 
