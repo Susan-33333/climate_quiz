@@ -6,7 +6,7 @@ import QuizSection from "./components/QuizSection";
 import ResultPersonality from "./components/ResultPersonality";
 import TagsSuggestion from "./components/TagsSuggestion";
 import RadarChartResult from "./components/RadarChartResult";
-
+import './assets/fonts/open-huninn.css';
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "./firebase";
 
