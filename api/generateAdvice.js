@@ -3,28 +3,6 @@ export const config = {
 };
 
 export default async function handler(req) {
-  // ✅ 處理預檢請求 (CORS Preflight)
-  if (req.method === "OPTIONS") {
-    return new Response("OK", {
-      status: 200,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "POST, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization",
-      },
-    });
-  }
-
-  // ✅ 限制僅接受 POST 方法
-  if (req.method !== "POST") {
-    return new Response("Method Not Allowed", {
-      status: 405,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-      },
-    });
-  }
-
   try {
     const body = await req.json();
     const { tab, region, score, disaster, recommend } = body;
@@ -38,7 +16,7 @@ export default async function handler(req) {
     const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
+        Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`, // ✅ 請確認 Vercel 專案有設定這個環境變數
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -57,7 +35,7 @@ export default async function handler(req) {
       status: 200,
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*", // ✅ 開放前端請求跨網域
+        "Access-Control-Allow-Origin": "*", // ✅ 允許跨網域
       },
     });
   } catch (error) {
@@ -66,7 +44,7 @@ export default async function handler(req) {
       status: 500,
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*", // ✅ 即使錯誤也要標註跨域
+        "Access-Control-Allow-Origin": "*", // ✅ 錯誤也要允許跨網域
       },
     });
   }
