@@ -26,11 +26,11 @@ export default {
       const openAIRes = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${OPENAI_API_KEY}`, // ✅ 使用 OpenAI 金鑰
+          Authorization: `Bearer ${OPENAI_API_KEY}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "gpt-4o", // ✅ 你有 gpt-4o 的使用權限就用這個
+          model: "gpt-4o",
           messages: [
             { role: "system", content: "你是一位氣候顧問，請用繁體中文回答。" },
             { role: "user", content: prompt },
@@ -70,9 +70,10 @@ export default {
   }
 };
 
+// ✅ CORS 設定只允許 GitHub Pages 來源請求
 function corsHeaders() {
   return {
-    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Origin": "https://susan-33333.github.io",
     "Access-Control-Allow-Methods": "POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type"
   };
