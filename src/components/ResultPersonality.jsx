@@ -42,7 +42,7 @@ function ResultPersonality({ userData, onNext }) {
       });
   }, [userData]);
 
-  if (loading || !profile || !imageLoaded) {
+  if (loading || !profile) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center">
         <div className="text-center">
@@ -69,7 +69,9 @@ function ResultPersonality({ userData, onNext }) {
               <img
                 src={profile.image}
                 alt={profile.name}
-                className="w-28 h-28 object-cover rounded-full transform hover:scale-105 transition-transform duration-300"
+                className={`w-28 h-28 object-cover rounded-full transform transition-opacity duration-700 ${
+                  imageLoaded ? "opacity-100" : "opacity-0"
+                }`}
                 onLoad={() => setImageLoaded(true)}
                 onError={(e) => {
                   console.error("圖片載入失敗:", e.target.src);
@@ -81,9 +83,13 @@ function ResultPersonality({ userData, onNext }) {
             <div className="absolute -bottom-2 -left-2 text-3xl">🍃</div>
           </div>
 
-          {/* 修正顏色的顯示名稱 */}
+          {/* 顯示人格名稱，避免透明被隱藏 */}
           <h2 className="text-3xl font-bold mb-6 text-gray-800">
-            你是 <span className="bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">{profile.name}</span>！
+            你是{" "}
+            <span className="bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+              {profile.name}
+            </span>
+            ！
           </h2>
 
           {/* 行動方式 */}
