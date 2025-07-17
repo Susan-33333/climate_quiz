@@ -23,10 +23,12 @@ export default {
 主要氣候風險：${disaster}
 推薦地點：${recommend}`;
 
+      const apiKey = process.env.OPENAI_API_KEY;
+
       const openAIRes = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${OPENAI_API_KEY}`,
+          Authorization: `Bearer ${apiKey}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -43,7 +45,7 @@ export default {
         console.error("OpenAI 錯誤：", errorText);
         return new Response(JSON.stringify({ result: "⚠️ 發生錯誤，請稍後再試。" }), {
           status: 500,
-          headers: corsHeaders()
+          headers: corsHeaders(),
         });
       }
 
@@ -54,8 +56,8 @@ export default {
         status: 200,
         headers: {
           ...corsHeaders(),
-          "Content-Type": "application/json"
-        }
+          "Content-Type": "application/json",
+        },
       });
     } catch (err) {
       console.error("API Error:", err);
@@ -63,17 +65,16 @@ export default {
         status: 500,
         headers: {
           ...corsHeaders(),
-          "Content-Type": "application/json"
-        }
+          "Content-Type": "application/json",
+        },
       });
     }
   }
 };
 
-// ✅ CORS 設定只允許 GitHub Pages 來源請求
 function corsHeaders() {
   return {
-    "Access-Control-Allow-Origin": "https://susan-33333.github.io",
+    "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type"
   };
