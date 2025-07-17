@@ -21,33 +21,34 @@ function QuizSection({ onNext }) {
   if (loading) return <p className="text-center">載入中...</p>;
 
   const current = questions[currentIndex];
+  const progressPercentage = ((currentIndex + 1) / 8) * 100;
 
-  function handleSelect(option) {
-    setSelected(option);
-  }
+  // 當使用者選擇一個選項時的處理函式
+  function handleSelect(optionKey) {
+    // 1. 設定已選選項，立即提供視覺回饋
+    setSelected(optionKey);
 
-  function handleNext() {
-    const updatedAnswers = [...answers, selected];
-    setAnswers(updatedAnswers);
-    setSelected(null);
+    // 2. 稍待片刻再跳到下一題，讓使用者能看到自己的選擇
+    setTimeout(() => {
+      const updatedAnswers = [...answers, optionKey];
+      setAnswers(updatedAnswers);
+      setSelected(null); // 為下一題重置選項狀態
 
-    if (currentIndex + 1 < questions.length) {
-      setCurrentIndex(currentIndex + 1);
-    } else {
-      onNext(updatedAnswers);
-    }
+      // 3. 檢查測驗是否結束，若否，則前進到下一題
+      if (currentIndex + 1 < questions.length) {
+        setCurrentIndex(currentIndex + 1);
+      } else {
+        onNext(updatedAnswers); // 測驗結束，顯示結果
+      }
+    }, 400); // 延遲 400 毫秒，讓轉場更流暢
   }
 
   return (
     <div className="min-h-screen bg-[#fdf8f4] flex justify-center px-4">
       <div className="w-full max-w-md flex flex-col justify-center py-24 space-y-8 relative">
         {/* 頂部進度條 */}
-        <div className="w-full fixed top-0 left-0 z-30 px-6 pt-4 bg-white/80 backdrop-blur shadow-sm">
-          <ProgressBar
-            currentStep={currentIndex + 1}
-            totalSteps={questions.length}
-            mascotSrc={`${import.meta.env.BASE_URL}mascot/T6.png`}
-          />
+        <div className="w-full fixed top-0 left-0 z-50 bg-white/80 backdrop-blur-md shadow-md px-6 py-4">
+          <ProgressBar progress={progressPercentage} />
         </div>
 
         {/* 問題卡片區塊 */}
@@ -75,31 +76,23 @@ function QuizSection({ onNext }) {
                   {Object.entries(current.options).map(([key, text]) => (
                     <button
                       key={key}
+                      // 一旦有選項被選中，就禁用所有按鈕
+                      disabled={selected !== null}
                       onClick={() => handleSelect(key)}
+                      // className 控制按鈕的大小和外觀，並在選中後調暗其他選項
                       className={`block w-full rounded-[36px] border-2 px-6 py-5 text-center font-bold text-lg transition-all duration-300 ${
                         selected === key
                           ? "bg-[#70472d] text-white border-[#70472d] shadow-lg ring-4 ring-yellow-100"
                           : "bg-white text-[#70472d] border-[#70472d] hover:shadow-[0_0_0_3px_rgba(112,71,45,0.4)]"
+                      } ${
+                        selected !== null && selected !== key ? "opacity-50" : ""
                       }`}
                     >
                       {text}
                     </button>
                   ))}
                 </div>
-
-                <div className="flex justify-center">
-                  <button
-                    onClick={handleNext}
-                    disabled={!selected}
-                    className={`px-8 py-3 rounded-xl font-semibold text-white transition-all duration-300 transform hover:scale-105 active:scale-95 ${
-                      selected
-                        ? "bg-green-600 hover:bg-green-700 shadow-lg hover:shadow-xl"
-                        : "bg-gray-400 cursor-not-allowed opacity-50"
-                    }`}
-                  >
-                    {currentIndex + 1 === questions.length ? "查看結果" : "下一題"}
-                  </button>
-                </div>
+                
               </motion.div>
             </AnimatePresence>
           </div>
