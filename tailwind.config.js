@@ -5,7 +5,12 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}"
   ],
   theme: {
-    extend: {}
+    extend: {colors: {
+      quiz: {
+        500: '#f3bbe9ff',
+      },
+    },
   },
+},
   plugins: []
 };
