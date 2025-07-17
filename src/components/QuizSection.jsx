@@ -78,18 +78,13 @@ function QuizSection({ onNext }) {
                   <button
                     key={key}
                     onClick={() => handleSelect(key)}
-                    className={`block w-full border-2 rounded-xl px-5 py-4 text-left transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] ${
+                    className={`block w-full rounded-[36px] border-2 px-6 py-5 text-center font-bold text-lg transition-all duration-300 ${
                       selected === key
-                        ? "bg-green-600 text-white border-green-600 shadow-lg ring-4 ring-green-200"
-                        : "bg-white hover:bg-green-50 border-gray-200 hover:border-green-300 shadow-sm"
+                        ? "bg-[#70472d] text-white border-[#70472d] shadow-lg ring-4 ring-yellow-100"
+                        : "bg-white text-[#70472d] border-[#70472d] hover:shadow-[0_0_0_3px_rgba(112,71,45,0.4)]"
                     }`}
                   >
-                    <span className="font-medium text-sm text-gray-500">
-                      {key}.
-                    </span>
-                    <span className="ml-2 text-base">
-                      {text}
-                    </span>
+                    {text}
                   </button>
                 ))}
               </div>
@@ -98,15 +93,15 @@ function QuizSection({ onNext }) {
               <div className="flex justify-center">
                 <button
                   onClick={handleNext}
-                  disabled={!selected}
-                  className={`px-8 py-3 rounded-xl font-semibold text-white transition-all duration-300 transform hover:scale-105 active:scale-95 ${
-                    selected 
-                      ? "bg-green-600 hover:bg-green-700 shadow-lg hover:shadow-xl" 
-                      : "bg-gray-400 cursor-not-allowed opacity-50"
-                  }`}
-                >
-                  {currentIndex + 1 === questions.length ? "查看結果" : "下一題"}
-                </button>
+                    disabled={!selected}
+                    className={`px-8 py-3 rounded-xl font-semibold text-white transition-all duration-300 transform hover:scale-105 active:scale-95 ${
+                      selected 
+                        ? "bg-green-600 hover:bg-green-700 shadow-lg hover:shadow-xl" 
+                        : "bg-gray-400 cursor-not-allowed opacity-50"
+                    }`}
+                  >
+                    {currentIndex + 1 === questions.length ? "查看結果" : "下一題"}
+                  </button>
               </div>
             </motion.div>
           </AnimatePresence>

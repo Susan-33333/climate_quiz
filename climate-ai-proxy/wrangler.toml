@@ -3,4 +3,3 @@ name = "climate-ai-proxy"
 compatibility_date = "2025-07-17"
 
 [vars]
-OPENROUTER_API_KEY = "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"
