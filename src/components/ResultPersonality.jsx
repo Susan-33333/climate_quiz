@@ -62,7 +62,7 @@ function ResultPersonality({ userData, onNext }) {
       </div>
 
       <div className="relative z-10 flex flex-col items-center justify-center min-h-screen p-4">
-        <div className="max-w-lg w-full bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl p-8 text-center transition-opacity duration-500 opacity-100">
+        <div className="max-w-lg w-full bg-white backdrop-blur-sm rounded-3xl shadow-2xl p-8 text-center transition-opacity duration-500 opacity-100">
           {/* 吉祥物圖片 */}
           <div className="relative mb-8">
             <div className="w-32 h-32 mx-auto rounded-full bg-gradient-to-br from-green-100 to-blue-100 flex items-center justify-center overflow-hidden shadow-lg">
@@ -83,10 +83,10 @@ function ResultPersonality({ userData, onNext }) {
             <div className="absolute -bottom-2 -left-2 text-3xl">🍃</div>
           </div>
 
-          {/* 顯示人格名稱，避免透明被隱藏 */}
+          {/* ✅ 修改這一段讓名字正常顯示漸層 */}
           <h2 className="text-3xl font-bold mb-6 text-gray-800">
             你是{" "}
-            <span className="bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+            <span className="inline-block bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
               {profile.name}
             </span>
             ！
