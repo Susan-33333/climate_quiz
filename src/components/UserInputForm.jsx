@@ -58,35 +58,50 @@ export default function UserInputForm({ onNext, onSave }) {
           <h1 className="text-2xl font-bold text-center text-brown-800">填寫基本資料</h1>
 
           <div>
-            <label className="block text-sm font-medium text-brown-700">匿稱</label>
+            <label htmlFor="name" className="block text-sm font-medium text-brown-700">
+              匿稱
+            </label>
             <input
               type="text"
+              id="name"
               name="name"
+              autoComplete="name"
               value={formData.name}
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-3 mt-1 focus:ring-2 focus:ring-brown-300 focus:outline-none"
             />
+
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-brown-700">年齡</label>
+            <label htmlFor="age" className="block text-sm font-medium text-brown-700">
+              年齡
+            </label>
             <input
               type="number"
+              id="age"
               name="age"
+              autoComplete="bday"
               value={formData.age}
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-3 mt-1 focus:ring-2 focus:ring-brown-300 focus:outline-none"
             />
+
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-brown-700">居住地</label>
+            <label htmlFor="county" className="block text-sm font-medium text-brown-700">
+              居住地
+            </label>
             <select
+              id="county"
               name="county"
+              autoComplete="address-level1"
               value={formData.county}
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-3 mt-1 focus:ring-2 focus:ring-brown-300 focus:outline-none"
             >
+
               <option value="">請選擇</option>
               {counties.map((c) => (
                 <option key={c} value={c}>{c}</option>
@@ -96,9 +111,13 @@ export default function UserInputForm({ onNext, onSave }) {
 
           {formData.county && (
             <div>
-              <label className="block text-sm font-medium text-brown-700">鄉鎮市區</label>
+              <label htmlFor="town" className="block text-sm font-medium text-brown-700">
+                鄉鎮市區
+              </label>
               <select
+                id="town"
                 name="town"
+                autoComplete="address-level2"
                 value={formData.town}
                 onChange={handleChange}
                 className="w-full border border-gray-300 rounded-lg px-4 py-3 mt-1 focus:ring-2 focus:ring-brown-300 focus:outline-none"
