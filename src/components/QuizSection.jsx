@@ -65,7 +65,7 @@ function QuizSection({ onNext }) {
               >
                 <div className="text-center mb-6">
                   <h3 className="text-xl sm:text-lg font-huninn text-gray-600 mb-2">
-                    第 {currentIndex + 1} 題
+                    第  {currentIndex + 1}  題
                   </h3>
                   <h2 className="text-2xl sm:text-2ml font-huninn text-green-800 leading-loose px-2">
                     {current.question}

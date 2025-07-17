@@ -10,10 +10,10 @@ export default {
       quiz: {
         500: '#f3bbe9ff',
       },
-      fontFamily: {
+    },
+    fontFamily: {
         huninn: ['jf-openhuninn', 'sans-serif'],
       },
-    },
   },
 },
   plugins: []
