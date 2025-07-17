@@ -45,15 +45,15 @@ function QuizSection({ onNext }) {
 
   return (
     <div className="min-h-screen bg-[#fdf8f4] flex justify-center px-10 sm:px-8">
-      <div className="w-full max-w-md flex flex-col justify-center py-24 space-y-8 relative">
+      <div className="w-full max-w-md flex flex-col justify-center py-20 sm:py-24 space-y-6 relative">
         {/* 頂部進度條 */}
-        <div className="w-full fixed top-0 left-0 z-50 bg-white/80 backdrop-blur-md shadow-md px-6 py-4">
+        <div className="w-full fixed top-10 left-10 z-50 bg-white/80 backdrop-blur-md shadow-md px-6 py-4">
           <ProgressBar progress={progressPercentage} />
         </div>
 
         {/* 問題卡片區塊 */}
         <div className="w-full bg-white rounded-2xl shadow-lg p-6">
-          <div className="relative min-h-[400px]">
+          <div className="relative min-h-[800px]">
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentIndex}
@@ -63,7 +63,7 @@ function QuizSection({ onNext }) {
                 transition={{ duration: 0.4 }}
                 className="w-full"
               >
-                <div className="text-center mb-6">
+                <div className="text-center mb-24">
                   <h3 className="text-lg font-medium text-gray-600 mb-2">
                     第 {currentIndex + 1} 題
                   </h3>

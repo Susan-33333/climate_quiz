@@ -7,9 +7,9 @@ function RadarChartResult({ scores, mascot, regionSummary }) {
 
   const data = [
     { category: "幸福度", value: scores?.happiness || 0 },
-    { category: "氣候適應", value: scores?.adaptability || 0 },
-    { category: "居住環境", value: scores?.residence || 0 },
-    { category: "交通綠能", value: scores?.transport || 0 },
+    { category: "韌性度", value: scores?.adaptability || 0 },
+    { category: "探索度", value: scores?.residence || 0 },
+    { category: "永續度", value: scores?.transport || 0 },
     { category: "旅遊分數", value: scores?.tourism || 0 },
   ];
   const downloadImage = async () => {
