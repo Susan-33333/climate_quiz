@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 function ResultPersonality({ userData, onNext }) {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   useEffect(() => {
     if (!userData?.answers) {
@@ -10,62 +11,43 @@ function ResultPersonality({ userData, onNext }) {
       return;
     }
 
-    // 載入外部 JSON 資料
     fetch(`${import.meta.env.BASE_URL}data/personality_profiles.json`)
       .then((res) => res.json())
       .then((data) => {
-        processPersonality(data);
+        const count = { A: 0, B: 0, C: 0, D: 0 };
+        userData.answers.forEach((ans) => {
+          if (count[ans] !== undefined) {
+            count[ans]++;
+          }
+        });
+
+        const maxOption = Object.entries(count).sort((a, b) => b[1] - a[1])[0][0];
+        const personalityMap = { A: "T1", B: "T2", C: "T3", D: "T4" };
+        const personalityKey = personalityMap[maxOption] || "T1";
+
+        if (data[personalityKey]) {
+          const profileData = {
+            ...data[personalityKey],
+            image: `${import.meta.env.BASE_URL}${data[personalityKey].image}`,
+          };
+          setProfile(profileData);
+        } else {
+          console.error("找不到人格資料:", personalityKey);
+        }
+        setLoading(false);
       })
       .catch((error) => {
         console.error("載入人格資料失敗", error);
         setLoading(false);
       });
-
-    function processPersonality(data) {
-      const count = { A: 0, B: 0, C: 0, D: 0 };
-      userData.answers.forEach((ans) => {
-        if (count[ans] !== undefined) {
-          count[ans]++;
-        }
-      });
-
-      const maxOption = Object.entries(count).sort((a, b) => b[1] - a[1])[0][0];
-      const personalityMap = { A: "T1", B: "T2", C: "T3", D: "T4" };
-      const personalityKey = personalityMap[maxOption] || "T1";
-
-      if (data[personalityKey]) {
-        const profileData = data[personalityKey];
-        profileData.image = `${import.meta.env.BASE_URL}${profileData.image}`;
-        setProfile(profileData);
-      } else {
-        console.error("找不到人格資料:", personalityKey);
-      }
-      setLoading(false);
-    }
   }, [userData]);
 
-  if (loading) {
+  if (loading || !profile || !imageLoaded) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mx-auto mb-4"></div>
-          <p className="text-lg text-gray-600">正在分析您的氣候人格...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!profile) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center">
-        <div className="text-center p-8 bg-white rounded-xl shadow-lg">
-          <p className="text-lg text-gray-600">無法載入您的人格分析結果</p>
-          <button
-            onClick={onNext}
-            className="mt-4 px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
-          >
-            繼續
-          </button>
+          <p className="text-lg text-gray-600">正在生成結果畫面...</p>
         </div>
       </div>
     );
@@ -80,7 +62,7 @@ function ResultPersonality({ userData, onNext }) {
       </div>
 
       <div className="relative z-10 flex flex-col items-center justify-center min-h-screen p-4">
-        <div className="max-w-lg w-full bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl p-8 text-center">
+        <div className="max-w-lg w-full bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl p-8 text-center transition-opacity duration-500 opacity-100">
           {/* 吉祥物圖片 */}
           <div className="relative mb-8">
             <div className="w-32 h-32 mx-auto rounded-full bg-gradient-to-br from-green-100 to-blue-100 flex items-center justify-center overflow-hidden shadow-lg">
@@ -88,6 +70,7 @@ function ResultPersonality({ userData, onNext }) {
                 src={profile.image}
                 alt={profile.name}
                 className="w-28 h-28 object-cover rounded-full transform hover:scale-105 transition-transform duration-300"
+                onLoad={() => setImageLoaded(true)}
                 onError={(e) => {
                   console.error("圖片載入失敗:", e.target.src);
                   e.target.style.display = "none";
@@ -98,20 +81,24 @@ function ResultPersonality({ userData, onNext }) {
             <div className="absolute -bottom-2 -left-2 text-3xl">🍃</div>
           </div>
 
-          <h2 className="text-3xl font-bold mb-6 text-gray-800 bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
-            你是 {profile.name}！
+          {/* 修正顏色的顯示名稱 */}
+          <h2 className="text-3xl font-bold mb-6 text-gray-800">
+            你是 <span className="bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">{profile.name}</span>！
           </h2>
 
+          {/* 行動方式 */}
           <div className="mb-6 p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl">
             <h3 className="font-semibold text-green-800 mb-2">行動方式</h3>
             <p className="text-gray-700 leading-relaxed">{profile.description}</p>
           </div>
 
+          {/* 回答特質 */}
           <div className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-green-50 rounded-xl">
             <h3 className="font-semibold text-blue-800 mb-2">回答特質</h3>
             <p className="text-gray-700 leading-relaxed">{profile.speciality}</p>
           </div>
 
+          {/* 適合與不適合環境 */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
             <div className="bg-green-50 p-4 rounded-xl border-l-4 border-green-400">
               <p className="font-semibold text-green-800 mb-2 flex items-center">
