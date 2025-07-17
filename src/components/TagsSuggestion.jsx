@@ -63,7 +63,7 @@ const TagsSuggestion = ({ userData, onNext }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch("/data/region_scores.json");
+        const res = await fetch(`${import.meta.env.BASE_URL}data/region_scores.json`);
         const json = await res.json();
         setRegionData(json);
       } catch (err) {
