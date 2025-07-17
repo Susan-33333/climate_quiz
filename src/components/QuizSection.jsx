@@ -18,7 +18,7 @@ function QuizSection({ onNext }) {
       });
   }, []);
 
-  if (loading) return <p className="text-center">載入中...</p>;
+  if (loading) return <p className="text-center text-lg">載入中...</p>;
 
   const current = questions[currentIndex];
   const progressPercentage = ((currentIndex + 1) / 8) * 100;
@@ -47,13 +47,13 @@ function QuizSection({ onNext }) {
     <div className="min-h-screen bg-[#fdf8f4] flex justify-center px-10 sm:px-8">
       <div className="w-full max-w-md flex flex-col justify-center py-20 sm:py-24 space-y-6 relative">
         {/* 頂部進度條 */}
-        <div className="w-full fixed top-10 left-10 z-50 bg-white/80 backdrop-blur-md shadow-md px-6 py-4">
+        <div className="w-full fixed top-10 left-10 z-50 bg-white/80 backdrop-blur-md shadow-md px-4 sm:px-6 py-3 sm:py-4">
           <ProgressBar progress={progressPercentage} />
         </div>
 
         {/* 問題卡片區塊 */}
-        <div className="w-full bg-white rounded-2xl shadow-lg p-6">
-          <div className="relative min-h-[400px]">
+        <div className="w-full bg-white rounded-2xl shadow-lg p-4 sm:p-6">
+          <div className="relative min-h-[450px] sm:min-h-[400px] ">
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentIndex}
@@ -64,15 +64,15 @@ function QuizSection({ onNext }) {
                 className="w-full"
               >
                 <div className="text-center mb-6">
-                  <h3 className="text-lg font-huninn text-gray-600 mb-2">
+                  <h3 className="text-xl sm:text-lg font-huninn text-gray-600 mb-2">
                     第 {currentIndex + 1} 題
                   </h3>
-                  <h2 className="text-2xl font-semibold text-green-800 leading-loose">
+                  <h2 className="text-2xl sm:text-2ml font-huninn text-green-800 leading-loose px-2">
                     {current.question}
                   </h2>
                 </div>
 
-                <div className="space-y-3 mb-8">
+                <div className="space-y-4 sm:space-y-3 mb-6 sm:mb-8">
                   {Object.entries(current.options).map(([key, text]) => (
                     <button
                       key={key}
@@ -80,10 +80,10 @@ function QuizSection({ onNext }) {
                       disabled={selected !== null}
                       onClick={() => handleSelect(key)}
                       // className 控制按鈕的大小和外觀，並在選中後調暗其他選項
-                      className={`block w-full rounded-[36px] border-4 px-6 py-5 text-center font-bold text-xl transition-all duration-300 ${
+                      className={`block w-full rounded-[28px] sm:rounded-[36px] border-3 sm:border-4 px-4 sm:px-6 py-4 sm:py-5 text-center font-bold text-lg sm:text-xl leading-relaxed transition-all duration-300 ${
                         selected === key
                           ? "bg-[#70472d] text-white border-[#70472d] shadow-lg ring-4 ring-yellow-100"
-                          : "bg-white text-[#70472d] border-[#70472d] hover:shadow-[0_0_0_3px_rgba(112,71,45,0.4)]"
+                          : "bg-white text-[#70472d] border-[#70472d] hover:shadow-[0_0_0_3px_rgba(112,71,45,0.4)] active:shadow-[0_0_0_3px_rgba(112,71,45,0.6)]"
                       } ${
                         selected !== null && selected !== key ? "opacity-50" : ""
                       }`}
