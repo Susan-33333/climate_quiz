@@ -6,14 +6,14 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+      huninn: ['jf-openhuninn', 'sans-serif'],
+      },
       colors: {
       quiz: {
         500: '#f3bbe9ff',
       },
     },
-    fontFamily: {
-      huninn: ['jf-openhuninn', 'sans-serif'],
-      },
   },
 },
   plugins: []
