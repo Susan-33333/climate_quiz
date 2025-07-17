@@ -55,9 +55,6 @@ function QuizSection({ onNext }) {
             mascotSrc={`${import.meta.env.BASE_URL}mascot/T6.png`}
           />
         </div>
-        <p style={{ fontFamily: 'jf-openhuninn' }}>
-        這段應該要是手寫體，如果不是代表字型真的沒作用
-        </p>
         {/* 問題卡片區塊 */}
         <div className="w-full bg- [#AE00AE] rounded-2xl shadow-lg p-4 sm:p-6">
           <div className="relative min-h-[450px] sm:min-h-[400px] ">

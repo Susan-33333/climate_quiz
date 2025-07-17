@@ -27,10 +27,6 @@ function QuizIntro({ onStart }) {
           <p className="text-gray-700 text-lg mb-4">
             這份測驗將會探究你與氣候之間的相性
           </p>
-          <p style={{ fontFamily: 'jf-openhuninn' }}>
-            這段應該要是手寫體，如果不是代表字型真的沒作用
-          </p>
-
           <button
             onClick={onStart}
             className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl text-lg transition font-semibold"
