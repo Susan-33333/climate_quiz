@@ -59,6 +59,7 @@ const TagsSuggestion = ({ userData, onNext }) => {
   }
 
   const fullRegionKey = `${userData.county}_${userData.town}`;
+  const fullRegionDisplay = fullRegionKey.replace(/_/g, " "); // 顯示用
 
   useEffect(() => {
     const fetchData = async () => {
@@ -168,7 +169,7 @@ const TagsSuggestion = ({ userData, onNext }) => {
           tooltip={`氣候評分：${current.score}%`}
         />
         <div>
-          <h2 className="text-xl font-bold">未來 30 年後 {fullRegionKey}：</h2>
+          <h2 className="text-xl font-bold">未來 30 年後 {fullRegionDisplay}：</h2>
           <p className="text-gray-700">{current.description}</p>
         </div>
       </div>
