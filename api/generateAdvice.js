@@ -1,32 +1,19 @@
-export const config = {
-  runtime: 'edge',
-};
-
-export default async function handler(req) {
-  // 處理預檢請求（CORS）
+export default async function handler(req, res) {
+  // CORS 預檢處理
   if (req.method === 'OPTIONS') {
-    return new Response(null, {
-      status: 204,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type',
-      },
-    });
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    return res.status(204).end();
   }
 
   if (req.method !== 'POST') {
-    return new Response(JSON.stringify({ error: 'Method Not Allowed' }), {
-      status: 405,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-      },
-    });
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    return res.status(405).json({ error: 'Method Not Allowed' });
   }
 
   try {
-    const { tab, region, score, disaster, recommend } = await req.json();
+    const { tab, region, score, disaster, recommend } = req.body;
 
     const prompt = `你是一位氣候風險顧問，請針對以下資訊，用繁體中文生成一段不超過100字的「${tab}」建議，語氣自然具體：
 地區：${region}
@@ -54,30 +41,18 @@ export default async function handler(req) {
     if (!openAIRes.ok) {
       const errorText = await openAIRes.text();
       console.error("OpenAI 錯誤：", errorText);
-      return new Response(JSON.stringify({ result: "⚠️ 發生錯誤，請稍後再試。" }), {
-        status: 500,
-        headers: { "Access-Control-Allow-Origin": "*" },
-      });
+      res.setHeader('Access-Control-Allow-Origin', '*');
+      return res.status(500).json({ result: "⚠️ 發生錯誤，請稍後再試。" });
     }
 
     const data = await openAIRes.json();
     const reply = data?.choices?.[0]?.message?.content || "目前無法取得建議。";
 
-    return new Response(JSON.stringify({ result: reply }), {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-    });
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    return res.status(200).json({ result: reply });
   } catch (err) {
     console.error("API Error:", err);
-    return new Response(JSON.stringify({ result: "⚠️ 發生錯誤，請稍後再試。" }), {
-      status: 500,
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-    });
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    return res.status(500).json({ result: "⚠️ 發生錯誤，請稍後再試。" });
   }
 }
