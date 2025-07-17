@@ -1,5 +1,3 @@
 main = "src/index.ts"
 name = "climate-ai-proxy"
 compatibility_date = "2025-07-17"
-
-[vars]
