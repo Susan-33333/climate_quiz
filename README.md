@@ -32,3 +32,9 @@ npm install html2canvas
 
 npm run build
 npm run deploy
+
+🟦 Tailwind Elements
+免費開源，提供多種設計感按鈕（圓角、立體、動畫、icon）。
+
+🟪 DaisyUI
+Tailwind 的元件擴充套件。安裝 DaisyUI 後，只要加上 btn 類別即可快速使用多種樣式：
