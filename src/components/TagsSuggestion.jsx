@@ -48,8 +48,9 @@ const TagsSuggestion = ({ userData, onNext }) => {
   const [activeTab, setActiveTab] = useState("居住");
   const [adviceMap, setAdviceMap] = useState({});
   const [loading, setLoading] = useState(false);
+  const [regionData, setRegionData] = useState(null);
 
-  if (!userData || !userData.county) {
+  if (!userData || !userData.county || !userData.town) {
     return (
       <div className="text-center text-red-600 font-bold p-6">
         ⚠️ 錯誤：使用者資料尚未傳入，請重新開始測驗。
@@ -57,40 +58,59 @@ const TagsSuggestion = ({ userData, onNext }) => {
     );
   }
 
-  const region = userData.county;
+  const fullRegionKey = `${userData.county}_${userData.town}`;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch("/data/region_scores.json");
+        const json = await res.json();
+        setRegionData(json);
+      } catch (err) {
+        console.error("載入 region_scores.json 錯誤：", err);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const colorMap = {
+    居住: "#EA0000",
+    旅遊: "#10b981",
+    交通: "#6366f1",
+  };
+
+  const fallback = {
+    score: 50,
+    description: "資料載入中或無對應資料。",
+    disaster: "未知",
+    recommend: "未知",
+  };
 
   const tabContent = {
     居住: {
-      score: 75,
-      color: "#EA0000",
-      description: "溫度年平均上升 2.3°C，降雨集中度提升。",
-      disaster: "極端高溫、淹水",
-      recommend: "南投鹿谷",
+      ...fallback,
+      score: regionData?.[fullRegionKey]?.["居住"] ?? fallback.score,
+      color: colorMap["居住"],
     },
-    遊憩: {
-      score: 85,
-      color: "#10b981",
-      description: "乾季延長適合山林活動，濕季應避免露營。",
-      disaster: "乾旱、落石",
-      recommend: "花蓮玉里",
+    旅遊: {
+      ...fallback,
+      score: regionData?.[fullRegionKey]?.["旅遊"] ?? fallback.score,
+      color: colorMap["旅遊"],
     },
     交通: {
-      score: 60,
-      color: "#6366f1",
-      description: "豪雨增加影響道路通行，需加強基礎建設。",
-      disaster: "強降雨、土石流",
-      recommend: "台中霧峰",
+      ...fallback,
+      score: regionData?.[fullRegionKey]?.["交通"] ?? fallback.score,
+      color: colorMap["交通"],
     },
   };
 
   const current = tabContent[activeTab];
 
-  // ✅ 改為呼叫 Cloudflare Worker
   const generateAdvice = async (tab) => {
     setLoading(true);
     const payload = {
       tab,
-      region,
+      region: fullRegionKey,
       score: tabContent[tab].score,
       disaster: tabContent[tab].disaster,
       recommend: tabContent[tab].recommend,
@@ -126,7 +146,7 @@ const TagsSuggestion = ({ userData, onNext }) => {
     <div className="w-full max-w-2xl mx-auto p-6 border rounded-lg bg-white shadow">
       {/* 分頁切換 */}
       <div className="flex justify-center mb-4 space-x-4">
-        {["居住", "遊憩", "交通"].map((tab) => (
+        {["居住", "旅遊", "交通"].map((tab) => (
           <button
             key={tab}
             className={`px-4 py-2 font-semibold ${activeTab === tab
@@ -148,7 +168,7 @@ const TagsSuggestion = ({ userData, onNext }) => {
           tooltip={`氣候評分：${current.score}%`}
         />
         <div>
-          <h2 className="text-xl font-bold">未來 30 年後 {region}：</h2>
+          <h2 className="text-xl font-bold">未來 30 年後 {fullRegionKey}：</h2>
           <p className="text-gray-700">{current.description}</p>
         </div>
       </div>
