@@ -1,32 +1,20 @@
-export const config = {
-  runtime: 'edge',
-};
-
-export default async function handler(req) {
-  const headers = {
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
-  };
-
-  // ✅ 處理預檢請求（OPTIONS）
+export default async function handler(req, res) {
+  // 處理 CORS 預檢
   if (req.method === 'OPTIONS') {
-    return new Response(null, {
-      status: 204,
-      headers,
-    });
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.status(204).end();
+    return;
   }
 
   if (req.method !== 'POST') {
-    return new Response(JSON.stringify({ error: 'Method Not Allowed' }), {
-      status: 405,
-      headers,
-    });
+    res.status(405).json({ error: 'Method Not Allowed' });
+    return;
   }
 
   try {
-    const { tab, region, score, disaster, recommend } = await req.json();
+    const { tab, region, score, disaster, recommend } = req.body;
 
     const prompt = `你是一位氣候風險顧問，請針對以下資訊，用繁體中文生成一段不超過100字的「${tab}」建議，語氣自然具體：
 地區：${region}
@@ -51,27 +39,14 @@ export default async function handler(req) {
       }),
     });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error("OpenAI 錯誤：", errorText);
-      return new Response(JSON.stringify({ result: "⚠️ 發生錯誤，請稍後再試。" }), {
-        status: 500,
-        headers,
-      });
-    }
-
     const data = await response.json();
     const reply = data?.choices?.[0]?.message?.content || "目前無法取得建議。";
 
-    return new Response(JSON.stringify({ result: reply }), {
-      status: 200,
-      headers,
-    });
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.status(200).json({ result: reply });
   } catch (err) {
     console.error("API Error:", err);
-    return new Response(JSON.stringify({ result: "⚠️ 發生錯誤，請稍後再試。" }), {
-      status: 500,
-      headers,
-    });
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.status(500).json({ result: "⚠️ 發生錯誤，請稍後再試。" });
   }
 }
