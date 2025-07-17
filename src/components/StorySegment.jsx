@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 export default function StorySegment({ userData, onNext }) {
   const [story, setStory] = useState("");
+  const [bgImage, setBgImage] = useState("");
   const [imageLoaded, setImageLoaded] = useState(false);
 
   useEffect(() => {
