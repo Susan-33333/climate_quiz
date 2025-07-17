@@ -20,7 +20,7 @@ function ProgressBar({ currentStep, totalSteps = 10, mascotSrc = null }) {
                 </div>
             )}
             {/* 進度條容器 */}
-            <div className="relative w-full h-3 bg-green-100 rounded-full overflow-hidden">
+            <div className="relative w-full h-3 bg-green-100 rounded-full overflow-hidden border border-red-500">
                 {/* 前景進度條 */}
                 <div
                     className="h-full transition-all duration-700 ease-out rounded-full"

@@ -40,7 +40,7 @@ function QuizSection({ onNext }) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex flex-col items-center pt-20 p-4">
       <div className="w-full px-6 pt-4 fixed top-0 left-0 z-30 bg-white/80 backdrop-blur shadow-sm">
         <ProgressBar
           currentStep={currentIndex + 1}
