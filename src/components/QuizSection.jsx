@@ -99,11 +99,8 @@ function QuizSection({ onNext }) {
                 <button
                   onClick={handleNext}
                   disabled={!selected}
-                  className={`px-8 py-3 rounded-xl font-semibold text-white transition-all duration-300 transform hover:scale-105 active:scale-95 ${
-                    selected 
-                      ? "bg-green-600 hover:bg-green-700 shadow-lg hover:shadow-xl" 
-                      : "bg-gray-400 cursor-not-allowed opacity-50"
-                  }`}
+                  className="block w-full rounded-[36px] border-2 px-6 py-5 text-center font-bold text-lg transition-all duration-300 
+                    bg-[#70472d] text-white border-[#70472d] shadow-lg hover:shadow-[0_0_0_3px_rgba(112,71,45,0.4)]"
                 >
                   {currentIndex + 1 === questions.length ? "查看結果" : "下一題"}
                 </button>
