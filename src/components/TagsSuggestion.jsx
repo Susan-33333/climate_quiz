@@ -97,7 +97,7 @@ const TagsSuggestion = ({ userData, onNext }) => {
     };
 
     try {
-      const res = await fetch("/api/generateAdvice", {
+      const res = await fetch("https://climate-quiz-mai6z47ja-susan-33333s-projects.vercel.app/api/generateAdvice", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
