@@ -3,6 +3,28 @@ export const config = {
 };
 
 export default async function handler(req) {
+  // ✅ 處理預檢請求 (CORS Preflight)
+  if (req.method === "OPTIONS") {
+    return new Response("OK", {
+      status: 200,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization",
+      },
+    });
+  }
+
+  // ✅ 限制僅接受 POST 方法
+  if (req.method !== "POST") {
+    return new Response("Method Not Allowed", {
+      status: 405,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
+    });
+  }
+
   try {
     const body = await req.json();
     const { tab, region, score, disaster, recommend } = body;
@@ -13,16 +35,10 @@ export default async function handler(req) {
 主要氣候風險：${disaster}
 推薦地點：${recommend}`;
 
-    const apiKey = process.env.OPENROUTER_API_KEY;
-
-    if (!apiKey) {
-      throw new Error("未設定 OPENROUTER_API_KEY");
-    }
-
     const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${apiKey}`,
+        Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -39,13 +55,19 @@ export default async function handler(req) {
 
     return new Response(JSON.stringify({ result: reply }), {
       status: 200,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*", // ✅ 開放前端請求跨網域
+      },
     });
   } catch (error) {
-    console.error("OpenRouter API Error:", error.message || error);
+    console.error("OpenRouter API Error:", error);
     return new Response(JSON.stringify({ result: "⚠️ 發生錯誤，請稍後再試。" }), {
       status: 500,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*", // ✅ 即使錯誤也要標註跨域
+      },
     });
   }
 }
