@@ -22,16 +22,16 @@ export default async function handler(req) {
 主要氣候風險：${disaster}
 推薦地點：${recommend}`;
 
-    const apiKey = process.env.OPENROUTER_API_KEY;
+    const apiKey = process.env.OPENAI_API_KEY;
 
-    const openRouterRes = await fetch("https://api.openai.com/v1/chat/completions", {
+    const openAIRes = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "model: "gpt-4o",
+        model: "gpt-4o",
         messages: [
           { role: "system", content: "你是一位氣候顧問，請用繁體中文回答。" },
           { role: "user", content: prompt },
@@ -39,16 +39,16 @@ export default async function handler(req) {
       }),
     });
 
-    if (!openRouterRes.ok) {
-      const errorText = await openRouterRes.text();
-      console.error("OpenRouter 錯誤：", errorText);
+    if (!openAIRes.ok) {
+      const errorText = await openAIRes.text();
+      console.error("OpenAI 錯誤：", errorText);
       return new Response(JSON.stringify({ result: "⚠️ 發生錯誤，請稍後再試。" }), {
         status: 500,
         headers: { "Access-Control-Allow-Origin": "*" },
       });
     }
 
-    const data = await openRouterRes.json();
+    const data = await openAIRes.json();
     const reply = data?.choices?.[0]?.message?.content || "目前無法取得建議。";
 
     return new Response(JSON.stringify({ result: reply }), {
