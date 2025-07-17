@@ -53,7 +53,7 @@ function QuizSection({ onNext }) {
 
         {/* 問題卡片區塊 */}
         <div className="w-full bg-white rounded-2xl shadow-lg p-6">
-          <div className="relative min-h-[800px]">
+          <div className="relative min-h-[400px]">
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentIndex}
@@ -64,7 +64,7 @@ function QuizSection({ onNext }) {
                 className="w-full"
               >
                 <div className="text-center mb-6">
-                  <h3 className="text-lg font-medium text-gray-600 mb-2">
+                  <h3 className="text-lg font-huninn text-gray-600 mb-2">
                     第 {currentIndex + 1} 題
                   </h3>
                   <h2 className="text-2xl font-semibold text-green-800 leading-loose">
