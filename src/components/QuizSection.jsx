@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import ProgressBar from "../components/ProgressBar"; // 這行要放在最上方
 
 function QuizSection({ onNext }) {
   const [questions, setQuestions] = useState([]);
@@ -40,31 +41,14 @@ function QuizSection({ onNext }) {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center p-4">
-      {/* 進度條浮在上方 */}
       <div className="w-full px-6 pt-4 fixed top-0 left-0 z-30 bg-white/80 backdrop-blur shadow-sm">
-        <div className="relative h-6">
-          <div
-            className="absolute z-20 -top-4 transition-all duration-700 ease-out"
-            style={{
-              left: `calc(${((currentIndex + 1) / questions.length) * 100}% - 12px)`,
-            }}
-          >
-            <img
-              src={`${import.meta.env.BASE_URL}mascot/T6.png`}
-              alt="松鼠"
-              className="w-6 h-6 object-contain drop-shadow"
-            />
-          </div>
-          <div className="relative w-full h-3 bg-red-200 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-red-500 transition-all duration-700 ease-out"
-              style={{
-                width: `${((currentIndex + 1) / questions.length) * 100}%`,
-              }}
-            />
-          </div>
-        </div>
+        <ProgressBar
+          currentStep={currentIndex + 1}
+          totalSteps={questions.length}
+          mascotSrc={`${import.meta.env.BASE_URL}mascot/T6.png`}
+        />
       </div>
+
       {/* 主要內容容器 - 響應式設計 */}
       <div className="w-full max-w-md mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
         <div className="relative min-h-[400px] px-6 py-8">
