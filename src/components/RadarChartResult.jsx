@@ -12,13 +12,6 @@ function RadarChartResult({ scores, mascot, regionSummary }) {
     { category: "交通綠能", value: scores?.transport || 0 },
     { category: "旅遊分數", value: scores?.tourism || 0 },
   ];
-
-  const barItems = [
-    { label: "幸福度", key: "happiness" },
-    { label: "開心度", key: "joy" },
-    { label: "探索欲", key: "explore" },
-  ];
-
   const downloadImage = async () => {
     try {
       const node = document.getElementById("result-card");
@@ -104,25 +97,8 @@ function RadarChartResult({ scores, mascot, regionSummary }) {
                 {regionSummary || "正在分析你的氣候適應性..."}
               </p>
             </div>
-          </div>
-        </div>
-
-        {/* 三條拉桿示意 */}
-        <div className="mt-8 space-y-4">
-          {barItems.map(({ label, key }) => (
-            <div key={key} className="mb-4">
-              <div className="flex justify-between items-center mb-2">
-                <p className="text-lg font-medium text-gray-700">{label}</p>
-                <span className="text-sm text-gray-500">{scores[key] || 0}%</span>
-              </div>
-              <div className="w-full h-4 bg-gray-200 rounded-full relative overflow-hidden">
-                <div
-                  className="h-full bg-gradient-to-r from-green-400 to-green-600 rounded-full transition-all duration-1000 ease-out"
-                  style={{ width: `${Math.max(scores[key] || 0, 5)}%` }}
-                />
-              </div>
             </div>
-          ))}
+          </div>
         </div>
 
         {/* 下載按鈕 */}
@@ -131,7 +107,7 @@ function RadarChartResult({ scores, mascot, regionSummary }) {
             onClick={downloadImage}
             className="px-8 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg hover:from-green-600 hover:to-green-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
           >
-            📸 下載圖片 / 分享到 IG
+            下載圖片
           </button>
         </div>
       </div>
