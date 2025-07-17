@@ -1,5 +1,5 @@
 export default {
-  async fetch(req: Request): Promise<Response> {
+  async fetch(req: Request, env: any): Promise<Response> {
     if (req.method === 'OPTIONS') {
       return new Response(null, { status: 204, headers: corsHeaders() });
     }
@@ -23,12 +23,11 @@ export default {
 主要氣候風險：${disaster}
 推薦地點：${recommend}`;
 
-      const apiKey = process.env.OPENAI_API_KEY;
-
+      // ✅ 正確取得 secret
       const openAIRes = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${apiKey}`,
+          Authorization: `Bearer ${env.OPENAI_API_KEY}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -45,7 +44,7 @@ export default {
         console.error("OpenAI 錯誤：", errorText);
         return new Response(JSON.stringify({ result: "⚠️ 發生錯誤，請稍後再試。" }), {
           status: 500,
-          headers: corsHeaders(),
+          headers: corsHeaders()
         });
       }
 
@@ -56,8 +55,8 @@ export default {
         status: 200,
         headers: {
           ...corsHeaders(),
-          "Content-Type": "application/json",
-        },
+          "Content-Type": "application/json"
+        }
       });
     } catch (err) {
       console.error("API Error:", err);
@@ -65,8 +64,8 @@ export default {
         status: 500,
         headers: {
           ...corsHeaders(),
-          "Content-Type": "application/json",
-        },
+          "Content-Type": "application/json"
+        }
       });
     }
   }
