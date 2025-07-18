@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 
-// ✅ 改版 RingChart 元件（修正數字歪斜與白圈居中）
+// ✅ 改版 RingChart 元件（改為顯示整數）
 const RingChart = ({ score, size = 100 }) => {
   const innerSize = size * 0.7;
   const [animatedScore, setAnimatedScore] = useState(0);
@@ -73,7 +73,7 @@ const RingChart = ({ score, size = 100 }) => {
 
       <div className="absolute text-center">
         <span className="text-xl font-semibold text-gray-800">
-          {score.toFixed(1)}
+          {Math.round(animatedScore)}
         </span>
       </div>
     </div>
