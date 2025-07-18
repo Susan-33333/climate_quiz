@@ -13,6 +13,14 @@ export default {
   async fetch(req: Request, env: any, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(req.url);
 
+    // ✅ 這是關鍵！讓 root handler 處理預檢 OPTIONS
+    if (req.method === "OPTIONS") {
+      return new Response(null, {
+        status: 204,
+        headers: corsHeaders(),
+      });
+    }
+
     if (url.pathname === "/api/generate-advice") {
       return generateAdvice.fetch(req, env, ctx);
     }
