@@ -65,10 +65,10 @@ console.count("🌀 QuizSection Rendered")
                 className="w-full"
               >
                 <div className="text-center mb-6">
-                  <h3 className="text-xl sm:text-lg font-huninn text-[#004B97] mb-2">
+                  <h3 className="text-2xl sm:text-xl font-huninn text-[#004B97] mb-2">
                     第 {currentIndex + 1} 題
                   </h3>
-                  <h2 className="text-2xl sm:text-3xl font-bold text-[#004B97] text-center leading-relaxed px-2">
+                  <h2 className="text-3xl sm:text-4xl font-bold text-[#004B97] text-center leading-relaxed px-2">
                     {current.question}
                   </h2>
                 </div>
@@ -79,7 +79,7 @@ console.count("🌀 QuizSection Rendered")
                       key={key}
                       disabled={selected !== null}
                       onClick={() => handleSelect(key)}
-                      className={`block w-full rounded-[36px] border-2 px-6 py-5 text-center text-2xl font-bold transition-all duration-300
+                      className={`block w-full rounded-[36px] border-2 px-6 py-5 text-center text-3xl font-bold transition-all duration-300
                         ${
                           selected === key
                             ? "bg-[#003D79] text-white border-[#004B97] shadow-lg ring-2 ring-yellow-200"
