@@ -13,16 +13,16 @@ function QuizIntro({ onStart }) {
       style={{ backgroundImage: `url(${bgImage})` }}
     >
       {/* 中央文字卡片 */}
-      <div className="bg-white/80 backdrop-blur-md p-8 rounded-2xl shadow-xl text-center max-w-md w-full space-y-8">
+      <div className="bg-white/80 backdrop-blur-md p-8 rounded-2xl shadow-xl text-center max-w-md w-full space-y-6">
         <h2 className="text-4xl sm:text-5xl font-bold font-huninn text-gray-800 leading-snug">
           準備好了嗎？
         </h2>
-        <p className="text-xl sm:text-2xl text-gray-700 font-huninn leading-relaxed">
+        <p className="text-xs text-gray-700 font-huninn leading-relaxed">
           這份測驗將會探究你與氣候之間的相性
         </p>
         <button
           onClick={onStart}
-          className="inline-block rounded-[36px] sm:rounded-[36px] border-3 sm:border-4 px-6 sm:px-8 py-4 sm:py-5 text-center font-bold text-xl sm:text-2xl leading-loose transition-all duration-300 bg-white text-[#70472d] border-[#70472d] hover:shadow-[0_0_0_3px_rgba(112,71,45,0.4)] active:shadow-[0_0_0_3px_rgba(112,71,45,0.6)]"
+          className="inline-block text-xs font-bold rounded-[36px] border-2 px-4 py-2 text-center text-[#70472d] border-[#70472d] hover:shadow-[0_0_0_2px_rgba(112,71,45,0.4)] active:shadow-[0_0_0_2px_rgba(112,71,45,0.6)] transition-all duration-300"
         >
           開始測驗
         </button>
@@ -32,6 +32,7 @@ function QuizIntro({ onStart }) {
 }
 
 export default QuizIntro;
+
 
 
 
