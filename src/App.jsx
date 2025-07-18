@@ -101,7 +101,13 @@ function App() {
   const currentStepIndex = stepList.indexOf(step);
   const totalSteps = stepList.length;
   const progressPercent = ((currentStepIndex + 1) / totalSteps) * 100;
-
+  {step === steps.QUIZ_MAIN && (
+  <ProgressBarPortal
+    currentStep={userData.answers?.length + 1 || 1}
+    totalSteps={8}
+    mascotSrc={`${import.meta.env.BASE_URL}mascot/T6.png`}
+  />
+)}
   return (
     <div className="min-h-screen font-huninn bg-gray-100 p-4 max-w-3xl mx-auto">
 
@@ -132,6 +138,14 @@ function App() {
         <StorySegment
           userData={userData}
           onNext={() => dispatch({ type: "NEXT", payload: steps.QUIZ_MAIN })}
+        />
+      )}
+
+      {step === steps.QUIZ_MAIN && (
+        <ProgressBarPortal
+          currentStep={userData.answers?.length + 1 || 1}
+          totalSteps={8}
+          mascotSrc={`${import.meta.env.BASE_URL}mascot/T6.png`}
         />
       )}
 
