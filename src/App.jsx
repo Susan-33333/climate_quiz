@@ -140,15 +140,7 @@ function App() {
           onNext={() => dispatch({ type: "NEXT", payload: steps.QUIZ_MAIN })}
         />
       )}
-
-      {step === steps.QUIZ_MAIN && (
-        <ProgressBarPortal
-          currentStep={userData.answers?.length + 1 || 1}
-          totalSteps={8}
-          mascotSrc={`${import.meta.env.BASE_URL}mascot/T6.png`}
-        />
-      )}
-
+      
       {step === steps.QUIZ_MAIN && (
         <QuizSection
           onNext={(answers) => {
