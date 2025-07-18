@@ -75,7 +75,6 @@ function QuizSection({ onNext }) {
                     {current.question}
                   </h2>
                 </div>
-                <p className="text-2xl font-huninn">🐿️ 這是一段測試字型的文字</p>
 
                 <div className="space-y-4 sm:space-y-3 mb-6 sm:mb-8">
                   {Object.entries(current.options).map(([key, text]) => (
