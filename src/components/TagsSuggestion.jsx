@@ -188,7 +188,7 @@ const TagsSuggestion = ({ userData, onNext }) => {
           </div>
 
           {/* 分數與說明區 */}
-          <div className="flex flex-col items-center space-y-4 text-left">
+          <div className="flex flex-col items-center space-y-6 pt-4 text-left">
             <RingChart score={current.score} />
             <h2 className="text-xl font-bold text-gray-800">未來 30 年後 {fullRegionDisplay}</h2>
             <p className="text-sm text-gray-700">{current.description}</p>
