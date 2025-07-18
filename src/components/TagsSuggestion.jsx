@@ -1,10 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 
-// ✅ 環形圖元件
-const RingChart = ({ percent, size = 100, color = "#EA0000", tooltip = "" }) => {
+// ✅ 改版 RingChart 元件（使用 SVG 呈現進度 + 彩色圓環）
+const RingChart = ({ score, size = 100 }) => {
   const innerSize = size * 0.75;
-  const [animatedPercent, setAnimatedPercent] = useState(0);
+  const [animatedScore, setAnimatedScore] = useState(0);
   const requestRef = useRef();
+
+  const getColor = (val) => {
+    if (val < 40) return "#EF4444"; // 紅
+    if (val < 70) return "#F59E0B"; // 橘
+    return "#10B981"; // 綠
+  };
+
+  const color = getColor(score);
 
   useEffect(() => {
     let start;
@@ -12,8 +20,8 @@ const RingChart = ({ percent, size = 100, color = "#EA0000", tooltip = "" }) => 
     const animate = (timestamp) => {
       if (!start) start = timestamp;
       const progress = timestamp - start;
-      const current = Math.min((percent * progress) / duration, percent);
-      setAnimatedPercent(Math.round(current));
+      const current = Math.min((score * progress) / duration, score);
+      setAnimatedScore(current);
       if (progress < duration) {
         requestRef.current = requestAnimationFrame(animate);
       }
@@ -21,29 +29,59 @@ const RingChart = ({ percent, size = 100, color = "#EA0000", tooltip = "" }) => 
     cancelAnimationFrame(requestRef.current);
     requestRef.current = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(requestRef.current);
-  }, [percent]);
+  }, [score]);
+
+  const radius = (size / 2) * 0.9;
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference * (1 - animatedScore / 100);
 
   return (
-    <div className="relative" style={{ width: size, height: size }} title={tooltip}>
+    <div className="relative" style={{ width: size, height: size }}>
+      <svg width={size} height={size} className="absolute top-0 left-0">
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          stroke="#e5e7eb"
+          strokeWidth={size * 0.1}
+          fill="none"
+        />
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          stroke={color}
+          strokeWidth={size * 0.1}
+          strokeDasharray={circumference}
+          strokeDashoffset={offset}
+          strokeLinecap="round"
+          fill="none"
+          transform={`rotate(-90 ${size / 2} ${size / 2})`}
+        />
+      </svg>
+
       <div
-        className="absolute rounded-full z-0"
+        className="absolute inset-0 flex items-center justify-center"
         style={{
-          width: size,
-          height: size,
-          background: `conic-gradient(${color} ${animatedPercent}%, #e5e7eb ${animatedPercent}%)`,
+          width: innerSize,
+          height: innerSize,
+          margin: "auto",
+          background: "white",
+          borderRadius: "50%",
+          zIndex: 10,
         }}
       ></div>
-      <div className="absolute inset-0 flex items-center justify-center z-10">
-        <div className="bg-white rounded-full" style={{ width: innerSize, height: innerSize }}></div>
-      </div>
+
       <div className="absolute inset-0 flex items-center justify-center z-20">
-        <span className="text-lg font-bold" style={{ color }}>{animatedPercent}%</span>
+        <span className="text-xl font-semibold text-gray-800">
+          {animatedScore.toFixed(1)}
+        </span>
       </div>
     </div>
   );
 };
 
-// ✅ 主頁元件含 AI 建議功能
+// ✅ 主元件
 const TagsSuggestion = ({ userData, onNext }) => {
   const [activeTab, setActiveTab] = useState("居住");
   const [adviceMap, setAdviceMap] = useState({});
@@ -59,7 +97,7 @@ const TagsSuggestion = ({ userData, onNext }) => {
   }
 
   const fullRegionKey = `${userData.county}_${userData.town}`;
-  const fullRegionDisplay = fullRegionKey.replace(/_/g, " "); // 顯示用
+  const fullRegionDisplay = fullRegionKey.replace(/_/g, " ");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -74,12 +112,6 @@ const TagsSuggestion = ({ userData, onNext }) => {
     fetchData();
   }, []);
 
-  const colorMap = {
-    居住: "#EA0000",
-    旅遊: "#10b981",
-    交通: "#6366f1",
-  };
-
   const fallback = {
     score: 50,
     description: "資料載入中或無對應資料。",
@@ -91,17 +123,14 @@ const TagsSuggestion = ({ userData, onNext }) => {
     居住: {
       ...fallback,
       score: regionData?.[fullRegionKey]?.["居住"] ?? fallback.score,
-      color: colorMap["居住"],
     },
     旅遊: {
       ...fallback,
       score: regionData?.[fullRegionKey]?.["旅遊"] ?? fallback.score,
-      color: colorMap["旅遊"],
     },
     交通: {
       ...fallback,
       score: regionData?.[fullRegionKey]?.["交通"] ?? fallback.score,
-      color: colorMap["交通"],
     },
   };
 
@@ -120,12 +149,9 @@ const TagsSuggestion = ({ userData, onNext }) => {
     try {
       const res = await fetch("https://climate-ai-proxy.climate-quiz-yuchen.workers.dev/api/generate-advice", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-
       const data = await res.json();
       const reply = data?.result || "目前無法取得建議。";
       setAdviceMap((prev) => ({ ...prev, [tab]: reply }));
@@ -163,11 +189,7 @@ const TagsSuggestion = ({ userData, onNext }) => {
 
       {/* 圖表與說明 */}
       <div className="flex items-center justify-center space-x-6">
-        <RingChart
-          percent={current.score}
-          color={current.color}
-          tooltip={`氣候評分：${current.score}%`}
-        />
+        <RingChart score={current.score} />
         <div>
           <h2 className="text-xl font-bold">未來 30 年後 {fullRegionDisplay}：</h2>
           <p className="text-gray-700">{current.description}</p>
