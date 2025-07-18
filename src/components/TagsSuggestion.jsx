@@ -170,37 +170,41 @@ const TagsSuggestion = ({ userData, onNext }) => {
 
   return (
     <div className="min-h-screen bg-[#fefcf9] flex flex-col items-center justify-center px-4 py-8">
-      <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl text-center w-full max-w-md p-6 space-y-4">
-        <div className="flex justify-center space-x-4">
-          {["居住", "旅遊", "交通"].map((tab) => (
-            <button
-              key={tab}
-              className={`text-sm font-bold px-4 py-2 rounded-full border transition-all duration-300 ${
-                activeTab === tab
-                  ? "bg-[#70472d] text-white border-[#70472d]"
-                  : "bg-transparent text-[#70472d] border-[#70472d] hover:bg-[#f0e7e1]"
-              }`}
-              onClick={() => setActiveTab(tab)}
-            >
-              {tab}
-            </button>
-          ))}
+      <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl text-center w-full max-w-4xl p-8 space-y-6">
+        <div className="flex flex-col md:flex-row items-center justify-center gap-8">
+          {/* 垂直按鈕群 */}
+          <div className="flex flex-col gap-4">
+            {["居住", "旅遊", "交通"].map((tab) => (
+              <button
+                key={tab}
+                className={`text-lg font-bold px-6 py-3 rounded-full border transition-all duration-300 w-36 ${
+                  activeTab === tab
+                    ? "bg-[#70472d] text-white border-[#70472d]"
+                    : "bg-transparent text-[#70472d] border-[#70472d] hover:bg-[#f0e7e1]"
+                }`}
+                onClick={() => setActiveTab(tab)}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+
+          {/* 分數與說明區 */}
+          <div className="flex flex-col items-center space-y-4 text-left">
+            <RingChart score={current.score} />
+            <h2 className="text-xl font-bold text-gray-800">未來 30 年後 {fullRegionDisplay}</h2>
+            <p className="text-sm text-gray-700">{current.description}</p>
+            <div className="text-sm text-gray-800">
+              <p className="font-semibold">可能面臨災害：</p>
+              <p className="text-gray-600">{current.disaster}</p>
+              <p className="font-semibold mt-2">推薦養老地點：</p>
+              <p className="text-gray-600">{current.recommend}</p>
+            </div>
+          </div>
         </div>
 
-        <div className="flex flex-col items-center space-y-4">
-          <RingChart score={current.score} />
-          <h2 className="text-lg font-bold text-gray-800">未來 30 年後 {fullRegionDisplay}</h2>
-          <p className="text-sm text-gray-700">{current.description}</p>
-        </div>
-
-        <div className="text-left mt-4 space-y-1">
-          <p className="text-sm font-semibold text-gray-800">可能面臨災害：</p>
-          <p className="text-sm text-gray-600">{current.disaster}</p>
-          <p className="text-sm font-semibold text-gray-800 mt-2">推薦養老地點：</p>
-          <p className="text-sm text-gray-600">{current.recommend}</p>
-        </div>
-
-        <div className="mt-4 p-4 bg-gray-100 rounded-md text-left">
+        {/* 建議區塊 */}
+        <div className="mt-6 p-4 bg-gray-100 rounded-md text-left">
           <h3 className="text-sm font-bold mb-1">🤖 AI 建議：</h3>
           {loading ? (
             <p className="text-gray-400 animate-pulse">正在產生建議...</p>
