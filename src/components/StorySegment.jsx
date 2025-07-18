@@ -28,13 +28,16 @@ export default function StorySegment({ userData, onNext }) {
       setImageLoaded(true);
     };
 
-    // 呼叫 AI API 生成故事
-    fetch("https://climate-ai-proxy.climate-quiz-yuchen.workers.dev", {
+    // ✅ 呼叫正確的 generate-story API 路徑
+    fetch("https://climate-ai-proxy.climate-quiz-yuchen.workers.dev/api/generate-story", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ age: projectedAge }),
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error("API 回應非 200");
+        return res.json();
+      })
       .then((data) => {
         setStory(data.result);
       })
