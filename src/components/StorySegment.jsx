@@ -10,26 +10,38 @@ export default function StorySegment({ userData, onNext }) {
     if (isNaN(age)) return;
     const projectedAge = age + 30;
 
+    const getAgeCategory = (age) => {
+      if (age <= 40) return "youth";
+      else if (age <= 65) return "adult";
+      else return "elder";
+    };
+
+    const category = getAgeCategory(projectedAge);
     const base = import.meta.env.BASE_URL || "/";
-    let imageUrl = "";
+    const imageUrl = `${base}mascot/${category}.jpg`;
 
-    if (projectedAge <= 40) {
-      setStory("你是一位年輕的生活探險家，正在學會與氣候共舞...");
-      imageUrl = `${base}mascot/youth.jpg`;
-    } else if (projectedAge <= 65) {
-      setStory("你在壯年努力生活，環境的變遷開始對你產生實際影響...");
-      imageUrl = `${base}mascot/adult.jpg`;
-    } else {
-      setStory("你已步入老年，回顧自己與世界的關係，思考未來的樣貌...");
-      imageUrl = `${base}mascot/elder.jpg`;
-    }
-
+    // 載入背景圖
     const img = new Image();
     img.src = imageUrl;
     img.onload = () => {
       setBgImage(imageUrl);
       setImageLoaded(true);
     };
+
+    // 呼叫 AI API 生成故事
+    fetch("https://climate-ai-proxy.climate-quiz-yuchen.workers.dev", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ age: projectedAge }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setStory(data.result);
+      })
+      .catch((err) => {
+        console.error("生成故事錯誤：", err);
+        setStory("⚠️ 故事載入失敗，請稍後再試。");
+      });
   }, [userData]);
 
   return (
@@ -39,18 +51,18 @@ export default function StorySegment({ userData, onNext }) {
     >
       <div className="backdrop-blur-sm bg-black/40 p-6 rounded">
         <h2 className="text-2xl font-bold mb-4">未來的你⋯⋯</h2>
-        <p className="mb-6">{story}</p>
-        {imageLoaded ? (
-        <button
-          className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded"
-          onClick={onNext}
-        >
-          我準備好了！
-        </button>
-      ) : (
-        <p className="text-white text-sm">背景載入中⋯⋯</p>
-      )}
+        <p className="mb-6 whitespace-pre-line">{story}</p>
 
+        {imageLoaded ? (
+          <button
+            className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded"
+            onClick={onNext}
+          >
+            我準備好了！
+          </button>
+        ) : (
+          <p className="text-white text-sm">背景載入中⋯⋯</p>
+        )}
       </div>
     </div>
   );

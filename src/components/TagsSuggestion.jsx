@@ -118,7 +118,7 @@ const TagsSuggestion = ({ userData, onNext }) => {
     };
 
     try {
-      const res = await fetch("https://climate-ai-proxy.climate-quiz-yuchen.workers.dev", {
+      const res = await fetch("https://climate-ai-proxy.climate-quiz-yuchen.workers.dev/api/generate-advice", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
