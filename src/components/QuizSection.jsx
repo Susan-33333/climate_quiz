@@ -60,13 +60,13 @@ console.count("🌀 QuizSection Rendered")
                   </h2>
                 </div>
 
-                <div className="space-y-12 mb-6">
+                <div className="space-y-500 mb-6">
                   {Object.entries(current.options).map(([key, text]) => (
                     <button
                       key={key}
                       disabled={selected !== null}
                       onClick={() => handleSelect(key)}
-                      className={`block w-full rounded-[36px] border-2 px-6 py-5 text-center text-3xl font-bold transition-all duration-300
+                      className={`block w-full rounded-[88px] border-2 px-6 py-5 text-center text-[20px] font-bold leading-snug transition-all duration-300 font-huninn sm:-h-[72px]
                         ${
                           selected === key
                             ? "bg-[#003D79] text-white border-[#004B97] shadow-lg ring-2 ring-yellow-200"
