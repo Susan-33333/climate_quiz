@@ -167,11 +167,7 @@ const TagsSuggestion = ({ userData, onNext }) => {
   }, [activeTab]);
 
   return (
-    <div className="min-h-screen bg-[#fefcf9] flex flex-col items-center justify-center px-4 py-8">
-      <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl text-center w-full max-w-4xl p-8 space-y-6">
-        <div className="flex flex-col md:flex-row items-center justify-center gap-8">
-          {/* 下拉選單 */}
-          <div className="w-full flex justify-center gap-6">
+    <div className="w-full flex items-stretch justify-between gap-2 bg-[#f9f3ef] p-2 rounded-xl">
   {[
     { label: "居住", icon: "🏠" },
     { label: "旅遊", icon: "🏝️" },
@@ -180,10 +176,10 @@ const TagsSuggestion = ({ userData, onNext }) => {
     <button
       key={label}
       onClick={() => setActiveTab(label)}
-      className={`flex flex-col items-center text-sm font-bold px-3 py-2 rounded-xl transition-all duration-200 ${
+      className={`flex-1 flex flex-col justify-center items-center text-sm font-bold py-3 rounded-lg transition-all duration-200 ${
         activeTab === label
           ? "bg-[#70472d] text-white shadow-md"
-          : "text-[#70472d] hover:bg-[#f0e7e1]"
+          : "text-[#70472d] hover:bg-[#e9d9cc]"
       }`}
     >
       <span className="text-2xl">{icon}</span>
@@ -191,6 +187,7 @@ const TagsSuggestion = ({ userData, onNext }) => {
     </button>
   ))}
 </div>
+
 
           {/* 分數與說明區 */}
           <div className="flex flex-col items-center space-y-6 pt-4 text-left">
