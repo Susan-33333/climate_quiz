@@ -3,6 +3,17 @@ import { motion, AnimatePresence } from "framer-motion";
 import { createPortal } from 'react-dom';
 import ProgressBar from "../components/ProgressBar"; // 這行要放在最上方
 
+function Modal({ children }) {
+  const portalRoot = document.getElementById('portal');
+
+  return createPortal(
+    <div className="fixed inset-0 z-[9999] bg-black/50">
+      {children}
+    </div>,
+    portalRoot
+  );
+}
+
 function QuizSection({ onNext }) {
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -42,17 +53,6 @@ function QuizSection({ onNext }) {
         onNext(updatedAnswers); // 測驗結束，顯示結果
       }
     }, 300); // 延遲 300 毫秒，讓轉場更流暢
-  function Modal({ children }) {
-  const portalRoot = document.getElementById('portal');
-
-  return createPortal(
-    <div className="fixed inset-0 z-[9999] bg-black/50">
-      {children}
-    </div>,
-    portalRoot
-  );
-}
-}
 
   return (
     <div className="min-h-screen bg-[#E0E0E0] flex justify-center px-10 pt-28 sm:px-8">
@@ -118,5 +118,5 @@ function QuizSection({ onNext }) {
     </div>
   );
 }
-
+}
 export default QuizSection;
