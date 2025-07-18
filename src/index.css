@@ -1,3 +1,13 @@
+@import url('/fonts/open-huninn.css');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@font-face {
+  font-family: 'jf-openhuninn';
+  src: url('/fonts/jf-openhuninn.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+body {
+  font-family: 'jf-openhuninn', sans-serif;
+}

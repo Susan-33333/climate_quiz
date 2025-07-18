@@ -7,7 +7,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-      huninn: ['jf-openhuninn', 'sans-serif'],
+      'huninn': ['huninn', 'system-vi', 'sans-serif'],
+      'sans':['huninn', 'system-ui', 'sans-serif'],
       },
       colors: {
       quiz: {
@@ -17,4 +18,4 @@ export default {
   },
 },
   plugins: []
-};
+}
