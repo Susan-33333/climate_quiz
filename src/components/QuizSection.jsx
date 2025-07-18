@@ -73,7 +73,7 @@ console.count("🌀 QuizSection Rendered")
                               ? "bg-[#003D79] text-white border-[#004B97] shadow-lg ring-2 ring-yellow-200"
                               : "bg-white text-[#004B97] border-[#004B97] hover:bg-[#fdf5ec]"
                           }
-                          ${selected !== null && selected !== key ? "opacity-50" : ""}
+                          ${selected !== null && selected !== key ? "opacity-10" : ""}
                         `}
                       >
                         {text}
