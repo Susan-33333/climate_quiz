@@ -60,26 +60,26 @@ console.count("🌀 QuizSection Rendered")
                   </h2>
                 </div>
 
-                <div className="flex flex-col gap-12 mb-6">
+                  <div className="flex flex-col gap-12 mb-6">
 
-                  {Object.entries(current.options).map(([key, text]) => (
-                    <button
-                      key={key}
-                      disabled={selected !== null}
-                      onClick={() => handleSelect(key)}
-                      className={`block w-full rounded-[88px] border-2 px-6 py-5 text-center text-[20px] font-bold leading-snug transition-all duration-300 font-huninn sm:-h-[72px]
-                        ${
-                          selected === key
-                            ? "bg-[#003D79] text-white border-[#004B97] shadow-lg ring-2 ring-yellow-200"
-                            : "bg-white text-[#004B97] border-[#004B97] hover:bg-[#fdf5ec]"
-                        }
-                        ${selected !== null && selected !== key ? "opacity-50" : ""}
-                      `}
-                    >
-                      {text}
-                    </button>
-                  ))}
-                </div>
+                    {Object.entries(current.options).map(([key, text]) => (
+                      <button
+                        key={key}
+                        disabled={selected !== null}
+                        onClick={() => handleSelect(key)}
+                        className={`block w-full rounded-[88px] border-2 px-6 py-5 text-center text-[20px] font-bold leading-snug transition-all duration-300 font-huninn sm:-h-[72px]
+                          ${
+                            selected === key
+                              ? "bg-[#003D79] text-white border-[#004B97] shadow-lg ring-2 ring-yellow-200"
+                              : "bg-white text-[#004B97] border-[#004B97] hover:bg-[#fdf5ec]"
+                          }
+                          ${selected !== null && selected !== key ? "opacity-50" : ""}
+                        `}
+                      >
+                        {text}
+                      </button>
+                    ))}
+                  </div>
               </motion.div>
             </AnimatePresence>
           </div>
