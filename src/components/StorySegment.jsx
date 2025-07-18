@@ -58,22 +58,27 @@ export default function StorySegment({ userData, onNext }) {
 
       {/* 內容層：置中對齊，且不影響圖片位置 */}
       {imageLoaded ? (
-        <div className="absolute inset-0 flex justify-center items-center z-10 px-4">
-          <div className="bg-white/90 backdrop-blur-sm text-gray-800 rounded-2xl p-6 text-center shadow-lg max-w-xs w-full">
-            <h2 className="text-xl font-bold mb-4">未來的你⋯⋯</h2>
-            <p className="text-sm leading-relaxed whitespace-pre-line mb-6">{story}</p>
-            <button
-              className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded transition"
-              onClick={onNext}
-            >
-              我準備好了！
-            </button>
+        <div className="absolute inset-0 flex justify-center items-center z-10">
+          <div className="w-full max-w-[414px] px-8 flex justify-center items-center">
+            <div className="bg-white/90 backdrop-blur-sm text-gray-800 rounded-2xl p-6 text-center shadow-lg w-full max-w-[300px]">
+              <h2 className="text-xl font-bold mb-4">未來的你⋯⋯</h2>
+              <p className="text-sm leading-relaxed whitespace-pre-line mb-6">{story}</p>
+              <button
+                className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded transition"
+                onClick={onNext}
+              >
+                我準備好了！
+              </button>
+            </div>
           </div>
         </div>
       ) : (
-        <p className="z-10 relative text-white text-sm text-center p-8">背景載入中⋯⋯</p>
+        <div className="absolute inset-0 flex justify-center items-center z-10">
+          <div className="w-full max-w-[414px] px-8 flex justify-center items-center">
+            <p className="text-white text-sm text-center">背景載入中⋯⋯</p>
+          </div>
+        </div>
       )}
     </div>
   );
 }
-
