@@ -1,11 +1,14 @@
-// src/generateStory.ts
-
 export default {
   async fetch(req: Request, env: any): Promise<Response> {
+    // 預檢請求（CORS Preflight）
     if (req.method === "OPTIONS") {
-      return new Response(null, { status: 204, headers: corsHeaders() });
+      return new Response(null, {
+        status: 204,
+        headers: corsHeaders(),
+      });
     }
 
+    // 非 POST 請求擋下
     if (req.method !== "POST") {
       return new Response(JSON.stringify({ error: "Method Not Allowed" }), {
         status: 405,
@@ -62,9 +65,10 @@ export default {
   },
 };
 
+// ✅ CORS 設定（只允許 GitHub Pages 網域）
 function corsHeaders() {
   return {
-    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Origin": "https://susan-33333.github.io",
     "Access-Control-Allow-Methods": "POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type",
   };
