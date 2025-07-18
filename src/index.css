@@ -1,13 +1,12 @@
-@import url('./fonts/open-huninn.css');
+/* ✅ 匯入你放在 src/assets/fonts 的字型設定 */
+@import "./assets/fonts/open-huninn.css";
+
+/* ✅ Tailwind 的三大指令 */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@font-face {
-  font-family: 'jf-openhuninn';
-  src: url('/fonts/jf-openhuninn.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-}
+
+/* ✅ 全站預設使用字型 */
 body {
   font-family: 'jf-openhuninn', sans-serif;
 }
