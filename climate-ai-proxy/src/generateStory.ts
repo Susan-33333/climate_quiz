@@ -1,6 +1,6 @@
 export default {
   async fetch(req: Request, env: any): Promise<Response> {
-    // 預檢請求（CORS Preflight）
+    // ✅ 預檢請求（CORS preflight）
     if (req.method === "OPTIONS") {
       return new Response(null, {
         status: 204,
@@ -8,14 +8,14 @@ export default {
       });
     }
 
-    // 非 POST 請求擋下
+    // ✅ 僅接受 POST
     if (req.method !== "POST") {
       return new Response(JSON.stringify({ error: "Method Not Allowed" }), {
         status: 405,
         headers: {
           ...corsHeaders(),
-          "Content-Type": "application/json"
-        }
+          "Content-Type": "application/json",
+        },
       });
     }
 
@@ -65,7 +65,7 @@ export default {
   },
 };
 
-// ✅ CORS 設定（只允許 GitHub Pages 網域）
+// ✅ CORS 標頭設定
 function corsHeaders() {
   return {
     "Access-Control-Allow-Origin": "https://susan-33333.github.io",
