@@ -8,7 +8,6 @@ import TagsSuggestion from "./components/TagsSuggestion";
 import RadarChartResult from "./components/RadarChartResult";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "./firebase";
-import ProgressBarPortal from "./components/ProgressBarPortal";
 
 export const steps = {
   QUIZ_INTRO: "QUIZ_INTRO",
@@ -141,15 +140,7 @@ function App() {
           onNext={() => dispatch({ type: "NEXT", payload: steps.QUIZ_MAIN })}
         />
       )}
-
-      {step === steps.QUIZ_MAIN && (
-        <ProgressBarPortal
-          currentStep={userData.answers?.length + 1 || 1}
-          totalSteps={8}
-          mascotSrc={`${import.meta.env.BASE_URL}mascot/T6.png`}
-        />
-      )}
-
+      
       {step === steps.QUIZ_MAIN && (
         <QuizSection
           onNext={(answers) => {
