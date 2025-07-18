@@ -19,7 +19,7 @@ export default {
 
     try {
       const { age } = await req.json();
-      const category = age <= 40 ? "青年" : futureAge <= 65 ? "壯年" : "老年";
+      const category = age <= 40 ? "青年" : age <= 65 ? "壯年" : "老年";
       const prompt = 
 `請用小說敘事風格，撰寫一段GWL4.0 氣候變遷情境下的「${category}篇」故事。主角是現在的使用者本人，描述他／她在未來生活中的一天。
 
