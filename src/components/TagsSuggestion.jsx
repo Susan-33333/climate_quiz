@@ -200,16 +200,7 @@ const TagsSuggestion = ({ userData, onNext }) => {
         <p className="text-gray-600">{current.recommend}</p>
       </div>
 
-      <div className="flex items-center space-x-2 mt-2">
-        <input
-          type="range"
-          min={0}
-          max={100}
-          value={current.score}
-          readOnly
-          className="w-full"
-        />
-      </div>
+      
 
       <div className="mt-6 p-4 bg-gray-100 rounded-md">
         <h3 className="text-md font-bold mb-1">🤖 AI 建議：</h3>
