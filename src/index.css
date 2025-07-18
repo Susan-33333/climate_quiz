@@ -1,4 +1,4 @@
-@import url('/fonts/open-huninn.css');
+@import url('./fonts/open-huninn.css');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
