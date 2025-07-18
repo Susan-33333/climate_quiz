@@ -171,21 +171,26 @@ const TagsSuggestion = ({ userData, onNext }) => {
       <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl text-center w-full max-w-4xl p-8 space-y-6">
         <div className="flex flex-col md:flex-row items-center justify-center gap-8">
           {/* 下拉選單 */}
-          <div className="w-full max-w-xs text-left">
-            <label htmlFor="tabSelect" className="block mb-1 text-sm font-medium text-gray-700">
-              選擇類別
-            </label>
-            <select
-              id="tabSelect"
-              value={activeTab}
-              onChange={(e) => setActiveTab(e.target.value)}
-              className="block w-full rounded-lg border border-gray-300 px-4 py-2 text-base text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#70472d] focus:border-[#70472d]"
-            >
-              <option value="居住">居住</option>
-              <option value="旅遊">旅遊</option>
-              <option value="交通">交通</option>
-            </select>
-          </div>
+          <div className="w-full flex justify-center gap-6">
+  {[
+    { label: "居住", icon: "🏠" },
+    { label: "旅遊", icon: "🏝️" },
+    { label: "交通", icon: "🚌" }
+  ].map(({ label, icon }) => (
+    <button
+      key={label}
+      onClick={() => setActiveTab(label)}
+      className={`flex flex-col items-center text-sm font-bold px-3 py-2 rounded-xl transition-all duration-200 ${
+        activeTab === label
+          ? "bg-[#70472d] text-white shadow-md"
+          : "text-[#70472d] hover:bg-[#f0e7e1]"
+      }`}
+    >
+      <span className="text-2xl">{icon}</span>
+      <span className="mt-1">{label}</span>
+    </button>
+  ))}
+</div>
 
           {/* 分數與說明區 */}
           <div className="flex flex-col items-center space-y-6 pt-4 text-left">
