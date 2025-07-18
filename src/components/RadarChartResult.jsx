@@ -7,10 +7,10 @@ function RadarChartResult({ scores, mascot, regionSummary }) {
 
   const data = [
     { category: "幸福度", value: scores?.happiness || 0 },
-    { category: "韌性度", value: scores?.adaptability || 0 },
-    { category: "探索度", value: scores?.residence || 0 },
-    { category: "永續度", value: scores?.transport || 0 },
-    { category: "旅遊分數", value: scores?.tourism || 0 },
+    { category: "調適度", value: scores?.adaptability || 0 },
+    { category: "便利度", value: scores?.convience || 0 },
+    { category: "樂活度", value: scores?.live || 0 },
+    { category: "舒適度", value: scores?.comfortable || 0 },
   ];
   const downloadImage = async () => {
     try {
@@ -23,7 +23,7 @@ function RadarChartResult({ scores, mascot, regionSummary }) {
       const canvas = await html2canvas(node, {
         useCORS: true,
         allowTaint: true,
-        backgroundColor: "#faf7ef"
+        backgroundColor: "#E0E0E0"
       });
       
       const link = document.createElement("a");
