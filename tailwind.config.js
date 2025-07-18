@@ -7,15 +7,15 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-      'huninn': ['huninn', 'system-vi', 'sans-serif'],
-      'sans':['huninn', 'system-ui', 'sans-serif'],
+        huninn: ['jf-openhuninn', 'sans-serif'],
+        sans: ['jf-openhuninn', 'sans-serif'],  // 如果你想全站預設這個字型
       },
       colors: {
-      quiz: {
-        500: '#f3bbe9ff',
-      },
-    },
+        quiz: {
+          500: '#f3bbe9ff',
+        },
+      }
+    }
   },
-},
   plugins: []
 }
