@@ -1,9 +1,13 @@
-// components/ProgressBarPortal.jsx
 import { createPortal } from "react-dom";
-import ProgressBar from "./ProgressBarPortal";
+import ProgressBar from "./ProgressBar";
+import { useEffect, useState } from "react";
 
 export default function ProgressBarPortal({ currentStep, totalSteps, mascotSrc }) {
-  const portalRoot = document.getElementById("portal-progressbar");
+  const [portalRoot, setPortalRoot] = useState(null);
+
+  useEffect(() => {
+    setPortalRoot(document.getElementById("portal-progressbar"));
+  }, []);
 
   if (!portalRoot) return null;
 
