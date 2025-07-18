@@ -106,15 +106,15 @@ function App() {
 
       {/* 各步驟畫面 */}
       {step === steps.QUIZ_INTRO && (
-        <PageWrapper>
+        
         <QuizIntro
           onStart={() => dispatch({ type: "NEXT", payload: steps.USER_INPUT })}
         />
-      </PageWrapper>
+      
       )}
 
       {step === steps.USER_INPUT && (
-        <PageWrapper>
+        
         <UserInputForm
           onSave={async (data) => {
             try {
@@ -128,20 +128,20 @@ function App() {
           }}
           onNext={() => dispatch({ type: "NEXT", payload: steps.STORY })}
         />
-      </PageWrapper>
+      
       )}
 
       {step === steps.STORY && (
-        <PageWrapper>
+        
         <StorySegment
           userData={userData}
           onNext={() => dispatch({ type: "NEXT", payload: steps.QUIZ_MAIN })}
         />
-      </PageWrapper>
+      
       )}
 
       {step === steps.QUIZ_MAIN && (
-        <PageWrapper>
+        
         <QuizSection
           onNext={(answers) => {
             const updatedData = { ...userData, answers };
@@ -149,20 +149,20 @@ function App() {
             dispatch({ type: "NEXT", payload: steps.RESULT });
           }}
         />
-      </PageWrapper>
+      
       )}
 
       {step === steps.RESULT && (
-        <PageWrapper>
+        
         <ResultPersonality
           userData={userData}
           onNext={() => dispatch({ type: "NEXT", payload: steps.TAGS })}
         />
-      </PageWrapper>
+      
       )}
 
       {step === steps.TAGS && (
-        <PageWrapper>
+        
         <TagsSuggestion
           userData={userData}
           onNext={() => {
@@ -203,17 +203,17 @@ function App() {
             dispatch({ type: "NEXT", payload: steps.RADAR });
           }}
         />
-      </PageWrapper>
+      
       )}
 
       {step === steps.RADAR && userData?.scores && (
-        <PageWrapper>
+        
         <RadarChartResult
           scores={userData.scores}
           mascot={userData.mascot}
           regionSummary={userData.regionSummary}
         />
-        </PageWrapper>
+        
       )}
     </div>
   );
