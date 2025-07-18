@@ -12,7 +12,7 @@ export default {
       },
       colors: {
         quiz: {
-          500: '#f3bbe9ff',
+          500: '#E0E0E0',
         },
       }
     }

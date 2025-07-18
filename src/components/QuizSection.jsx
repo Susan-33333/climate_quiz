@@ -38,10 +38,7 @@ function QuizSection({ onNext }) {
   }
 console.count("🌀 QuizSection Rendered")
   return (
-    <div className="min-h-screen bg-[#E0E0E0] flex justify-center px-10 pt-28 sm:px-8">
-        <div className="min-h-screen flex items-center justify-center px-4 relative w-full max-w-md mx-auto">
-        <div className="w-full max-w-md mx-auto bg-white rounded-2xl shadow-lg p-6 space-y-6 transition-all duration-500">
-          <div className="relative min-h-[450px] sm:min-h-[400px]">
+     <div className="space-y-6 transition-all duration-500">
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentIndex}
@@ -60,7 +57,7 @@ console.count("🌀 QuizSection Rendered")
                   </h2>
                 </div>
 
-                <div className="space-y-500 mb-6">
+                <div className="flex flex-col gap-12 mb-6">
                   {Object.entries(current.options).map(([key, text]) => (
                     <button
                       key={key}
@@ -82,9 +79,6 @@ console.count("🌀 QuizSection Rendered")
               </motion.div>
             </AnimatePresence>
           </div>
-        </div>
-      </div>
-    </div>
   );
 }
 
