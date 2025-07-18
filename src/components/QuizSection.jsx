@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { createPortal } from 'react-dom';
-import ProgressBar from "../components/ProgressBar"; // 這行要放在最上方
+import ProgressBarPortal from "..components/ProgressBarPortal"; // 這行要放在最上方
 
 function Modal({ children }) {
   const portalRoot = document.getElementById('portal');
@@ -59,12 +59,11 @@ function QuizSection({ onNext }) {
       <div className="min-h-screen flex items-center justify-center pt-20 px-4 
       relative">
         {/* 頂部進度條 */}
-        <div className="fixed top-0 left-0 w-full z-[99] bg-white/70 backdrop-blur-md px-6 py-4 shadow-md">
-          <ProgressBar
-            currentStep={currentIndex + 1}
-            totalSteps={questions.length}
-            mascotSrc={`${import.meta.env.BASE_URL}mascot/T6.png`}
-          />
+        <ProgressBarPortal
+          currentStep={currentIndex + 1}
+          totalSteps={questions.length}
+          mascotSrc={`${import.meta.env.BASE_URL}mascot/T6.png`}
+        />
         </div>
         {/* 問題卡片區塊 */}
           <div className="w-full max-w-md mx-auto bg-white rounded-2xl shadow-lg p-6 space-y-6 transition-all duration-500">
