@@ -44,7 +44,7 @@ function calculateScores(answers) {
   // 這裡你可以根據實際的計分邏輯調整
   // 暫時使用簡單的隨機計分作為示例
   const scoreMap = {
-    A: { happiness: 20, adaptability: 15, convenience: 25, convience: 10, live: 20, joy: 18, comfortable: 22 },
+    A: { happiness: 10, adaptability: 20, convenience: 20, convience: 10, live: 20, joy: 18, comfortable: 22 },
     B: { happiness: 15, adaptability: 20, convenience: 20, convience: 25, live: 15, joy: 20, comfortable: 18 },
     C: { happiness: 25, adaptability: 25, convenience: 15, convience: 20, live: 25, joy: 25, comfortable: 20 },
     D: { happiness: 10, adaptability: 30, convenience: 30, convience: 15, live: 20, joy: 15, comfortable: 25 }

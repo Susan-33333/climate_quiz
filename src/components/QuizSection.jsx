@@ -44,7 +44,7 @@ function QuizSection({ onNext }) {
   }
 
   return (
-    <div className="min-h-screen bg-[#E0E0E0] flex justify-center px-10 sm:px-8">
+    <div className="min-h-screen bg-[#E0E0E0] flex justify-center px-10 pt-28 sm:px-8">
       <div className="min-h-screen flex items-center justify-center pt-20 px-4 
       relative">
         {/* 頂部進度條 */}
@@ -76,7 +76,7 @@ function QuizSection({ onNext }) {
                   </h2>
                 </div>
 
-                <div className="space-y-4 sm:space-y-3 mb-6 sm:mb-8">
+                <div className="space-y-10 sm:space-y-3 mb-6 sm:mb-8">
                   {Object.entries(current.options).map(([key, text]) => (
                     <button
                       key={key}
@@ -84,10 +84,10 @@ function QuizSection({ onNext }) {
                       disabled={selected !== null}
                       onClick={() => handleSelect(key)}
                       // className 控制按鈕的大小和外觀，並在選中後調暗其他選項
-                      className={`block w-full rounded- [36px] border-2 px-6 py-5 text-center text-lg font-bold transition-all duration-300
+                      className={`block w-full rounded-[36px] border-2 px-6 py-5 text-center text-2xl font-bold transition-all duration-300
                         ${
                           selected === key
-                            ? "bg-[#70472d] text-white border-[#004B97] shadow-lg ring-2 ring-yellow-200"
+                            ? "bg-[#003D79] text-white border-[#004B97] shadow-lg ring-2 ring-yellow-200"
                             : "bg-white text-[#004B97] border-[#004B97] hover:bg-[#fdf5ec]"
                         }
                         ${selected !== null && selected !== key ? "opacity-50" : ""}
