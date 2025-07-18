@@ -48,7 +48,7 @@ function QuizSection({ onNext }) {
       <div className="min-h-screen flex items-center justify-center pt-20 px-4 
       relative">
         {/* 頂部進度條 */}
-        <div className="w-full fixed top-10 left-10 z-50 bg-white/80 backdrop-blur-md shadow-md px-4 sm:px-6 py-3 sm:py-4">
+        <div className="fixed top-0 left-0 w-full z-[99] bg-white/70 backdrop-blur-md px-6 py-4 shadow-md">
           <ProgressBar
             currentStep={currentIndex + 1}
             totalSteps={questions.length}
@@ -71,7 +71,7 @@ function QuizSection({ onNext }) {
                   <h3 className="text-xl sm:text-lg font-huninn text-gray-600 mb-2">
                     第   {currentIndex + 1}   題
                   </h3>
-                  <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 text-center leading-relaxed">
+                  <h2 className="text-2xl sm:text-3xl font-bold text-[#00A600] text-center leading-relaxed px-2">
                     {current.question}
                   </h2>
                 </div>
@@ -84,13 +84,15 @@ function QuizSection({ onNext }) {
                       disabled={selected !== null}
                       onClick={() => handleSelect(key)}
                       // className 控制按鈕的大小和外觀，並在選中後調暗其他選項
-                      className={`block w-full rounded-[36px] sm:rounded-[36px] border-3 sm:border-4 px-4 sm:px-6 py-4 sm:py-5 text-center font-bold text-lg sm:text-xl leading-loose transition-all duration-300 ${
-                        selected === key
-                          ? "bg-[#70472d] text-white border-[#00A600] shadow-lg ring-4 ring-yellow-100"
-                          : "bg-white text-[#70472d] border-[#00A600] hover:shadow-[0_0_0_3px_rgba(112,71,45,0.4)] active:shadow-[0_0_0_3px_rgba(112,71,45,0.6)]"
-                      } ${
-                        selected !== null && selected !== key ? "opacity-50" : ""
-                      }`}
+                      className={`block w-full rounded-3xl border-2 px-6 py-5 text-center text-lg font-bold transition-all duration-300
+                        ${
+                          selected === key
+                            ? "bg-[#70472d] text-white border-[#70472d] shadow-lg ring-2 ring-yellow-200"
+                            : "bg-white text-[#70472d] border-[#70472d] hover:bg-[#fdf5ec]"
+                        }
+                        ${selected !== null && selected !== key ? "opacity-50" : ""}
+                      `}
+
                     >
                       {text}
                     </button>
