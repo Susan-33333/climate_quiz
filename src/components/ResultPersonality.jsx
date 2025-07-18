@@ -100,7 +100,7 @@ function ResultPersonality({ userData, onNext }) {
 
           {/* 回答特質 */}
           <div className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-green-50 rounded-xl">
-            <h3 className="font-semibold text-blue-800 mb-2">回答特質</h3>
+            <h3 className="font-bold text-blue-800 mb-2">回答特質</h3>
             <p className="text-gray-700 leading-relaxed">{profile.speciality}</p>
           </div>
 
