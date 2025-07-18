@@ -1,18 +1,5 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { createPortal } from "react-dom";
-import ProgressBarPortal from "../components/ProgressBarPortal";
-
-// Modal 目前沒用到也可以先留著
-function Modal({ children }) {
-  const portalRoot = document.getElementById("portal");
-  return createPortal(
-    <div className="fixed inset-0 z-[9999] bg-black/50">
-      {children}
-    </div>,
-    portalRoot
-  );
-}
 
 function QuizSection({ onNext }) {
   const [questions, setQuestions] = useState([]);
@@ -66,7 +53,7 @@ console.count("🌀 QuizSection Rendered")
               >
                 <div className="text-center mb-6">
                   <h3 className="text-2xl sm:text-xl font-huninn text-[#004B97] mb-2">
-                    第 {currentIndex + 1} 題
+                    第  {currentIndex + 1}  題
                   </h3>
                   <h2 className="text-3xl sm:text-4xl font-bold text-[#004B97] text-center leading-relaxed px-2">
                     {current.question}
