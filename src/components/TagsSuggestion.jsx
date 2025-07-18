@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 
-// ✅ 改版 RingChart 元件（改為顯示整數）
 const RingChart = ({ score, size = 100 }) => {
   const innerSize = size * 0.7;
   const [animatedScore, setAnimatedScore] = useState(0);
@@ -80,7 +79,6 @@ const RingChart = ({ score, size = 100 }) => {
   );
 };
 
-// ✅ 主元件
 const TagsSuggestion = ({ userData, onNext }) => {
   const [activeTab, setActiveTab] = useState("居住");
   const [adviceMap, setAdviceMap] = useState({});
@@ -172,21 +170,21 @@ const TagsSuggestion = ({ userData, onNext }) => {
     <div className="min-h-screen bg-[#fefcf9] flex flex-col items-center justify-center px-4 py-8">
       <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl text-center w-full max-w-4xl p-8 space-y-6">
         <div className="flex flex-col md:flex-row items-center justify-center gap-8">
-          {/* 垂直按鈕群 */}
-          <div className="flex flex-col gap-4">
-            {["居住", "旅遊", "交通"].map((tab) => (
-              <button
-                key={tab}
-                className={`text-lg font-bold px-6 py-3 rounded-full border transition-all duration-300 w-36 ${
-                  activeTab === tab
-                    ? "bg-[#70472d] text-white border-[#70472d]"
-                    : "bg-transparent text-[#70472d] border-[#70472d] hover:bg-[#f0e7e1]"
-                }`}
-                onClick={() => setActiveTab(tab)}
-              >
-                {tab}
-              </button>
-            ))}
+          {/* 下拉選單 */}
+          <div className="w-full max-w-xs text-left">
+            <label htmlFor="tabSelect" className="block mb-1 text-sm font-medium text-gray-700">
+              選擇類別
+            </label>
+            <select
+              id="tabSelect"
+              value={activeTab}
+              onChange={(e) => setActiveTab(e.target.value)}
+              className="block w-full rounded-lg border border-gray-300 px-4 py-2 text-base text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#70472d] focus:border-[#70472d]"
+            >
+              <option value="居住">居住</option>
+              <option value="旅遊">旅遊</option>
+              <option value="交通">交通</option>
+            </select>
           </div>
 
           {/* 分數與說明區 */}
