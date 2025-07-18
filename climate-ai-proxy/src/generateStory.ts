@@ -1,13 +1,20 @@
 export default {
   async fetch(req: Request, env: any): Promise<Response> {
+    // ✅ 必須處理 OPTIONS 預檢請求
     if (req.method === "OPTIONS") {
-      return new Response(null, { status: 204, headers: corsHeaders() });
+      return new Response(null, {
+        status: 204,
+        headers: corsHeaders(),
+      });
     }
 
     if (req.method !== "POST") {
       return new Response(JSON.stringify({ error: "Method Not Allowed" }), {
         status: 405,
-        headers: { ...corsHeaders(), "Content-Type": "application/json" },
+        headers: {
+          ...corsHeaders(),
+          "Content-Type": "application/json",
+        },
       });
     }
 
@@ -39,13 +46,19 @@ export default {
 
       return new Response(JSON.stringify({ result: story }), {
         status: 200,
-        headers: { ...corsHeaders(), "Content-Type": "application/json" },
+        headers: {
+          ...corsHeaders(),
+          "Content-Type": "application/json",
+        },
       });
     } catch (err) {
       console.error("故事 API 錯誤：", err);
       return new Response(JSON.stringify({ result: "⚠️ 發生錯誤，請稍後再試。" }), {
         status: 500,
-        headers: { ...corsHeaders(), "Content-Type": "application/json" },
+        headers: {
+          ...corsHeaders(),
+          "Content-Type": "application/json",
+        },
       });
     }
   },
