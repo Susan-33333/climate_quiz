@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 
-// ✅ 改版 RingChart 元件（使用 SVG 呈現進度 + 彩色圓環）
+// ✅ 改版 RingChart 元件（修正動畫精度與白圈遮擋）
 const RingChart = ({ score, size = 100 }) => {
-  const innerSize = size * 0.75;
+  const innerSize = size * 0.7;
   const [animatedScore, setAnimatedScore] = useState(0);
   const requestRef = useRef();
 
@@ -20,7 +20,8 @@ const RingChart = ({ score, size = 100 }) => {
     const animate = (timestamp) => {
       if (!start) start = timestamp;
       const progress = timestamp - start;
-      const current = Math.min((score * progress) / duration, score);
+      const eased = Math.min(progress / duration, 1);
+      const current = score * eased;
       setAnimatedScore(current);
       if (progress < duration) {
         requestRef.current = requestAnimationFrame(animate);
@@ -65,7 +66,6 @@ const RingChart = ({ score, size = 100 }) => {
         style={{
           width: innerSize,
           height: innerSize,
-          margin: "auto",
           background: "white",
           borderRadius: "50%",
           zIndex: 10,
@@ -74,7 +74,7 @@ const RingChart = ({ score, size = 100 }) => {
 
       <div className="absolute inset-0 flex items-center justify-center z-20">
         <span className="text-xl font-semibold text-gray-800">
-          {animatedScore.toFixed(1)}
+          {score.toFixed(1)}
         </span>
       </div>
     </div>
@@ -171,15 +171,11 @@ const TagsSuggestion = ({ userData, onNext }) => {
 
   return (
     <div className="w-full max-w-2xl mx-auto p-6 border rounded-lg bg-white shadow">
-      {/* 分頁切換 */}
       <div className="flex justify-center mb-4 space-x-4">
         {["居住", "旅遊", "交通"].map((tab) => (
           <button
             key={tab}
-            className={`px-4 py-2 font-semibold ${activeTab === tab
-              ? "border-b-2 border-black text-black"
-              : "text-gray-400"
-              }`}
+            className={`px-4 py-2 font-semibold ${activeTab === tab ? "border-b-2 border-black text-black" : "text-gray-400"}`}
             onClick={() => setActiveTab(tab)}
           >
             {tab}
@@ -187,7 +183,6 @@ const TagsSuggestion = ({ userData, onNext }) => {
         ))}
       </div>
 
-      {/* 圖表與說明 */}
       <div className="flex items-center justify-center space-x-6">
         <RingChart score={current.score} />
         <div>
@@ -196,19 +191,16 @@ const TagsSuggestion = ({ userData, onNext }) => {
         </div>
       </div>
 
-      {/* 災害描述 */}
       <div className="mt-4">
         <p className="font-semibold">可能面臨災害：</p>
         <p className="text-gray-600">{current.disaster}</p>
       </div>
 
-      {/* 推薦地點 */}
       <div>
         <p className="font-semibold">推薦養老地點：</p>
         <p className="text-gray-600">{current.recommend}</p>
       </div>
 
-      {/* 滑桿 */}
       <div className="flex items-center space-x-2 mt-2">
         <input
           type="range"
@@ -220,7 +212,6 @@ const TagsSuggestion = ({ userData, onNext }) => {
         />
       </div>
 
-      {/* AI 建議區塊 */}
       <div className="mt-6 p-4 bg-gray-100 rounded-md">
         <h3 className="text-md font-bold mb-1">🤖 AI 建議：</h3>
         {loading ? (
@@ -232,7 +223,6 @@ const TagsSuggestion = ({ userData, onNext }) => {
         )}
       </div>
 
-      {/* 下一步 */}
       <div className="text-right">
         <button
           className="mt-4 bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded"
