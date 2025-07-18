@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { createPortal } from 'react-dom';
 import ProgressBar from "../components/ProgressBar"; // 這行要放在最上方
 
 function QuizSection({ onNext }) {
@@ -41,7 +42,17 @@ function QuizSection({ onNext }) {
         onNext(updatedAnswers); // 測驗結束，顯示結果
       }
     }, 300); // 延遲 300 毫秒，讓轉場更流暢
-  }
+  function Modal({ children }) {
+  const portalRoot = document.getElementById('portal');
+
+  return createPortal(
+    <div className="fixed inset-0 z-[9999] bg-black/50">
+      {children}
+    </div>,
+    portalRoot
+  );
+}
+}
 
   return (
     <div className="min-h-screen bg-[#E0E0E0] flex justify-center px-10 pt-28 sm:px-8">
@@ -56,7 +67,7 @@ function QuizSection({ onNext }) {
           />
         </div>
         {/* 問題卡片區塊 */}
-          <div className="w-full max-w-xl bg-white rounded-2xl shadow-lg p-6 space-y-6 transition-all duration-500">
+          <div className="w-full max-w-md mx-auto bg-white rounded-2xl shadow-lg p-6 space-y-6 transition-all duration-500">
           <div className="relative min-h-[450px] sm:min-h-[400px] ">
             <AnimatePresence mode="wait">
               <motion.div
@@ -68,7 +79,7 @@ function QuizSection({ onNext }) {
                 className="w-full"
               >
                 <div className="text-center mb-6">
-                  <h3 className="text-xl sm:text-lg font-huninn text-gray-600 mb-2">
+                  <h3 className="text-xl sm:text-lg font-huninn text-[#004B97] mb-2">
                     第   {currentIndex + 1}   題
                   </h3>
                   <h2 className="text-2xl sm:text-3xl font-bold text-[#004B97] text-center leading-relaxed px-2">
