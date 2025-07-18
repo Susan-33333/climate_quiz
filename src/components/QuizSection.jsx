@@ -60,20 +60,20 @@ console.count("🌀 QuizSection Rendered")
                   </h2>
                 </div>
 
-                  <div className="grid grid-rows-4 gap-6">
+                  <div className="flex flex-col gap-6">
 
                     {Object.entries(current.options).map(([key, text]) => (
                       <button
                         key={key}
                         disabled={selected !== null}
                         onClick={() => handleSelect(key)}
-                         className={`h-[50px] w-full rounded-[88px] border-2 px-6 py-5 text-center text-3xl font-bold transition-all duration-300
+                         className={`h-[72px] w-full rounded-[36px] border-2 px-4 py-2 text-center text-[20px] font-bold transition-all duration-300
                           ${
                             selected === key
                               ? "bg-[#003D79] text-white border-[#004B97] shadow-lg ring-2 ring-yellow-200"
                               : "bg-white text-[#004B97] border-[#004B97] hover:bg-[#fdf5ec]"
                           }
-                          ${selected !== null && selected !== key ? "opacity-10" : ""}
+                          ${selected !== null && selected !== key ? "opacity-50" : ""}
                         `}
                       >
                         {text}

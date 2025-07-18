@@ -102,7 +102,7 @@ function App() {
   const totalSteps = stepList.length;
   const progressPercent = ((currentStepIndex + 1) / totalSteps) * 100;
   return (
-    <div className="min-h-screen font-huninn bg-[#E0E0E0] p-4 max-w-3xl mx-auto">
+    <div className="min-h-screen font-huninn bg-[#E0E0E0] mx-auto">
 
       {/* 各步驟畫面 */}
       {step === steps.QUIZ_INTRO && (
