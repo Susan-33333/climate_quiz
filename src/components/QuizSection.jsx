@@ -73,7 +73,7 @@ console.count("🌀 QuizSection Rendered")
                   </h2>
                 </div>
 
-                <div className="space-y-10 sm:space-y-3 mb-6 sm:mb-8">
+                <div className="space-y-12 mb-6">
                   {Object.entries(current.options).map(([key, text]) => (
                     <button
                       key={key}

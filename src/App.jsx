@@ -8,6 +8,7 @@ import TagsSuggestion from "./components/TagsSuggestion";
 import RadarChartResult from "./components/RadarChartResult";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "./firebase";
+import ProgressBarPortal from "./components/ProgressBarPortal";
 
 export const steps = {
   QUIZ_INTRO: "QUIZ_INTRO",
