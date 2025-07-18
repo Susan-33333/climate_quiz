@@ -1,6 +1,6 @@
 export default {
   async fetch(req: Request, env: any): Promise<Response> {
-    // ✅ 必須處理 OPTIONS 預檢請求
+    // ✅ 預檢請求（CORS）
     if (req.method === "OPTIONS") {
       return new Response(null, {
         status: 204,
@@ -8,6 +8,7 @@ export default {
       });
     }
 
+    // ✅ 僅接受 POST
     if (req.method !== "POST") {
       return new Response(JSON.stringify({ error: "Method Not Allowed" }), {
         status: 405,
@@ -20,6 +21,7 @@ export default {
 
     try {
       const { age } = await req.json();
+
       const category = age <= 40 ? "青年" : age <= 65 ? "壯年" : "老年";
 
       const prompt = `你是一位小說家，要為一位${category}角色撰寫一段30年後在GWL4.0氣候變遷情境下的日常故事。請聚焦於氣候變遷對其生活、居住、行為方式的改變，使用自然生動、有情感的敘事語氣，限制在200字以內。`;
@@ -64,6 +66,7 @@ export default {
   },
 };
 
+// ✅ CORS 設定
 function corsHeaders() {
   return {
     "Access-Control-Allow-Origin": "https://susan-33333.github.io",
