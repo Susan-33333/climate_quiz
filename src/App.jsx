@@ -102,19 +102,19 @@ function App() {
   const totalSteps = stepList.length;
   const progressPercent = ((currentStepIndex + 1) / totalSteps) * 100;
   return (
-    <div className="min-h-screen font-huninn bg-gray-100 p-4 max-w-3xl mx-auto">
+    <div className="min-h-screen font-huninn bg-[#E0E0E0] p-4 max-w-3xl mx-auto">
 
       {/* 各步驟畫面 */}
       {step === steps.QUIZ_INTRO && (
-        <div className="w-full max-w-md min-h-screen mx-auto bg-white px-6 py-8">
+        <PageWrapper>
         <QuizIntro
           onStart={() => dispatch({ type: "NEXT", payload: steps.USER_INPUT })}
         />
-      </div>
+      </PageWrapper>
       )}
 
       {step === steps.USER_INPUT && (
-        <div className="w-full max-w-md min-h-screen mx-auto bg-white px-6 py-8">
+        <PageWrapper>
         <UserInputForm
           onSave={async (data) => {
             try {
@@ -128,20 +128,20 @@ function App() {
           }}
           onNext={() => dispatch({ type: "NEXT", payload: steps.STORY })}
         />
-      </div>
+      </PageWrapper>
       )}
 
       {step === steps.STORY && (
-        <div className="w-full max-w-md min-h-screen mx-auto bg-white px-6 py-8">
+        <PageWrapper>
         <StorySegment
           userData={userData}
           onNext={() => dispatch({ type: "NEXT", payload: steps.QUIZ_MAIN })}
         />
-      </div>
+      </PageWrapper>
       )}
 
       {step === steps.QUIZ_MAIN && (
-        <div className="w-full max-w-md min-h-screen mx-auto bg-white px-6 py-8">
+        <PageWrapper>
         <QuizSection
           onNext={(answers) => {
             const updatedData = { ...userData, answers };
@@ -149,20 +149,20 @@ function App() {
             dispatch({ type: "NEXT", payload: steps.RESULT });
           }}
         />
-      </div>
+      </PageWrapper>
       )}
 
       {step === steps.RESULT && (
-        <div className="w-full max-w-md min-h-screen mx-auto bg-white px-6 py-8">
+        <PageWrapper>
         <ResultPersonality
           userData={userData}
           onNext={() => dispatch({ type: "NEXT", payload: steps.TAGS })}
         />
-      </div>
+      </PageWrapper>
       )}
 
       {step === steps.TAGS && (
-        <div className="w-full max-w-md min-h-screen mx-auto bg-white px-6 py-8">
+        <PageWrapper>
         <TagsSuggestion
           userData={userData}
           onNext={() => {
@@ -203,17 +203,17 @@ function App() {
             dispatch({ type: "NEXT", payload: steps.RADAR });
           }}
         />
-      </div>
+      </PageWrapper>
       )}
 
       {step === steps.RADAR && userData?.scores && (
-        <div className="w-full max-w-md min-h-screen mx-auto bg-white px-6 py-8">
+        <PageWrapper>
         <RadarChartResult
           scores={userData.scores}
           mascot={userData.mascot}
           regionSummary={userData.regionSummary}
         />
-        </div>
+        </PageWrapper>
       )}
     </div>
   );
