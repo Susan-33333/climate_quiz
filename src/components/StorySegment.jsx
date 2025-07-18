@@ -20,7 +20,7 @@ export default function StorySegment({ userData, onNext }) {
     const base = import.meta.env.BASE_URL || "/";
     const imageUrl = `${base}mascot/${category}.jpg`;
 
-    // 載入背景圖
+    // 載入圖片
     const img = new Image();
     img.src = imageUrl;
     img.onload = () => {
@@ -28,7 +28,7 @@ export default function StorySegment({ userData, onNext }) {
       setImageLoaded(true);
     };
 
-    // ✅ 呼叫正確的 generate-story API 路徑
+    // 抓故事
     fetch("https://climate-ai-proxy.climate-quiz-yuchen.workers.dev/api/generate-story", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -49,24 +49,31 @@ export default function StorySegment({ userData, onNext }) {
 
   return (
     <div
-      className="relative bg-cover bg-center text-white p-10 rounded-xl shadow-lg"
-      style={{ backgroundImage: `url(${bgImage})` }}
+      className="min-h-screen w-full bg-black flex items-center justify-center px-4"
+      style={{
+        backgroundImage: `url(${bgImage})`,
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+        backgroundSize: "contain", // ✅ 這樣可以完整呈現圖片
+      }}
     >
-      <div className="backdrop-blur-sm bg-black/40 p-6 rounded">
-        <h2 className="text-2xl font-bold mb-4">未來的你⋯⋯</h2>
-        <p className="mb-6 whitespace-pre-line">{story}</p>
+      {/* 背景圖載入完成後才顯示文字與按鈕 */}
+      {imageLoaded && (
+        <div className="w-full max-w-md mx-auto bg-white/90 backdrop-blur-sm text-gray-800 rounded-2xl p-6 text-center">
+          <h2 className="text-3xl font-bold mb-4">未來的你⋯⋯</h2>
+          <p className="mb-6 whitespace-pre-line text-base leading-relaxed">{story}</p>
 
-        {imageLoaded ? (
           <button
-            className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded"
             onClick={onNext}
+            className="bg-green-600 hover:bg-green-700 text-white font-semibold text-lg px-6 py-3 rounded-xl transition"
           >
             我準備好了！
           </button>
-        ) : (
-          <p className="text-white text-sm">背景載入中⋯⋯</p>
-        )}
-      </div>
+        </div>
+      )}
+      {!imageLoaded && (
+        <p className="text-white text-sm absolute bottom-10">背景載入中⋯⋯</p>
+      )}
     </div>
   );
 }
