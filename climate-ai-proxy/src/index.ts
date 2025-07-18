@@ -21,7 +21,6 @@ export default {
       return generateStory.fetch(req, env, ctx);
     }
 
-    // ✨ 加上 CORS headers 的 404 fallback
     return new Response("404 Not Found", {
       status: 404,
       headers: corsHeaders(),

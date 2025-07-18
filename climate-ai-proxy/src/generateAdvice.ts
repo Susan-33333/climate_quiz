@@ -1,18 +1,13 @@
 export default {
   async fetch(req: Request, env: any): Promise<Response> {
-    // CORS 預檢請求
     if (req.method === "OPTIONS") {
       return new Response(null, { status: 204, headers: corsHeaders() });
     }
 
-    // 只接受 POST
     if (req.method !== "POST") {
       return new Response(JSON.stringify({ error: "Method Not Allowed" }), {
         status: 405,
-        headers: {
-          ...corsHeaders(),
-          "Content-Type": "application/json"
-        }
+        headers: { ...corsHeaders(), "Content-Type": "application/json" },
       });
     }
 
@@ -42,43 +37,27 @@ export default {
         }),
       });
 
-      if (!openAIRes.ok) {
-        const errorText = await openAIRes.text();
-        console.error("OpenAI 錯誤：", errorText);
-        return new Response(JSON.stringify({ result: "⚠️ 發生錯誤，請稍後再試。" }), {
-          status: 500,
-          headers: corsHeaders(),
-        });
-      }
-
       const data = await openAIRes.json();
       const reply = data?.choices?.[0]?.message?.content || "目前無法取得建議。";
 
       return new Response(JSON.stringify({ result: reply }), {
         status: 200,
-        headers: {
-          ...corsHeaders(),
-          "Content-Type": "application/json",
-        },
+        headers: { ...corsHeaders(), "Content-Type": "application/json" },
       });
     } catch (err) {
-      console.error("API Error:", err);
+      console.error("建議 API 錯誤：", err);
       return new Response(JSON.stringify({ result: "⚠️ 發生錯誤，請稍後再試。" }), {
         status: 500,
-        headers: {
-          ...corsHeaders(),
-          "Content-Type": "application/json",
-        },
+        headers: { ...corsHeaders(), "Content-Type": "application/json" },
       });
     }
   },
 };
 
-// ✅ CORS 設定：允許 GitHub Pages 網域
 function corsHeaders() {
   return {
     "Access-Control-Allow-Origin": "https://susan-33333.github.io",
     "Access-Control-Allow-Methods": "POST, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type"
+    "Access-Control-Allow-Headers": "Content-Type",
   };
 }
