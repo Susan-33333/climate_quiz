@@ -133,13 +133,13 @@ export default function UserInputForm({ onNext, onSave }) {
           <button
             onClick={handleSubmit}
             disabled={!isValid()}
-            className={`w-full py-3 px-6 rounded-full text-white font-semibold text-base transition ${
+            className={`w-full py-3 px-6 rounded-full text-white font-bold text-base transition h-[60px] ${
               isValid()
                 ? "bg-brown-600 hover:bg-brown-700"
                 : "bg-gray-300 cursor-not-allowed"
             }`}
           >
-            下一步
+            進入世界
           </button>
         </div>
       </div>

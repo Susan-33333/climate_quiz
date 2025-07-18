@@ -67,7 +67,7 @@ console.count("🌀 QuizSection Rendered")
                         key={key}
                         disabled={selected !== null}
                         onClick={() => handleSelect(key)}
-                         className={`h-[60px] w-full rounded-[88px] border-2 px-6 py-5 text-center text-[24px] font-bold transition-all duration-300 font-huninn
+                         className={`h-[60px] w-full rounded-[88px] border-2 px-6 py-5 text-center text-6xl font-bold transition-all duration-300 font-huninn
                           ${
                             selected === key
                               ? "bg-[#003D79] text-white border-[#004B97] shadow-lg ring-2 ring-yellow-200"
