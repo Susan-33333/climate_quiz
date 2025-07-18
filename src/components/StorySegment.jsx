@@ -20,7 +20,7 @@ export default function StorySegment({ userData, onNext }) {
     const base = import.meta.env.BASE_URL || "/";
     const imageUrl = `${base}mascot/${category}.jpg`;
 
-    // 載入圖片
+    // 載入圖片，確認背景載入成功才顯示內容
     const img = new Image();
     img.src = imageUrl;
     img.onload = () => {
@@ -28,7 +28,7 @@ export default function StorySegment({ userData, onNext }) {
       setImageLoaded(true);
     };
 
-    // 抓故事
+    // 呼叫故事 API
     fetch("https://climate-ai-proxy.climate-quiz-yuchen.workers.dev/api/generate-story", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -49,31 +49,34 @@ export default function StorySegment({ userData, onNext }) {
 
   return (
     <div
-      className="min-h-screen w-full bg-black flex items-center justify-center px-4"
+      className="min-h-screen bg-black flex justify-center items-center px-4"
       style={{
-        backgroundImage: `url(${bgImage})`,
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center",
-        backgroundSize: "contain", // ✅ 這樣可以完整呈現圖片
+        backgroundColor: "#000",
       }}
     >
-      {/* 背景圖載入完成後才顯示文字與按鈕 */}
-      {imageLoaded && (
-        <div className="w-full max-w-md mx-auto bg-white/90 backdrop-blur-sm text-gray-800 rounded-2xl p-6 text-center">
-          <h2 className="text-3xl font-bold mb-4">未來的你⋯⋯</h2>
-          <p className="mb-6 whitespace-pre-line text-base leading-relaxed">{story}</p>
+      <div
+        className="w-full max-w-[390px] h-full bg-cover bg-top bg-no-repeat flex flex-col justify-end"
+        style={{ backgroundImage: `url(${bgImage})` }}
+      >
+        {/* 文字卡片區塊 */}
+        {imageLoaded && (
+          <div className="bg-white/90 backdrop-blur-sm text-gray-800 rounded-2xl p-6 m-4 text-center shadow-lg">
+            <h2 className="text-xl font-bold mb-4">未來的你⋯⋯</h2>
+            <p className="text-sm leading-relaxed whitespace-pre-line mb-6">{story}</p>
+            <button
+              className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded transition"
+              onClick={onNext}
+            >
+              我準備好了！
+            </button>
+          </div>
+        )}
 
-          <button
-            onClick={onNext}
-            className="bg-green-600 hover:bg-green-700 text-white font-semibold text-lg px-6 py-3 rounded-xl transition"
-          >
-            我準備好了！
-          </button>
-        </div>
-      )}
-      {!imageLoaded && (
-        <p className="text-white text-sm absolute bottom-10">背景載入中⋯⋯</p>
-      )}
+        {!imageLoaded && (
+          <div className="w-full text-center py-8 text-white text-sm">背景載入中⋯⋯</div>
+        )}
+      </div>
     </div>
   );
 }
+
