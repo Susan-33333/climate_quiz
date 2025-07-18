@@ -63,12 +63,14 @@ export default function StorySegment({ userData, onNext }) {
             <div className="bg-white/90 backdrop-blur-sm text-gray-800 rounded-2xl p-6 text-center shadow-lg w-full max-w-[300px]">
               <h2 className="text-2xl font-bold mb-6">未來的你⋯⋯</h2>
               <p className="text-base leading-loose whitespace-pre-line mb-8">{story}</p>
-              <button
-                className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded transition"
-                onClick={onNext}
-              >
-                我準備好了！
-              </button>
+              {story && (
+                <button
+                  className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded transition"
+                  onClick={onNext}
+                >
+                  我準備好了！
+                </button>
+              )}
             </div>
           </div>
         </div>
