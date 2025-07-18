@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
 
-// ✅ 改版 RingChart 元件（修正動畫精度與白圈遮擋）
+// ✅ 改版 RingChart 元件（修正數字歪斜與白圈居中）
 const RingChart = ({ score, size = 100 }) => {
   const innerSize = size * 0.7;
   const [animatedScore, setAnimatedScore] = useState(0);
   const requestRef = useRef();
 
   const getColor = (val) => {
-    if (val < 40) return "#EF4444"; // 紅
-    if (val < 70) return "#F59E0B"; // 橘
-    return "#10B981"; // 綠
+    if (val < 40) return "#EF4444";
+    if (val < 70) return "#F59E0B";
+    return "#10B981";
   };
 
   const color = getColor(score);
@@ -37,7 +37,7 @@ const RingChart = ({ score, size = 100 }) => {
   const offset = circumference * (1 - animatedScore / 100);
 
   return (
-    <div className="relative" style={{ width: size, height: size }}>
+    <div className="relative flex items-center justify-center" style={{ width: size, height: size }}>
       <svg width={size} height={size} className="absolute top-0 left-0">
         <circle
           cx={size / 2}
@@ -62,17 +62,16 @@ const RingChart = ({ score, size = 100 }) => {
       </svg>
 
       <div
-        className="absolute inset-0 flex items-center justify-center"
+        className="absolute"
         style={{
           width: innerSize,
           height: innerSize,
           background: "white",
           borderRadius: "50%",
-          zIndex: 10,
         }}
       ></div>
 
-      <div className="absolute inset-0 flex items-center justify-center z-20">
+      <div className="absolute text-center">
         <span className="text-xl font-semibold text-gray-800">
           {score.toFixed(1)}
         </span>
