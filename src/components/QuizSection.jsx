@@ -44,7 +44,7 @@ function QuizSection({ onNext }) {
   }
 
   return (
-    <div className="min-h-screen bg-[#fdf8f4] flex justify-center px-10 sm:px-8">
+    <div className="min-h-screen bg-[#E0E0E0] flex justify-center px-10 sm:px-8">
       <div className="min-h-screen flex items-center justify-center pt-20 px-4 
       relative">
         {/* 頂部進度條 */}
@@ -71,7 +71,7 @@ function QuizSection({ onNext }) {
                   <h3 className="text-xl sm:text-lg font-huninn text-gray-600 mb-2">
                     第   {currentIndex + 1}   題
                   </h3>
-                  <h2 className="text-2xl sm:text-3xl font-bold text-[#00A600] text-center leading-relaxed px-2">
+                  <h2 className="text-2xl sm:text-3xl font-bold text-[#004B97] text-center leading-relaxed px-2">
                     {current.question}
                   </h2>
                 </div>
@@ -84,11 +84,11 @@ function QuizSection({ onNext }) {
                       disabled={selected !== null}
                       onClick={() => handleSelect(key)}
                       // className 控制按鈕的大小和外觀，並在選中後調暗其他選項
-                      className={`block w-full rounded-3xl border-2 px-6 py-5 text-center text-lg font-bold transition-all duration-300
+                      className={`block w-full rounded- [36px] border-2 px-6 py-5 text-center text-lg font-bold transition-all duration-300
                         ${
                           selected === key
-                            ? "bg-[#70472d] text-white border-[#70472d] shadow-lg ring-2 ring-yellow-200"
-                            : "bg-white text-[#70472d] border-[#70472d] hover:bg-[#fdf5ec]"
+                            ? "bg-[#70472d] text-white border-[#004B97] shadow-lg ring-2 ring-yellow-200"
+                            : "bg-white text-[#004B97] border-[#004B97] hover:bg-[#fdf5ec]"
                         }
                         ${selected !== null && selected !== key ? "opacity-50" : ""}
                       `}

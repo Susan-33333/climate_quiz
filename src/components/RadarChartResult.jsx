@@ -23,7 +23,7 @@ function RadarChartResult({ scores, mascot, regionSummary }) {
       const canvas = await html2canvas(node, {
         useCORS: true,
         allowTaint: true,
-        backgroundColor: "#faf7ef"
+        backgroundColor: "#E0E0E0"
       });
       
       const link = document.createElement("a");
