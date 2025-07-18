@@ -38,7 +38,7 @@ function QuizSection({ onNext }) {
   }
 console.count("🌀 QuizSection Rendered")
   return (
-    <div className="min-h-screen bg-[#E0E0E0] flex justify-center px-10 pt-28 sm:px-8">
+    <div className="min-h-screen bg-[#E0E0E0] flex justify-center px-4 sm:px-8">
         <div className="min-h-screen flex items-center justify-center px-4 relative w-full max-w-md mx-auto">
         <div className="w-full max-w-md mx-auto bg-white rounded-2xl shadow-lg p-6 space-y-6 transition-all duration-500">
           <div className="relative min-h-[450px] sm:min-h-[400px]">
@@ -67,7 +67,7 @@ console.count("🌀 QuizSection Rendered")
                         key={key}
                         disabled={selected !== null}
                         onClick={() => handleSelect(key)}
-                         className={`h-[60px] w-full rounded-[88px] border-2 px-6 py-5 text-center text-6xl font-bold transition-all duration-300 font-huninn
+                         className={`h-[50px] w-full rounded-[88px] border-2 px-6 py-5 text-center text-3xl font-bold transition-all duration-300
                           ${
                             selected === key
                               ? "bg-[#003D79] text-white border-[#004B97] shadow-lg ring-2 ring-yellow-200"
