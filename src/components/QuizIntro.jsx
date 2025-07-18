@@ -24,10 +24,10 @@ function QuizIntro({ onStart }) {
 
       <div className="bg-white/80 backdrop-blur-md p-8 rounded-2xl shadow-xl text-center max-w-md w-full space-y-6">
         <h2 className="text-4xl sm:text-5xl font-bold font-huninn text-gray-800 leading-snug">
-          準備好了嗎？
+          氣候變遷占卜師——未Life
         </h2>
         <p className="text-xs text-gray-700 font-huninn leading-relaxed">
-          這份測驗將會探究你與氣候之間的相性
+          帶你進入30年後氣候變遷的世界
         </p>
 
         {/* 只有當圖片載入完才顯示按鈕 */}
