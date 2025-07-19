@@ -191,16 +191,17 @@ const TagsSuggestion = ({ userData, onNext }) => {
             ))}
           </div>
 
-          <div className="flex flex-col items-center space-y-6 pt-4 text-left">
-            <RingChart score={current.score} />
-            <h2 className="text-xl font-bold text-gray-800">未來 30 年後 {fullRegionDisplay}</h2>
-            <p className="text-sm text-gray-700">{current.description}</p>
-            <div className="text-sm text-gray-800">
-              <p className="font-semibold">可能面臨災害：</p>
-              <p className="text-gray-600">{current.disaster}</p>
-              <p className="font-semibold mt-2">推薦養老地點：</p>
-              <p className="text-gray-600">{current.recommend}</p>
-            </div>
+          <div className="flex flex-col items-center space-y-4 pt-4 text-left">
+  <h2 className="text-xl font-bold text-gray-800">未來 30 年後 {fullRegionDisplay}</h2>
+  <RingChart score={current.score} />
+  <p className="text-sm text-gray-700">{current.description}</p>
+  <div className="text-sm text-gray-800">
+    <p className="font-semibold">可能面臨災害：</p>
+    <p className="text-gray-600">{current.disaster}</p>
+    <p className="font-semibold mt-2">推薦養老地點：</p>
+    <p className="text-gray-600">{current.recommend}</p>
+  </div>
+</div>
           </div>
         </div>
 
