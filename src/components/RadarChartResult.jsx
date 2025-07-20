@@ -5,6 +5,8 @@ import html2canvas from "html2canvas";
 function RadarChartResult({ scores, mascot, regionSummary }) {
   console.log("🐾 RadarChartResult loaded", { scores, mascot, regionSummary });
 
+const [generatedImageUrl, setGeneratedImageUrl] = useState(null);
+
   const data = [
     { category: "幸福度", value: scores?.happiness || 0 },
     { category: "調適度", value: scores?.adaptability || 0 },
@@ -13,28 +15,22 @@ function RadarChartResult({ scores, mascot, regionSummary }) {
     { category: "舒適度", value: scores?.comfortable || 0 },
   ];
   const downloadImage = async () => {
-    try {
-      const node = document.getElementById("capture-target");
-      if (!node) {
-        alert("無法找到結果卡片");
-        return;
-      }
-      
-      const canvas = await html2canvas(node, {
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: "#E0E0E0"
-      });
-      
-      const link = document.createElement("a");
-      link.download = "climate_result.png";
-      link.href = canvas.toDataURL("image/png");
-      link.click();
-    } catch (error) {
-      console.error("下載圖片失敗：", error);
-      alert("下載圖片失敗，請重試");
-    }
-  };
+  try {
+    const node = document.getElementById("capture-target");
+    const canvas = await html2canvas(node, {
+      useCORS: true,
+      backgroundColor: null,
+      scale: 2,
+    });
+
+    const dataUrl = canvas.toDataURL("image/png");
+    setGeneratedImageUrl(dataUrl);
+
+  } catch (e) {
+    console.error("下載錯誤", e);
+    alert("下載圖片失敗，請重試");
+  }
+};
 
   // 如果沒有分數數據，顯示載入中
   if (!scores) {
@@ -100,17 +96,14 @@ function RadarChartResult({ scores, mascot, regionSummary }) {
               </div>
             </div>
         </div>
-        {/* 下載按鈕 */}
-        <div className="mt-8 flex justify-center">
-          <button
-            onClick={downloadImage}
-            className="w-full py-3 px-6 rounded-full rounded-[36px] text-black font-bold text-3xl transition h-[50px]"
-          >
-            下載圖片
-          </button>
+        {generatedImageUrl && (
+          <div className="mt-6 text-center">
+            <p className="text-sm text-gray-500">長按下方圖片可儲存到手機相簿</p>
+            <img src={generatedImageUrl} className="mt-2 w-full rounded-xl" />
+          </div>
+        )}
         </div>
       </div>
-    </div>
   );
 }
 
