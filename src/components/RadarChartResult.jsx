@@ -10,6 +10,8 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
   const [generatedImageUrl, setGeneratedImageUrl] = useState(null);
   const [isGeneratingImage, setIsGeneratingImage] = useState(false);
   const [totalScores, setTotalScores] = useState(null);
+  const [isLoadingRegionScore, setIsLoadingRegionScore] = useState(false);
+  const [regionScoreError, setRegionScoreError] = useState(null);
 
   // 雷達圖數據 - 添加調試信息
   const data = [
@@ -25,43 +27,61 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
   // 載入地區總分數據
   useEffect(() => {
     const fetchRegionScore = async () => {
+      // 檢查必要的用戶資料
       if (!userData?.county || !userData?.town) {
         console.warn("缺少用戶地區資料", userData);
+        setRegionScoreError("缺少地區資料");
         return;
       }
 
+      setIsLoadingRegionScore(true);
+      setRegionScoreError(null);
+
       try {
-        // 根據您的代碼，這裡應該要載入 totalscores.json
-        // 假設檔案在 public/data/ 目錄下
-        const res = await fetch(`${import.meta.env.BASE_URL || '/'}data/totalscores.json`);
+        // 載入 totalscores.json
+        const response = await fetch(`${import.meta.env.BASE_URL || '/'}data/totalscores.json`);
         
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
+        if (!response.ok) {
+          throw new Error(`載入檔案失敗: ${response.status} ${response.statusText}`);
         }
 
-        const json = await res.json();
-        setTotalScores(json);
+        const scoresData = await response.json();
+        setTotalScores(scoresData);
 
         // 建構地區鍵值，格式為 "縣市_鄉鎮區"
         const regionKey = `${userData.county}_${userData.town}`;
-        console.log("尋找地區鍵值:", regionKey);
+        console.log("🔍 尋找地區鍵值:", regionKey);
 
-        const score = json[regionKey]?.綜合;
-        
-        if (score !== undefined && score !== null) {
+        // 檢查該地區是否存在於數據中
+        if (scoresData[regionKey]) {
+          const score = scoresData[regionKey].綜合;
           setRegionScore(score);
-          console.log("找到地區分數:", score);
+          console.log("✅ 找到地區分數:", score);
         } else {
-          console.warn("找不到該地區分數:", regionKey);
-          console.log("可用的地區鍵值:", Object.keys(json).slice(0, 10)); // 顯示前10個作為參考
+          console.warn("❌ 找不到該地區分數:", regionKey);
+          console.log("📍 可用的地區鍵值範例:", Object.keys(scoresData).slice(0, 10));
+          
+          // 嘗試模糊匹配（可選）
+          const similarKeys = Object.keys(scoresData).filter(key => 
+            key.includes(userData.county) || key.includes(userData.town)
+          );
+          
+          if (similarKeys.length > 0) {
+            console.log("🔍 相似的地區鍵值:", similarKeys);
+          }
+          
+          setRegionScoreError(`找不到 ${userData.county} ${userData.town} 的評分資料`);
         }
       } catch (error) {
-        console.error("載入地區分數失敗:", error);
+        console.error("❌ 載入地區分數失敗:", error);
+        setRegionScoreError(`載入失敗: ${error.message}`);
+      } finally {
+        setIsLoadingRegionScore(false);
       }
     };
 
     fetchRegionScore();
-  }, [userData]);
+  }, [userData?.county, userData?.town]);
 
   // 生成圖片（不自動下載）
   const generateImage = async () => {
@@ -95,6 +115,44 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
     } finally {
       setIsGeneratingImage(false);
     }
+  };
+
+  // 取得地區評分的顯示組件
+  const renderRegionScore = () => {
+    if (isLoadingRegionScore) {
+      return (
+        <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-4 mb-6 text-center">
+          <div className="flex items-center justify-center space-x-2">
+            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-600"></div>
+            <p className="text-gray-600">載入地區評分中...</p>
+          </div>
+        </div>
+      );
+    }
+
+    if (regionScoreError) {
+      return (
+        <div className="bg-gradient-to-r from-red-50 to-pink-50 rounded-xl p-4 mb-6 text-center">
+          <p className="text-red-600 mb-1">⚠️ {regionScoreError}</p>
+          <p className="text-sm text-red-500">請檢查地區選擇是否正確</p>
+        </div>
+      );
+    }
+
+    if (regionScore !== null) {
+      return (
+        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 mb-6 text-center">
+          <p className="text-gray-700 mb-1">🌍 你所在地區的氣候綜合評分</p>
+          <p className="text-3xl font-bold text-indigo-600">{regionScore} 分</p>
+          <p className="text-sm text-gray-500 mt-1">滿分100分</p>
+          <p className="text-xs text-gray-400 mt-2">
+            📍 {userData?.county} {userData?.town}
+          </p>
+        </div>
+      );
+    }
+
+    return null;
   };
 
   // 如果沒有分數數據，顯示載入中
@@ -132,13 +190,7 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
           </div>
 
           {/* 地區綜合評分 */}
-          {regionScore !== null && (
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 mb-6 text-center">
-              <p className="text-gray-700 mb-1">🌍 你所在地區的氣候綜合評分</p>
-              <p className="text-3xl font-bold text-indigo-600">{regionScore} 分</p>
-              <p className="text-sm text-gray-500 mt-1">滿分100分</p>
-            </div>
-          )}
+          {renderRegionScore()}
 
           {/* 人格圖片和雷達圖 - 左右佈局 */}
           <div className="grid md:grid-cols-2 gap-8 items-center">
@@ -228,6 +280,8 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
               <p>傳入的 scores: {JSON.stringify(scores, null, 2)}</p>
               <p>用戶資料: {JSON.stringify(userData, null, 2)}</p>
               <p>地區分數: {regionScore}</p>
+              <p>地區載入狀態: {isLoadingRegionScore ? '載入中' : '完成'}</p>
+              <p>地區錯誤: {regionScoreError || '無'}</p>
               <p>可用地區數量: {totalScores ? Object.keys(totalScores).length : 0}</p>
               <p>雷達圖數據: {JSON.stringify(data, null, 2)}</p>
             </div>
