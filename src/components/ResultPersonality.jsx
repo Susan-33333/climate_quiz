@@ -120,8 +120,7 @@ function ResultPersonality({ userData, onNext }) {
             探索我的氣候適應力 🌍
           </button>
         </div>
-
-        <p className="mt-6 text-[#365088ff] text-sm">
+        <p className="mt-6 text-[#365088ff] text-xl">
           接下來將為您分析居住、交通、旅遊三大領域的氣候適應建議 ...
         </p>
       </div>
