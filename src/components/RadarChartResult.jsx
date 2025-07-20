@@ -3,7 +3,7 @@ import { RadarChart, PolarGrid, PolarAngleAxis, Radar, ResponsiveContainer } fro
 import html2canvas from "html2canvas";
 import { useState, useEffect } from "react";
 
-function RadarChartResult({ scores, mascot, regionSummary }) {
+function RadarChartResult({ scores, mascot, regionSummary,userData }) {
   console.log("🐾 RadarChartResult loaded", { scores, mascot, regionSummary });
 
   const [regionScore, setRegionScore] = useState(null);
@@ -32,11 +32,6 @@ useEffect(() => {
   };
   fetchRegionScore();
 }, [userData]);
-{regionScore !== null && (
-  <p className="text-center text-sm text-gray-500 mt-4">
-    🌍 你所在區域的氣候綜合評分：<span className="font-bold text-lg">{regionScore}</span> 分
-  </p>
-)}
   const downloadImage = async () => {
   try {
     const node = document.getElementById("capture-target");
@@ -71,6 +66,11 @@ useEffect(() => {
           你的氣候適應性分析
         </h1>
         <div id="capture-target" className="bg-white/80 p-6 rounded-xl shadow-lg">
+        {regionScore !== null && (
+          <p className="text-center text-sm text-gray-500 mt-4">
+            🌍你所在區域的氣候綜合評分：<span className="font-bold text-lg">{regionScore}</span> 分
+          </p>
+        )}
           <div className="flex flex-col md:flex-row items-center md:items-start justify-center md:space-x-8 mb-6">
             {/* 五角雷達圖 */}
             <div className="w-[300px] h-[300px] mb-6 md:mb-0">
