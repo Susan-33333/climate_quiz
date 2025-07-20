@@ -104,7 +104,7 @@ function RadarChartResult({ scores, mascot, regionSummary }) {
         <div className="mt-8 flex justify-center">
           <button
             onClick={downloadImage}
-            className="px-8 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg hover:from-green-600 hover:to-green-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+            className="w-full py-3 px-6 rounded-full rounded-[36px] text-black font-bold text-3xl transition h-[60px]"
           >
             下載圖片
           </button>
