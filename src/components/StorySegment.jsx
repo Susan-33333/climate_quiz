@@ -61,36 +61,21 @@ export default function StorySegment({ userData, onNext }) {
         />
       </div>
 
-      {/* 載入中：Spinner + 遮罩 */}
+      {/* 載入中遮罩：文字在上、松鼠在下 */}
       {!allLoaded && (
-        <div className="absolute inset-0 z-20 bg-black/40 backdrop-blur-sm flex items-center justify-center">
-          <div className="flex flex-col items-center space-y-4">
-            <svg
-              className="animate-spin h-8 w-8 text-white"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="4"
-              ></circle>
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              ></path>
-            </svg>
-            <p className="text-white text-base font-semibold">正在載入你的未來世界⋯⋯</p>
-          </div>
+        <div className="absolute inset-0 z-20 bg-black/40 backdrop-blur-sm flex flex-col items-center justify-center space-y-4">
+          <p className="text-white text-base font-semibold">
+            正在載入你的未來世界⋯⋯
+          </p>
+          <img
+            src={`${import.meta.env.BASE_URL || "/"}mascot/T6.png`}
+            alt="loading mascot"
+            className="w-20 h-20 animate-bounce"
+          />
         </div>
       )}
 
-      {/* 正式內容 */}
+      {/* 主內容顯示區塊 */}
       {allLoaded && (
         <div className="absolute inset-0 flex justify-center items-center z-10">
           <div className="w-full max-w-[414px] px-8 flex justify-center items-center">
