@@ -84,7 +84,7 @@ export default function UserInputForm({ onNext, onSave }) {
               autoComplete="bday"
               value={formData.age}
               onChange={handleChange}
-              className="rounded-[36px] w-full border border-gray-300 rounded-xl px-4 py-3 mt-1 focus:ring-2 focus:ring-brown-300 focus:outline-none"
+              className="rounded-[36px] w-full border border-gray-300 rounded-xl w-auto px-4 py-3 mt-1 focus:ring-2 focus:ring-brown-300 focus:outline-none"
             />
 
           </div>
@@ -99,7 +99,7 @@ export default function UserInputForm({ onNext, onSave }) {
               autoComplete="address-level1"
               value={formData.county}
               onChange={handleChange}
-              className="rounded-[36px] w-full border border-gray-300 rounded-xl px-4 py-3 mt-1 focus:ring-2 focus:ring-brown-300 focus:outline-none"
+              className="rounded-[36px] w-full border border-gray-300 rounded-xl w-auto px-4 py-3 mt-1 focus:ring-2 focus:ring-brown-300 focus:outline-none"
             >
 
               <option value="">請選擇</option>
