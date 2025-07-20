@@ -217,7 +217,7 @@ const TagsSuggestion = ({ userData, onNext }) => {
 
         <div className="pt-4 text-right">
           <button
-            className="bg-[#70472d] hover:bg-[#5d3923] text-white px-6 py-2 rounded-full text-sm font-bold transition-all duration-300"
+            className="bg-[#70472d] hover:bg-[#5d3923] text-[#ffffffff] px-6 py-2 rounded-full text-sm font-bold transition-all duration-300"
             onClick={onNext}
           >
             下一步

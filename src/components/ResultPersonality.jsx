@@ -79,13 +79,11 @@ function ResultPersonality({ userData, onNext }) {
                 }}
               />
             </div>
-            <div className="absolute -top-2 -right-2 text-4xl">🌳</div>
-            <div className="absolute -bottom-2 -left-2 text-3xl">🍃</div>
           </div>
 
           {/* ✅ 修正：穩定顯示角色名稱 */}
           <h2 className="text-3xl font-bold mb-6 text-gray-800">
-            你是{" "}
+            你是{""}
             <span className="inline-block px-2 py-1 rounded bg-gradient-to-r from-green-300 to-blue-300 text-gray-800">
               {profile.name}
             </span>
@@ -108,13 +106,13 @@ function ResultPersonality({ userData, onNext }) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
             <div className="bg-green-50 p-4 rounded-xl border-l-4 border-green-400">
               <p className="font-semibold text-green-800 mb-2 flex items-center">
-                <span className="text-xl mr-2">✅</span> 適合環境
+                合拍人格
               </p>
               <p className="text-green-700 text-sm">{profile.match}</p>
             </div>
             <div className="bg-red-50 p-4 rounded-xl border-l-4 border-red-400">
               <p className="font-semibold text-red-800 mb-2 flex items-center">
-                <span className="text-xl mr-2">❌</span> 避免環境
+                避免往來
               </p>
               <p className="text-red-700 text-sm">{profile.mismatch}</p>
             </div>
@@ -122,14 +120,14 @@ function ResultPersonality({ userData, onNext }) {
 
           <button
             onClick={onNext}
-            className="w-full px-8 py-4 bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl"
+            className="w-full py-3 px-6 rounded-full rounded-[36px] text-black font-bold text-3xl transition h-[60px]"
           >
             探索我的氣候適應力 🌍
           </button>
         </div>
 
-        <p className="mt-6 text-gray-500 text-sm">
-          接下來將為您分析居住、交通、旅遊三大領域的氣候適應建議
+        <p className="mt-6 text-[#365088ff] text-sm">
+          接下來將為您分析居住、交通、旅遊三大領域的氣候適應建議 ...
         </p>
       </div>
     </div>
