@@ -168,6 +168,15 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
         <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
           你的氣候適應性分析
         </h1>
+          </div>
+        {/* 可截圖的內容區域 */}
+        <div id="capture-target" className="bg-white rounded-2xl p-8 mb-6">
+          
+          {/* 用戶資訊區 */}
+          <div className="text-center mb-6">
+            <h2 className="text-xl font-semibold text-gray-800 mb-2">
+              {userData?.name ? `${userData.name} 的分析結果` : "個人分析結果"}
+            </h2>
             {/* 雷達圖區域 - 右側 */}
             <div className="flex flex-col items-center">
               <h3 className="text-lg font-semibold text-center mb-4 text-gray-800">個人適應性雷達圖</h3>
@@ -191,15 +200,6 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
                 </ResponsiveContainer>
               </div>
             </div>
-          </div>
-        {/* 可截圖的內容區域 */}
-        <div id="capture-target" className="bg-white rounded-2xl p-8 mb-6">
-          
-          {/* 用戶資訊區 */}
-          <div className="text-center mb-6">
-            <h2 className="text-xl font-semibold text-gray-800 mb-2">
-              {userData?.name ? `${userData.name} 的分析結果` : "個人分析結果"}
-            </h2>
             {userData?.county && userData?.town && (
               <p className="text-gray-600">
                 📍 居住地：{userData.county} {userData.town}
@@ -245,12 +245,12 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
           <button
             onClick={generateImage}
             disabled={isGeneratingImage}
-            className={`px-8 py-3 rounded-full font-bold text-lg transition-all duration-200 ${
+            className={`w-auto px-8 py-3 rounded-full font-bold text-lg transition-all duration-200 ${
               isGeneratingImage
                 ? "bg-gray-400 cursor-not-allowed text-white"
                 : "bg-[#83482cff] hover:bg-[#6d3a24] text-white shadow-lg hover:shadow-xl transform hover:scale-105"
             }`}
-            style={{ color: '#ffffff' }}
+            style={{ color: '#E0E0E0' }}
           >
             {isGeneratingImage ? (
               <span className="flex items-center justify-center">
