@@ -5,7 +5,26 @@ import { useState, useEffect } from "react";
 
 function RadarChartResult({ scores, mascot, regionSummary, userData }) {
   console.log("🐾 RadarChartResult loaded", { scores, mascot, regionSummary, userData });
+  console.log("📍 userData 詳細檢查:");
+  console.log("- userData 是否存在:", userData);
+  console.log("- userData 類型:", typeof userData);
+  console.log("- userData.county:", userData?.county);
+  console.log("- userData.town:", userData?.town);
+  console.log("- county 類型:", typeof userData?.county);
+  console.log("- town 類型:", typeof userData?.town);
+  console.log("- county 長度:", userData?.county?.length);
+  console.log("- town 長度:", userData?.town?.length);
+  console.log("- JSON stringify:", JSON.stringify(userData));
 
+  // 檢查是否有隱藏字符或空白
+  if (userData?.county) {
+    console.log("- county 前後空白檢查:", `"${userData.county}"`);
+    console.log("- county trim後:", `"${userData.county.trim()}"`);
+  }
+  if (userData?.town) {
+    console.log("- town 前後空白檢查:", `"${userData.town}"`);
+    console.log("- town trim後:", `"${userData.town.trim()}"`);
+  }
   const [regionScore, setRegionScore] = useState(null);
   const [generatedImageUrl, setGeneratedImageUrl] = useState(null);
   const [isGeneratingImage, setIsGeneratingImage] = useState(false);
@@ -291,7 +310,7 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
         {/* 生成的圖片預覽（用於長按保存） */}
         {generatedImageUrl && (
           <div className="mt-8 text-center">
-            <h3 className="text-lg font-semibold mb-4 text-gray-800">生成的圖片</h3>
+            <h3 className="text-lg font-bold mb-4 text-gray-800">生成的圖片</h3>
             <p className="text-sm text-gray-600 mb-4">
               💡 在手機上長按下方圖片可保存到相簿
             </p>
