@@ -103,18 +103,13 @@ function ResultPersonality({ userData, onNext }) {
           </div>
 
           {/* 適合與不適合環境 */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-            <div className="bg-green-50 p-4 rounded-xl border-l-4 border-green-400">
-              <p className="font-semibold text-green-800 mb-2 flex items-center">
-                合拍人格
-              </p>
+            <div className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-green-50 rounded-xl">
+              <h3 className="font-bold text-blue-800 mb-2">合拍人格</h3>
               <p className="text-green-700 text-sm">{profile.match}</p>
             </div>
-            <div className="bg-red-50 p-4 rounded-xl border-l-4 border-red-400">
-              <p className="font-semibold text-red-800 mb-2 flex items-center">
-                避免往來戶
-              </p>
-              <p className="text-red-700 text-sm">{profile.mismatch}</p>
+            <div className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-green-50 rounded-xl">
+              <h3 className="font-bold text-blue-800 mb-2">拒絕往來戶</h3>
+             <p className="text-red-700 text-sm">{profile.mismatch}</p>
             </div>
           </div>
 
