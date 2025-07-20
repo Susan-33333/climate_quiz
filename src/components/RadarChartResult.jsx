@@ -168,7 +168,30 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
         <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
           你的氣候適應性分析
         </h1>
-
+            {/* 雷達圖區域 - 右側 */}
+            <div className="flex flex-col items-center">
+              <h3 className="text-lg font-semibold text-center mb-4 text-gray-800">個人適應性雷達圖</h3>
+              <div className="w-full max-w-sm h-[350px]" style={{userSelect: 'none', pointerEvents: 'none'}}>
+                <ResponsiveContainer width="100%" height="100%">
+                  <RadarChart outerRadius={120} data={data}>
+                    <PolarGrid gridType="polygon" />
+                    <PolarAngleAxis 
+                      dataKey="category" 
+                      tick={{ fontSize: 14, fill: '#374151', fontWeight: 'bold' }}
+                    />
+                    <Radar 
+                      name="適應性分數" 
+                      dataKey="value" 
+                      stroke="#f398f7ff" 
+                      fill="#f1bbf8ff" 
+                      fillOpacity={0.25}
+                      strokeWidth={3}
+                    />
+                  </RadarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          </div>
         {/* 可截圖的內容區域 */}
         <div id="capture-target" className="bg-white rounded-2xl p-8 mb-6">
           
@@ -216,33 +239,7 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
                 </p>
               </div>
             </div>
-
-            {/* 雷達圖區域 - 右側 */}
-            <div className="flex flex-col items-center">
-              <h3 className="text-lg font-semibold text-center mb-4 text-gray-800">個人適應性雷達圖</h3>
-              <div className="w-full max-w-sm h-[350px]" style={{userSelect: 'none', pointerEvents: 'none'}}>
-                <ResponsiveContainer width="100%" height="100%">
-                  <RadarChart outerRadius={120} data={data}>
-                    <PolarGrid gridType="polygon" />
-                    <PolarAngleAxis 
-                      dataKey="category" 
-                      tick={{ fontSize: 14, fill: '#374151', fontWeight: 'bold' }}
-                    />
-                    <Radar 
-                      name="適應性分數" 
-                      dataKey="value" 
-                      stroke="#f398f7ff" 
-                      fill="#f1bbf8ff" 
-                      fillOpacity={0.25}
-                      strokeWidth={3}
-                    />
-                  </RadarChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-          </div>
         </div>
-
         {/* 操作按鈕 */}
         <div className="text-center space-y-4">
           <button

@@ -39,7 +39,7 @@ function QuizSection({ onNext }) {
 console.count("🌀 QuizSection Rendered")
   return (
     <div className="min-h-screen bg-[#E0E0E0] flex justify-center px-4 sm:px-8">
-      <div className="min-h-screen flex items-center justify-center px-4 relative w-full max-w-md mx-auto">
+      <div className="min-h-screen flex items-center justify-center px-4 relative w-auto max-w-md mx-auto">
         <div className="w-full max-w-md mx-auto bg-white rounded-2xl shadow-lg p-6 space-y-6 transition-all duration-500">
           <div className="relative min-h-[450px] sm:min-h-[400px]">
             <AnimatePresence mode="wait">
