@@ -84,6 +84,44 @@ function selectMascot(personalityType) {
   return mascot[personalityType] || mascot.T1;
 }
 
+// 生成地區總結 - 這是缺少的函數！
+function generateRegionSummary(userData, scores) {
+  if (!userData || !scores) {
+    return "正在分析你的氣候適應性特質...";
+  }
+
+  const { county, town, name } = userData;
+  const locationText = county && town ? `在${county}${town}` : "";
+  const nameText = name || "你";
+
+  // 找出最高的分數類別
+  const scoreEntries = Object.entries(scores);
+  const highestScore = scoreEntries.reduce((max, current) => 
+    current[1] > max[1] ? current : max
+  );
+  
+  const categoryNames = {
+    happiness: "幸福度",
+    adaptability: "調適度", 
+    convenience: "便利度",
+    live: "樂活度",
+    comfortable: "舒適度"
+  };
+
+  const strengthCategory = categoryNames[highestScore[0]] || "適應度";
+  
+  // 根據最高分數生成個性化總結
+  const summaries = {
+    happiness: `${nameText}是個樂觀開朗的人！${locationText}的氣候環境讓你感到愉悅，你能夠在各種天氣條件下保持正面的心態，並且善於從氣候變化中找到生活的樂趣。`,
+    adaptability: `${nameText}具有超強的適應能力！無論${locationText}的氣候如何變化，你都能快速調整自己的生活方式，靈活應對各種氣象挑戰。`,
+    convenience: `${nameText}重視生活的便利性！你善於利用${locationText}的氣候特色，合理安排日常活動，讓生活更加高效舒適。`,
+    live: `${nameText}是個熱愛生活的人！你懂得享受${locationText}的氣候之美，無論是陽光明媚還是細雨綿綿，都能找到屬於自己的生活節奏。`,
+    comfortable: `${nameText}追求舒適的生活品質！你對${locationText}的氣候環境有敏銳的感知，能夠創造出最適合自己的舒適生活空間。`
+  };
+
+  return summaries[highestScore[0]] || `${nameText}在${locationText}展現出優秀的氣候適應特質，能夠與當地的氣候環境和諧共處。`;
+}
+
 // 生成地區總結
 function App() {
   const [step, dispatch] = useReducer(stepReducer, steps.QUIZ_INTRO);
