@@ -1,208 +1,313 @@
-import { useReducer, useState } from "react";
-import UserInputForm from "./components/UserInputForm";
-import StorySegment from "./components/StorySegment";
-import QuizIntro from "./components/QuizIntro";
-import QuizSection from "./components/QuizSection";
-import ResultPersonality from "./components/ResultPersonality";
-import TagsSuggestion from "./components/TagsSuggestion";
-import RadarChartResult from "./components/RadarChartResult";
-import { collection, addDoc } from "firebase/firestore";
-import { db } from "./firebase";
+// RadarChartResult.jsx
+import { RadarChart, PolarGrid, PolarAngleAxis, Radar, ResponsiveContainer } from "recharts";
+import html2canvas from "html2canvas";
+import { useState, useEffect } from "react";
 
-export const steps = {
-  QUIZ_INTRO: "QUIZ_INTRO",
-  USER_INPUT: "USER_INPUT",
-  STORY: "STORY",
-  QUIZ_MAIN: "QUIZ_MAIN",
-  RESULT: "RESULT",
-  TAGS: "TAGS",
-  RADAR: "RADAR",
-};
+function RadarChartResult({ scores, mascot, regionSummary, userData }) {
+  console.log("🐾 RadarChartResult loaded", { scores, mascot, regionSummary, userData });
 
-const stepList = [
-  steps.QUIZ_INTRO,
-  steps.USER_INPUT,
-  steps.STORY,
-  steps.QUIZ_MAIN,
-  steps.RESULT,
-  steps.TAGS,
-  steps.RADAR,
-];
+  const [regionScore, setRegionScore] = useState(null);
+  const [generatedImageUrl, setGeneratedImageUrl] = useState(null);
+  const [isGeneratingImage, setIsGeneratingImage] = useState(false);
+  const [totalScores, setTotalScores] = useState(null);
+  const [isLoadingRegionScore, setIsLoadingRegionScore] = useState(false);
+  const [regionScoreError, setRegionScoreError] = useState(null);
 
-// 控制流程的 reducer
-function stepReducer(state, action) {
-  switch (action.type) {
-    case "NEXT":
-      return action.payload;
-    default:
-      return state;
+  // 雷達圖數據 - 添加調試信息
+  const data = [
+    { category: "幸福度", value: scores?.happiness || 0 },
+    { category: "調適度", value: scores?.adaptability || 0 },
+    { category: "便利度", value: scores?.convenience || 0 },
+    { category: "樂活度", value: scores?.live || 0 },
+    { category: "舒適度", value: scores?.comfortable || 0 },
+  ];
+
+  console.log("雷達圖數據:", data);
+
+  // 載入地區總分數據
+  useEffect(() => {
+    const fetchRegionScore = async () => {
+      // 檢查必要的用戶資料
+      if (!userData?.county || !userData?.town) {
+        console.warn("缺少用戶地區資料", userData);
+        setRegionScoreError("缺少地區資料");
+        return;
+      }
+
+      setIsLoadingRegionScore(true);
+      setRegionScoreError(null);
+
+      try {
+        // 載入 totalscores.json
+        const response = await fetch(`${import.meta.env.BASE_URL || '/'}data/totalscores.json`);
+        
+        if (!response.ok) {
+          throw new Error(`載入檔案失敗: ${response.status} ${response.statusText}`);
+        }
+
+        const scoresData = await response.json();
+        setTotalScores(scoresData);
+
+        // 建構地區鍵值，格式為 "縣市_鄉鎮區"
+        const regionKey = `${userData.county}_${userData.town}`;
+        console.log("🔍 尋找地區鍵值:", regionKey);
+
+        // 檢查該地區是否存在於數據中
+        if (scoresData[regionKey]) {
+          const score = scoresData[regionKey].綜合;
+          setRegionScore(score);
+          console.log("✅ 找到地區分數:", score);
+        } else {
+          console.warn("❌ 找不到該地區分數:", regionKey);
+          console.log("📍 可用的地區鍵值範例:", Object.keys(scoresData).slice(0, 10));
+          
+          // 嘗試模糊匹配（可選）
+          const similarKeys = Object.keys(scoresData).filter(key => 
+            key.includes(userData.county) || key.includes(userData.town)
+          );
+          
+          if (similarKeys.length > 0) {
+            console.log("🔍 相似的地區鍵值:", similarKeys);
+          }
+          
+          setRegionScoreError(`找不到 ${userData.county} ${userData.town} 的評分資料`);
+        }
+      } catch (error) {
+        console.error("❌ 載入地區分數失敗:", error);
+        setRegionScoreError(`載入失敗: ${error.message}`);
+      } finally {
+        setIsLoadingRegionScore(false);
+      }
+    };
+
+    fetchRegionScore();
+  }, [userData?.county, userData?.town]);
+
+  // 生成圖片（不自動下載）
+  const generateImage = async () => {
+    if (isGeneratingImage) return;
+
+    try {
+      setIsGeneratingImage(true);
+      
+      const captureElement = document.getElementById("capture-target");
+      if (!captureElement) {
+        throw new Error("找不到要截圖的元素");
+      }
+
+      // 使用 html2canvas 生成圖片
+      const canvas = await html2canvas(captureElement, {
+        useCORS: true,
+        backgroundColor: "#ffffff",
+        scale: 2, // 提高解析度
+        width: captureElement.scrollWidth,
+        height: captureElement.scrollHeight,
+        logging: false, // 關閉日誌以避免控制台雜訊
+      });
+
+      // 轉換為圖片 URL
+      const dataUrl = canvas.toDataURL("image/png", 0.9);
+      setGeneratedImageUrl(dataUrl);
+
+    } catch (error) {
+      console.error("生成圖片失敗:", error);
+      alert("生成圖片失敗，請重試");
+    } finally {
+      setIsGeneratingImage(false);
+    }
+  };
+
+  // 取得地區評分的顯示組件
+  const renderRegionScore = () => {
+    if (isLoadingRegionScore) {
+      return (
+        <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-4 mb-6 text-center">
+          <div className="flex items-center justify-center space-x-2">
+            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-600"></div>
+            <p className="text-gray-600">載入地區評分中...</p>
+          </div>
+        </div>
+      );
+    }
+
+    if (regionScoreError) {
+      return (
+        <div className="bg-gradient-to-r from-red-50 to-pink-50 rounded-xl p-4 mb-6 text-center">
+          <p className="text-red-600 mb-1">⚠️ {regionScoreError}</p>
+          <p className="text-sm text-red-500">請檢查地區選擇是否正確</p>
+        </div>
+      );
+    }
+
+    if (regionScore !== null) {
+      return (
+        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 mb-6 text-center">
+          <p className="text-gray-700 mb-1">🌍 你所在地區的氣候綜合評分</p>
+          <p className="text-3xl font-bold text-indigo-600">{regionScore} 分</p>
+          <p className="text-sm text-gray-500 mt-1">滿分100分</p>
+          <p className="text-xs text-gray-400 mt-2">
+            📍 {userData?.county} {userData?.town}
+          </p>
+        </div>
+      );
+    }
+
+    return null;
+  };
+
+  // 如果沒有分數數據，顯示載入中
+  if (!scores) {
+    return (
+      <div className="bg-[#faf7ef] min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#83482cff] mx-auto mb-4"></div>
+          <p className="text-lg text-gray-600">載入結果中...</p>
+        </div>
+      </div>
+    );
   }
-}
 
-// 計算分數的函數
-function calculateScores(answers) {
-  // 這裡你可以根據實際的計分邏輯調整
-  // 暫時使用簡單的隨機計分作為示例
-  const scoreMap = {
-    A: { happiness: 10, adaptability: 5, convenience: 20, live: 20, comfortable: 25 },
-    B: { happiness: 15, adaptability: 10, convenience: 20, live: 15, comfortable: 15 },
-    C: { happiness: 20, adaptability: 20, convenience: 15, live: 10, comfortable: 20 },
-    D: { happiness: 30, adaptability: 30, convenience: 30, live: 25, comfortable: 30 }
-  };
-
-  const scores = {
-    happiness: 0,
-    adaptability: 0,
-    convenience: 0,
-    live: 0,
-    comfortable: 0
-  };
-
-  answers.forEach(answer => {
-    const answerScores = scoreMap[answer] || scoreMap.A;
-    Object.keys(scores).forEach(key => {
-      scores[key] += answerScores[key];
-    });
-  });
-
-  // 將分數轉換為百分比（假設每個領域最高分為200）
-  Object.keys(scores).forEach(key => {
-    scores[key] = Math.min(Math.round((scores[key] / 200) * 100), 100);
-  });
-
-  return scores;
-}
-
-// 根據人格選擇吉祥物
-function selectMascot(personalityType) {
-  const mascot = {
-    T1: { image: `${import.meta.env.BASE_URL}mascot/T1.png`, name: "滴答浣熊" },
-    T2: { image: `${import.meta.env.BASE_URL}mascot/T2.png`, name: "氣候適應者" },
-    T3: { image: `${import.meta.env.BASE_URL}mascot/T3.png`, name: "綠色生活家" },
-    T4: { image: `${import.meta.env.BASE_URL}mascot/T4.png`, name: "永續實踐者" },
-  };
-  return mascot[personalityType] || mascot.T1;
-}
-
-// 生成地區總結
-function generateRegionSummary(userData, scores) {
-  const { county, town } = userData;
-  const avgScore = Math.round((scores.happiness + scores.adaptability + scores.convenience + scores.live + scores.comfortable) / 5);
-  
-  return `根據分析，${county}${town}在未來30年的氣候適應性評分為${avgScore}分，建議關注居住環境和交通綠能的改善。`;
-}
-
-function App() {
-  const [step, dispatch] = useReducer(stepReducer, steps.QUIZ_INTRO);
-  const [userData, setUserData] = useState({});
-
-  const currentStepIndex = stepList.indexOf(step);
-  const totalSteps = stepList.length;
-  const progressPercent = ((currentStepIndex + 1) / totalSteps) * 100;
-  
   return (
-    <div className="min-h-screen font-huninn bg-[#E0E0E0] mx-auto">
+    <div className="bg-[#faf7ef] min-h-screen px-4 py-10">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
+          你的氣候適應性分析
+        </h1>
 
-      {/* 各步驟畫面 */}
-      {step === steps.QUIZ_INTRO && (
-        <QuizIntro
-          onStart={() => dispatch({ type: "NEXT", payload: steps.USER_INPUT })}
-        />
-      )}
+        {/* 可截圖的內容區域 */}
+        <div id="capture-target" className="bg-white rounded-2xl p-8 mb-6">
+          
+          {/* 用戶資訊區 */}
+          <div className="text-center mb-6">
+            <h2 className="text-xl font-semibold text-gray-800 mb-2">
+              {userData?.name ? `${userData.name} 的分析結果` : "個人分析結果"}
+            </h2>
+            {userData?.county && userData?.town && (
+              <p className="text-gray-600">
+                📍 居住地：{userData.county} {userData.town}
+              </p>
+            )}
+          </div>
 
-      {step === steps.USER_INPUT && (
-        <UserInputForm
-          onSave={async (data) => {
-            try {
-              await addDoc(collection(db, "users"), data);
-              setUserData(data);
-              dispatch({ type: "NEXT", payload: steps.STORY });
-            } catch (err) {
-              alert("資料儲存失敗，請再試一次！");
-              console.error("❌", err);
-            }
-          }}
-          onNext={() => dispatch({ type: "NEXT", payload: steps.STORY })}
-        />
-      )}
+          {/* 地區綜合評分 */}
+          {renderRegionScore()}
 
-      {step === steps.STORY && (
-        <StorySegment
-          userData={userData}
-          onNext={() => dispatch({ type: "NEXT", payload: steps.QUIZ_MAIN })}
-        />
-      )}
-
-      {step === steps.QUIZ_MAIN && (
-        <QuizSection
-          onNext={(answers) => {
-            const updatedData = { ...userData, answers };
-            setUserData(updatedData);
-            dispatch({ type: "NEXT", payload: steps.RESULT });
-          }}
-        />
-      )}
-
-      {step === steps.RESULT && (
-        <ResultPersonality
-          userData={userData}
-          onNext={() => dispatch({ type: "NEXT", payload: steps.TAGS })}
-        />
-      )}
-
-      {step === steps.TAGS && (
-        <TagsSuggestion
-          userData={userData}
-          onNext={() => {
-            // 在進入雷達圖之前計算所有必要的數據
-            const scores = calculateScores(userData.answers);
+          {/* 人格圖片和雷達圖 - 左右佈局 */}
+          <div className="grid md:grid-cols-2 gap-8 items-center">
             
-            // 根據答案確定人格類型
-            const count = { A: 0, B: 0, C: 0, D: 0 };
-            userData.answers.forEach((ans) => {
-              if (count[ans]) {
-                count[ans]++;
-              } else {
-                count[ans] = 1;
-              }
-            });
-            
-            const maxOption = Object.entries(count).sort((a, b) => b[1] - a[1])[0][0];
-            const personalityMap = {
-              A: "T1",
-              B: "T2", 
-              C: "T3",
-              D: "T4",
-            };
-            
-            const personalityType = personalityMap[maxOption] || "T1";
-            const mascot = selectMascot(personalityType);
-            const regionSummary = generateRegionSummary(userData, scores);
-            
-            const finalData = {
-              ...userData,
-              scores,
-              mascot,
-              regionSummary,
-              personalityType
-            };
-            
-            setUserData(finalData);
-            dispatch({ type: "NEXT", payload: steps.RADAR });
-          }}
-        />
-      )}
+            {/* 角色與描述區域 - 左側 */}
+            <div className="text-center md:text-left">
+              {mascot?.image && (
+                <div className="flex justify-center md:justify-start mb-6">
+                  <img
+                    src={mascot.image}
+                    alt={mascot.name || "你的氣候角色"}
+                    className="w-48 h-auto rounded-xl"
+                    style={{userSelect: 'none', pointerEvents: 'none'}}
+                    onError={(e) => {
+                      console.error("角色圖片載入失敗:", e.target.src);
+                      e.target.style.display = 'none';
+                    }}
+                  />
+                </div>
+              )}
+              
+              <div className="bg-gradient-to-br from-pink-50 to-rose-50 rounded-xl p-6">
+                <h3 className="text-xl font-bold mb-3 text-gray-800">
+                  {mascot?.name || "你的氣候夥伴"}
+                </h3>
+                <p className="text-gray-700 leading-relaxed">
+                  {regionSummary || "正在分析你的氣候適應性特質..."}
+                </p>
+              </div>
+            </div>
 
-      {step === steps.RADAR && userData?.scores && (
-        <RadarChartResult
-          scores={userData.scores}
-          mascot={userData.mascot}
-          regionSummary={userData.regionSummary}
-          userData={userData} // 🔥 這是關鍵修復！加入 userData 參數
-        />
-      )}
+            {/* 雷達圖區域 - 右側 */}
+            <div>
+              <h3 className="text-lg font-semibold text-center mb-4 text-gray-800">個人適應性雷達圖</h3>
+              <div className="w-full h-[350px]" style={{userSelect: 'none', pointerEvents: 'none'}}>
+                <ResponsiveContainer width="100%" height="100%">
+                  <RadarChart outerRadius={120} data={data}>
+                    <PolarGrid gridType="polygon" />
+                    <PolarAngleAxis 
+                      dataKey="category" 
+                      tick={{ fontSize: 14, fill: '#374151', fontWeight: 'bold' }}
+                    />
+                    <Radar 
+                      name="適應性分數" 
+                      dataKey="value" 
+                      stroke="#6366f1" 
+                      fill="#818cf8" 
+                      fillOpacity={0.25}
+                      strokeWidth={3}
+                      dot={{ fill: "#4f46e5", strokeWidth: 2, r: 5 }}
+                    />
+                  </RadarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 操作按鈕 */}
+        <div className="text-center space-y-4">
+          <button
+            onClick={generateImage}
+            disabled={isGeneratingImage}
+            className={`px-8 py-3 rounded-full font-bold text-lg transition-all duration-200 ${
+              isGeneratingImage
+                ? "bg-gray-400 cursor-not-allowed text-white"
+                : "bg-[#83482cff] hover:bg-[#6d3a24] text-white shadow-lg hover:shadow-xl transform hover:scale-105"
+            }`}
+          >
+            {isGeneratingImage ? (
+              <span className="flex items-center justify-center">
+                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                生成中...
+              </span>
+            ) : (
+              "📸 生成分享圖片"
+            )}
+          </button>
+
+          {/* 調試資訊（開發時使用，生產環境可移除） */}
+          {process.env.NODE_ENV === 'development' && (
+            <div className="mt-6 p-4 bg-gray-100 rounded-lg text-left text-xs">
+              <h4 className="font-bold mb-2">調試資訊：</h4>
+              <p>傳入的 scores: {JSON.stringify(scores, null, 2)}</p>
+              <p>用戶資料: {JSON.stringify(userData, null, 2)}</p>
+              <p>地區分數: {regionScore}</p>
+              <p>地區載入狀態: {isLoadingRegionScore ? '載入中' : '完成'}</p>
+              <p>地區錯誤: {regionScoreError || '無'}</p>
+              <p>可用地區數量: {totalScores ? Object.keys(totalScores).length : 0}</p>
+              <p>雷達圖數據: {JSON.stringify(data, null, 2)}</p>
+            </div>
+          )}
+        </div>
+
+        {/* 生成的圖片預覽（用於長按保存） */}
+        {generatedImageUrl && (
+          <div className="mt-8 text-center">
+            <h3 className="text-lg font-bold mb-4 text-gray-800">生成的圖片</h3>
+            <p className="text-sm text-gray-600 mb-4">
+              💡 在手機上長按下方圖片可保存到相簿
+            </p>
+            <div className="inline-block rounded-2xl overflow-hidden">
+              <img 
+                src={generatedImageUrl} 
+                alt="氣候適應性分析結果"
+                className="max-w-full h-auto"
+                style={{ maxWidth: '400px' }}
+              />
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
 
-export default App;
+export default RadarChartResult;

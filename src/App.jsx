@@ -87,7 +87,7 @@ function selectMascot(personalityType) {
 // 生成地區總結
 function generateRegionSummary(userData, scores) {
   const { county, town } = userData;
-  const avgScore = Math.round((scores.happiness + scores.adaptability + scores.residence + scores.transport + scores.tourism) / 5);
+  const avgScore = Math.round((scores.happiness + scores.adaptability + scores.convenience + scores.live + scores.comfortable) / 5);
   
   return `根據分析，${county}${town}在未來30年的氣候適應性評分為${avgScore}分，建議關注居住環境和交通綠能的改善。`;
 }
@@ -99,20 +99,18 @@ function App() {
   const currentStepIndex = stepList.indexOf(step);
   const totalSteps = stepList.length;
   const progressPercent = ((currentStepIndex + 1) / totalSteps) * 100;
+  
   return (
     <div className="min-h-screen font-huninn bg-[#E0E0E0] mx-auto">
 
       {/* 各步驟畫面 */}
       {step === steps.QUIZ_INTRO && (
-        
         <QuizIntro
           onStart={() => dispatch({ type: "NEXT", payload: steps.USER_INPUT })}
         />
-      
       )}
 
       {step === steps.USER_INPUT && (
-        
         <UserInputForm
           onSave={async (data) => {
             try {
@@ -126,20 +124,16 @@ function App() {
           }}
           onNext={() => dispatch({ type: "NEXT", payload: steps.STORY })}
         />
-      
       )}
 
       {step === steps.STORY && (
-        
         <StorySegment
           userData={userData}
           onNext={() => dispatch({ type: "NEXT", payload: steps.QUIZ_MAIN })}
         />
-      
       )}
 
       {step === steps.QUIZ_MAIN && (
-        
         <QuizSection
           onNext={(answers) => {
             const updatedData = { ...userData, answers };
@@ -147,20 +141,16 @@ function App() {
             dispatch({ type: "NEXT", payload: steps.RESULT });
           }}
         />
-      
       )}
 
       {step === steps.RESULT && (
-        
         <ResultPersonality
           userData={userData}
           onNext={() => dispatch({ type: "NEXT", payload: steps.TAGS })}
         />
-      
       )}
 
       {step === steps.TAGS && (
-        
         <TagsSuggestion
           userData={userData}
           onNext={() => {
@@ -201,17 +191,15 @@ function App() {
             dispatch({ type: "NEXT", payload: steps.RADAR });
           }}
         />
-      
       )}
 
       {step === steps.RADAR && userData?.scores && (
-        
         <RadarChartResult
           scores={userData.scores}
           mascot={userData.mascot}
           regionSummary={userData.regionSummary}
+          userData={userData} // 🔥 這是關鍵修復！加入 userData 參數
         />
-        
       )}
     </div>
   );
