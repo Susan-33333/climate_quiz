@@ -68,7 +68,9 @@ export default function UserInputForm({ onNext, onSave }) {
               autoComplete="name"
               value={formData.name}
               onChange={handleChange}
-              className="rounded-[36px] w-full border border-gray-300 rounded-lg px-4 py-3 mt-1 focus:ring-2 focus:ring-brown-300 focus:outline-none"
+              step="1"
+              min="3"
+              className="rounded-[36px] w-auto border border-gray-300 rounded-lg px-4 py-3 mt-1 focus:ring-2 focus:ring-brown-300 focus:outline-none"
             />
 
           </div>
