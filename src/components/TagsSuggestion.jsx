@@ -181,7 +181,7 @@ const TagsSuggestion = ({ userData, onNext }) => {
                 onClick={() => setActiveTab(label)}
                 className={`flex-1 flex flex-col justify-center items-center text-sm font-bold py-3 rounded-lg transition-all duration-200 ${
                   activeTab === label
-                    ? "bg-[#70472d] text-white shadow-md"
+                    ? "bg-[#70472d] text-[#ffffff] shadow-md"
                     : "text-[#70472d] hover:bg-[#e9d9cc]"
                 }`}
               >

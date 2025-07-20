@@ -253,6 +253,7 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
                 ? "bg-gray-400 cursor-not-allowed text-white"
                 : "bg-[#83482cff] hover:bg-[#6d3a24] text-white shadow-lg hover:shadow-xl transform hover:scale-105"
             }`}
+            style={{ color: '#ffffff' }}
           >
             {isGeneratingImage ? (
               <span className="flex items-center justify-center">
@@ -263,23 +264,9 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
                 生成中...
               </span>
             ) : (
-              "📸 生成分享圖片"
+              <span style={{ color: '#ffffff' }}>"生成分享圖片"</span>
             )}
           </button>
-
-          {/* 調試資訊（開發時使用，生產環境可移除） */}
-          {process.env.NODE_ENV === 'development' && (
-            <div className="mt-6 p-4 bg-gray-100 rounded-lg text-left text-xs">
-              <h4 className="font-bold mb-2">調試資訊：</h4>
-              <p>傳入的 scores: {JSON.stringify(scores, null, 2)}</p>
-              <p>用戶資料: {JSON.stringify(userData, null, 2)}</p>
-              <p>地區分數: {regionScore}</p>
-              <p>地區載入狀態: {isLoadingRegionScore ? '載入中' : '完成'}</p>
-              <p>地區錯誤: {regionScoreError || '無'}</p>
-              <p>可用地區數量: {totalScores ? Object.keys(totalScores).length : 0}</p>
-              <p>雷達圖數據: {JSON.stringify(data, null, 2)}</p>
-            </div>
-          )}
         </div>
 
         {/* 生成的圖片預覽（用於長按保存） */}

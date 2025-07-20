@@ -109,22 +109,24 @@ function ResultPersonality({ userData, onNext }) {
             </div>
             <div className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-green-50 rounded-xl">
               <h3 className="font-bold text-blue-800 mb-2">拒絕往來戶</h3>
-             <p className="text-red-700 text-sm">{profile.mismatch}</p>
+             <p className="text-[#579ae7ff] text-sm">{profile.mismatch}</p>
             </div>
           </div>
 
           <button
             onClick={onNext}
-            className="w-full py-3 px-6 rounded-full rounded-[36px] text-black font-bold text-3xl transition h-[60px]"
+            className="w-full py-3 px-6 rounded-full rounded-[36px] text-black font-bold text-[25px] transition h-[60px]"
           >
-            探索我的氣候適應力 🌍
+            探索我的氣候適應力🌍
           </button>
         </div>
-        <p className="mt-3 text-[#365088ff] text-xl">
-          接下來將為您分析居住、交通、旅遊三大領域的氣候適應建議 ...
-        </p>
+          <div className="mb-6 p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl">
+            <h3 className="font-sans text-[#666e77ff] mb-2">
+              接下來將為您分析居住、交通、旅遊三大領域的氣候適應建議...
+            </h3>
+            <p className="text-gray-700 leading-relaxed">{profile.description}</p>
+          </div>
       </div>
   );
 }
-
 export default ResultPersonality;
