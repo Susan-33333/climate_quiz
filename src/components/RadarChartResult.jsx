@@ -8,7 +8,7 @@ function RadarChartResult({ scores, mascot, regionSummary }) {
   const data = [
     { category: "幸福度", value: scores?.happiness || 0 },
     { category: "調適度", value: scores?.adaptability || 0 },
-    { category: "便利度", value: scores?.convience || 0 },
+    { category: "便利度", value: scores?.convenience || 0 },
     { category: "樂活度", value: scores?.live || 0 },
     { category: "舒適度", value: scores?.comfortable || 0 },
   ];
