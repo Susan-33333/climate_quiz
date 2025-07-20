@@ -81,10 +81,10 @@ export default function StorySegment({ userData, onNext }) {
           <div className="w-full max-w-[414px] px-8 flex justify-center items-center">
             <div className="bg-white/90 backdrop-blur-sm text-gray-800 rounded-2xl p-6 text-center shadow-lg w-full max-w-[300px]">
               <h2 className="text-2xl font-bold mb-6">未來的你⋯⋯</h2>
-              <p className="text-base leading-loose whitespace-pre-line mb-8">{story}</p>
+              <p className="text-xl leading-loose whitespace-pre-line mb-8">{story}</p>
               {story && (
                 <button
-                  className="w-full py-3 px-6 rounded-full rounded-[36px] text-white font-bold text-base transition h-[40px] bg-[#3b82f6] hover:bg-[#2563eb]"
+                  className="w-full py-3 px-6 rounded-full rounded-[36px] text-[#ffffff] font-bold text-[18px] transition h-[40px] bg-[#3b82f6] hover:bg-[#2563eb]"
                   onClick={onNext}
                 >
                   我準備好了！
