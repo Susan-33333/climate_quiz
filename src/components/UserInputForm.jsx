@@ -58,7 +58,7 @@ export default function UserInputForm({ onNext, onSave }) {
           <h1 className="text-2xl font-bold text-center text-brown-800">填寫基本資料</h1>
 
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-brown-700">
+            <label htmlFor="name" className="block text-xl; font-bold text-brown-700">
               匿稱
             </label>
             <input
@@ -68,13 +68,13 @@ export default function UserInputForm({ onNext, onSave }) {
               autoComplete="name"
               value={formData.name}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded-lg px-4 py-3 mt-1 focus:ring-2 focus:ring-brown-300 focus:outline-none"
+              className="rounded-[36px] w-full border border-gray-300 rounded-lg px-4 py-3 mt-1 focus:ring-2 focus:ring-brown-300 focus:outline-none"
             />
 
           </div>
 
           <div>
-            <label htmlFor="age" className="block text-sm font-medium text-brown-700">
+            <label htmlFor="age" className="block text-xl font-bold text-brown-700">
               年齡
             </label>
             <input
@@ -84,13 +84,13 @@ export default function UserInputForm({ onNext, onSave }) {
               autoComplete="bday"
               value={formData.age}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded-lg px-4 py-3 mt-1 focus:ring-2 focus:ring-brown-300 focus:outline-none"
+              className="rounded-[36px] w-full border border-gray-300 rounded-xl px-4 py-3 mt-1 focus:ring-2 focus:ring-brown-300 focus:outline-none"
             />
 
           </div>
 
           <div>
-            <label htmlFor="county" className="block text-sm font-medium text-brown-700">
+            <label htmlFor="county" className="block text-xl font-bold text-brown-700">
               居住地
             </label>
             <select
@@ -99,7 +99,7 @@ export default function UserInputForm({ onNext, onSave }) {
               autoComplete="address-level1"
               value={formData.county}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded-lg px-4 py-3 mt-1 focus:ring-2 focus:ring-brown-300 focus:outline-none"
+              className="rounded-[36px] w-full border border-gray-300 rounded-xl px-4 py-3 mt-1 focus:ring-2 focus:ring-brown-300 focus:outline-none"
             >
 
               <option value="">請選擇</option>
@@ -111,7 +111,7 @@ export default function UserInputForm({ onNext, onSave }) {
 
           {formData.county && (
             <div>
-              <label htmlFor="town" className="block text-sm font-medium text-brown-700">
+              <label htmlFor="town" className="block text-xl font-medium text-brown-700">
                 鄉鎮市區
               </label>
               <select
@@ -120,7 +120,7 @@ export default function UserInputForm({ onNext, onSave }) {
                 autoComplete="address-level2"
                 value={formData.town}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg px-4 py-3 mt-1 focus:ring-2 focus:ring-brown-300 focus:outline-none"
+                className="rounded-[36px] w-full border border-gray-300 rounded-lg px-4 py-3 mt-1 focus:ring-2 focus:ring-brown-300 focus:outline-none"
               >
                 <option value="">請選擇</option>
                 {townMap[formData.county].map((t) => (
@@ -131,13 +131,13 @@ export default function UserInputForm({ onNext, onSave }) {
           )}
         <div>
           <p>
-            
+
           </p>
         </div>
           <button
             onClick={handleSubmit}
             disabled={!isValid()}
-            className={`w-full py-3 px-6 rounded-full rounded-[36px] text-white font-bold text-base transition h-[40px] ${
+            className={`w-full py-3 px-6 rounded-full rounded-[36px] text-white font-bold text-base transition h-[20px] relative ${
               isValid()
                 ? "bg-brown-600 hover:bg-brown-700"
                 : "bg-gray-300 cursor-not-allowed"
