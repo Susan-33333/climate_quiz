@@ -6,9 +6,8 @@ import { useState, useEffect } from "react";
 function RadarChartResult({ scores, mascot, regionSummary }) {
   console.log("🐾 RadarChartResult loaded", { scores, mascot, regionSummary });
 
-const [scores, setScores] = useState(null);
-const [regionScore, setRegionScore] = useState(null);
-const [generatedImageUrl, setGeneratedImageUrl] = useState(null);
+  const [regionScore, setRegionScore] = useState(null);
+  const [generatedImageUrl, setGeneratedImageUrl] = useState(null);
 
   const data = [
     { category: "幸福度", value: scores?.happiness || 0 },
