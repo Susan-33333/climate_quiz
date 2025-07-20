@@ -125,7 +125,6 @@ function ResultPersonality({ userData, onNext }) {
           接下來將為您分析居住、交通、旅遊三大領域的氣候適應建議 ...
         </p>
       </div>
-    </div>
   );
 }
 
