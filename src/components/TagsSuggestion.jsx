@@ -193,7 +193,7 @@ const TagsSuggestion = ({ userData, onNext }) => {
 
           <div className="flex flex-col items-center space-y-4 pt-4 text-left">
   <h2 className="text-xl font-bold text-gray-800">未來 30 年後 {fullRegionDisplay}</h2>
-  <RingChart score={current.score} />
+  <RingChart key={activeTab} score={current.score} />
   <p className="text-sm text-gray-700">{current.description}</p>
   <div className="text-sm text-gray-800">
     <p className="font-semibold">可能面臨災害：</p>
