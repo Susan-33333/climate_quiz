@@ -24,6 +24,12 @@ export default function UserInputForm({ onNext, onSave }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    if (name === "age") {
+    // 移除非數字和小數點
+    if (!/^\d*$/.test(value)) return; // 僅允許正整數
+  }
+
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -58,7 +64,7 @@ export default function UserInputForm({ onNext, onSave }) {
           <h1 className="text-2xl font-bold text-center text-brown-800">填寫基本資料</h1>
 
           <div>
-            <label htmlFor="name" className="text-center block text-xl; font-bold text-brown-700">
+            <label htmlFor="name" className="block text-xl; font-bold text-brown-700">
               匿稱
             </label>
             <input
@@ -68,8 +74,6 @@ export default function UserInputForm({ onNext, onSave }) {
               autoComplete="name"
               value={formData.name}
               onChange={handleChange}
-              step="1"
-              min="3"
               className="text-center rounded-[36px] w-auto border border-gray-300 rounded-lg px-4 py-3 mt-1 focus:ring-2 focus:ring-brown-300 focus:outline-none"
             />
 
@@ -86,7 +90,10 @@ export default function UserInputForm({ onNext, onSave }) {
               autoComplete="bday"
               value={formData.age}
               onChange={handleChange}
-              className="rounded-[36px] w-auto border border-gray-300 rounded-xl w-auto px-4 py-3 mt-1 focus:ring-2 focus:ring-brown-300 focus:outline-none"
+              step="1"
+              min="3"
+              max="99"
+              className="text-center rounded-[36px] w-auto border border-gray-300 rounded-xl w-auto px-4 py-3 mt-1 focus:ring-2 focus:ring-brown-300 focus:outline-none"
             />
 
           </div>
