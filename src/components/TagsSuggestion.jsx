@@ -202,7 +202,6 @@ const TagsSuggestion = ({ userData, onNext }) => {
     <p className="text-gray-600">{current.recommend}</p>
   </div>
 </div>
-          </div>
         </div>
 
         <div className="mt-6 p-4 bg-gray-100 rounded-md text-left">
