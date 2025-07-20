@@ -53,11 +53,9 @@ function calculateScores(answers) {
   const scores = {
     happiness: 0,
     adaptability: 0,
-    residence: 0,
-    transport: 0,
-    tourism: 0,
-    joy: 0,
-    explore: 0
+    convenience: 0,
+    live: 0,
+    comfortable: 0
   };
 
   answers.forEach(answer => {
