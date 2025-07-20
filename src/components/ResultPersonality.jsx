@@ -115,7 +115,7 @@ function ResultPersonality({ userData, onNext }) {
 
           <button
             onClick={onNext}
-            className="w-full py-3 px-6 rounded-full rounded-[36px] text-black font-bold text-[20px] transition h-[60px]"
+            className="w-full py-3 px-6 rounded-full rounded-[36px] text-black font-bold text-[15px] transition h-[40px]"
           >
             探索我的氣候適應力🌍
           </button>
