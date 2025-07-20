@@ -187,17 +187,17 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
           {/* 地區綜合評分 */}
           {renderRegionScore()}
 
-          {/* 人格圖片和雷達圖 - 左右佈局 */}
-          <div className="grid md:grid-cols-2 gap-8 items-center">
+          {/* 人格圖片和雷達圖 - 修复后的左右佈局 */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
             
             {/* 角色與描述區域 - 左側 */}
-            <div className="text-center md:text-left">
+            <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
               {mascot?.image && (
-                <div className="flex justify-center md:justify-start mb-6">
+                <div className="mb-6">
                   <img
                     src={mascot.image}
                     alt={mascot.name || "你的氣候角色"}
-                    className="w-48 h-auto rounded-xl"
+                    className="w-48 h-auto rounded-xl mx-auto lg:mx-0"
                     style={{userSelect: 'none', pointerEvents: 'none'}}
                     onError={(e) => {
                       console.error("角色圖片載入失敗:", e.target.src);
@@ -207,7 +207,7 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
                 </div>
               )}
               
-              <div className="bg-gradient-to-br from-pink-50 to-rose-50 rounded-xl p-6">
+              <div className="bg-gradient-to-br from-pink-50 to-rose-50 rounded-xl p-6 w-full">
                 <h3 className="text-xl font-bold mb-3 text-gray-800">
                   {mascot?.name || "你的氣候夥伴"}
                 </h3>
@@ -218,9 +218,9 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
             </div>
 
             {/* 雷達圖區域 - 右側 */}
-            <div>
+            <div className="flex flex-col items-center">
               <h3 className="text-lg font-semibold text-center mb-4 text-gray-800">個人適應性雷達圖</h3>
-              <div className="w-full h-[350px]" style={{userSelect: 'none', pointerEvents: 'none'}}>
+              <div className="w-full max-w-sm h-[350px]" style={{userSelect: 'none', pointerEvents: 'none'}}>
                 <ResponsiveContainer width="100%" height="100%">
                   <RadarChart outerRadius={120} data={data}>
                     <PolarGrid gridType="polygon" />
@@ -264,7 +264,7 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
                 生成中...
               </span>
             ) : (
-              <span style={{ color: '#ffffff' }}>"生成分享圖片"</span>
+              <span style={{ color: '#ffffff' }}>生成分享圖片</span>
             )}
           </button>
         </div>
