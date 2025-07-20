@@ -4,6 +4,7 @@ export default function StorySegment({ userData, onNext }) {
   const [story, setStory] = useState("");
   const [bgImage, setBgImage] = useState("");
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [storyLoaded, setStoryLoaded] = useState(false);
 
   useEffect(() => {
     const age = parseInt(userData.age, 10);
@@ -38,16 +39,20 @@ export default function StorySegment({ userData, onNext }) {
       })
       .then((data) => {
         setStory(data.result);
+        setStoryLoaded(true);
       })
       .catch((err) => {
         console.error("生成故事錯誤：", err);
         setStory("⚠️ 故事載入失敗，請稍後再試。");
+        setStoryLoaded(true); // 即使失敗也結束 loading
       });
   }, [userData]);
 
+  const allLoaded = imageLoaded && storyLoaded;
+
   return (
     <div className="min-h-screen w-full bg-[#E0E0E0] flex justify-center relative overflow-hidden">
-      {/* 圖片層：固定貼齊畫面上下，比例維持直式 */}
+      {/* 背景圖層 */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[414px] h-screen z-0">
         <img
           src={bgImage}
@@ -56,8 +61,8 @@ export default function StorySegment({ userData, onNext }) {
         />
       </div>
 
-      {/* 內容層：置中對齊，且不影響圖片位置 */}
-      {imageLoaded ? (
+      {/* 內容層 */}
+      {allLoaded ? (
         <div className="absolute inset-0 flex justify-center items-center z-10">
           <div className="w-full max-w-[414px] px-8 flex justify-center items-center">
             <div className="bg-white/90 backdrop-blur-sm text-gray-800 rounded-2xl p-6 text-center shadow-lg w-full max-w-[300px]">
@@ -65,7 +70,7 @@ export default function StorySegment({ userData, onNext }) {
               <p className="text-base leading-loose whitespace-pre-line mb-8">{story}</p>
               {story && (
                 <button
-                  className={`w-full py-3 px-6 rounded-full rounded-[36px] text-white font-bold text-base transition h-[40px]`}
+                  className="w-full py-3 px-6 rounded-full rounded-[36px] text-white font-bold text-base transition h-[40px] bg-[#3b82f6] hover:bg-[#2563eb]"
                   onClick={onNext}
                 >
                   我準備好了！
@@ -75,9 +80,10 @@ export default function StorySegment({ userData, onNext }) {
           </div>
         </div>
       ) : (
-        <div className="absolute inset-0 flex justify-center items-center z-10">
-          <div className="w-full max-w-[414px] px-8 flex justify-center items-center">
-            <p className="text-white text-sm text-center">背景載入中⋯⋯</p>
+        <div className="absolute inset-0 flex justify-center items-center z-10 bg-black/50 backdrop-blur-sm">
+          <div className="flex flex-col items-center">
+            <div className="w-10 h-10 border-4 border-white border-t-transparent rounded-full animate-spin mb-4"></div>
+            <p className="text-white text-sm text-center">正在載入你的未來世界⋯⋯</p>
           </div>
         </div>
       )}
