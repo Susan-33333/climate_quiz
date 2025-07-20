@@ -59,7 +59,7 @@ console.count("🌀 QuizSection Rendered")
                     {current.question}
                   </h2>
                 </div>
-                    {Object.entries(current.options).map(([key, text]) => (
+                    {Object.entries(current.options).map(([key, text], index, arr) => (
                         <div key={key}>
                         <button
                           disabled={selected !== null}
