@@ -1,10 +1,13 @@
 // RadarChartResult.jsx
 import { RadarChart, PolarGrid, PolarAngleAxis, Radar, ResponsiveContainer } from "recharts";
 import html2canvas from "html2canvas";
+import { useState, useEffect } from "react";
 
 function RadarChartResult({ scores, mascot, regionSummary }) {
   console.log("🐾 RadarChartResult loaded", { scores, mascot, regionSummary });
 
+const [scores, setScores] = useState(null);
+const [regionScore, setRegionScore] = useState(null);
 const [generatedImageUrl, setGeneratedImageUrl] = useState(null);
 
   const data = [
@@ -14,6 +17,27 @@ const [generatedImageUrl, setGeneratedImageUrl] = useState(null);
     { category: "樂活度", value: scores?.live || 0 },
     { category: "舒適度", value: scores?.comfortable || 0 },
   ];
+
+useEffect(() => {
+  const fetchRegionScore = async () => {
+    try {
+      const res = await fetch(`${import.meta.env.BASE_URL}data/totalscores.json`);
+      const json = await res.json();
+      const key = `${userData.county}_${userData.town}`; // 例如「臺北市_信義區」
+      const score = json[key]?.綜合 ?? null;
+      if (score !== null) setRegionScore(score);
+      else console.warn("找不到該地區分數", key);
+    } catch (e) {
+      console.error("載入分數檔案失敗", e);
+    }
+  };
+  fetchRegionScore();
+}, [userData]);
+{regionScore !== null && (
+  <p className="text-center text-sm text-gray-500 mt-4">
+    🌍 你所在區域的氣候綜合評分：<span className="font-bold text-lg">{regionScore}</span> 分
+  </p>
+)}
   const downloadImage = async () => {
   try {
     const node = document.getElementById("capture-target");
