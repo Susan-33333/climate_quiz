@@ -61,19 +61,21 @@ export default function StorySegment({ userData, onNext }) {
         />
       </div>
 
-      {/* 載入中遮罩：松鼠呼吸動畫 */}
+      {/* 載入中遮罩：文字在上、松鼠在下 */}
       {!allLoaded && (
         <div className="absolute inset-0 z-20 bg-black/40 backdrop-blur-sm flex flex-col items-center justify-center space-y-4">
+          <p className="text-white text-base font-semibold">
+            正在載入你的未來世界⋯⋯
+          </p>
           <img
             src={`${import.meta.env.BASE_URL || "/"}mascot/T6.png`}
             alt="loading mascot"
-            className="w-24 h-24 animate-pulse"
+            className="w-20 h-20 animate-bounce"
           />
-          <p className="text-white text-base font-semibold">正在載入你的未來世界⋯⋯</p>
         </div>
       )}
 
-      {/* 內容層：載入完成後顯示 */}
+      {/* 主內容顯示區塊 */}
       {allLoaded && (
         <div className="absolute inset-0 flex justify-center items-center z-10">
           <div className="w-full max-w-[414px] px-8 flex justify-center items-center">
