@@ -59,27 +59,25 @@ console.count("🌀 QuizSection Rendered")
                     {current.question}
                   </h2>
                 </div>
-
-                  <div className="flex flex-col gap-6">
-
                     {Object.entries(current.options).map(([key, text]) => (
-                      <button
-                        key={key}
-                        disabled={selected !== null}
-                        onClick={() => handleSelect(key)}
-                         className={`h-[40px] w-full rounded-[36px] border-2 px-4 py-2 text-center text-[20px] font-bold transition-all duration-300
-                          ${
-                            selected === key
-                              ? "bg-[#003D79] text-white border-[#004B97] shadow-lg ring-2 ring-yellow-200"
-                              : "bg-white text-[#004B97] border-[#004B97] hover:bg-[#fdf5ec]"
-                          }
-                          ${selected !== null && selected !== key ? "opacity-100" : ""}
+                        <div key={key}>
+                        <button
+                          disabled={selected !== null}
+                          onClick={() => handleSelect(key)}
+                          className={`h-[40px] w-full rounded-[36px] border-2 px-4 py-2 text-center text-[20px] font-bold transition-all duration-300
+                            ${
+                              selected === key
+                                ? "bg-[#003D79] text-white border-[#004B97] shadow-lg ring-2 ring-yellow-200"
+                                : "bg-white text-[#004B97] border-[#004B97] hover:bg-[#fdf5ec]"
+                            }
+                            ${selected !== null && selected !== key ? "opacity-100" : ""}
                         `}
                       >
                         {text}
                       </button>
-                    ))}
+                      {index < arr.length - 1 && <div className="h-4" />}
                   </div>
+                ))}
               </motion.div>
             </AnimatePresence>
           </div>
