@@ -11,7 +11,7 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
   const [isGeneratingImage, setIsGeneratingImage] = useState(false);
   const [totalScores, setTotalScores] = useState(null);
 
-  // 雷達圖數據
+  // 雷達圖數據 - 添加調試信息
   const data = [
     { category: "幸福度", value: scores?.happiness || 0 },
     { category: "調適度", value: scores?.adaptability || 0 },
@@ -19,6 +19,8 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
     { category: "樂活度", value: scores?.live || 0 },
     { category: "舒適度", value: scores?.comfortable || 0 },
   ];
+
+  console.log("雷達圖數據:", data);
 
   // 載入地區總分數據
   useEffect(() => {
@@ -61,8 +63,8 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
     fetchRegionScore();
   }, [userData]);
 
-  // 生成並下載圖片
-  const generateAndDownloadImage = async () => {
+  // 生成圖片（不自動下載）
+  const generateImage = async () => {
     if (isGeneratingImage) return;
 
     try {
@@ -86,14 +88,6 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
       // 轉換為圖片 URL
       const dataUrl = canvas.toDataURL("image/png", 0.9);
       setGeneratedImageUrl(dataUrl);
-
-      // 自動下載（可選）
-      const link = document.createElement('a');
-      link.download = `氣候適應性分析_${userData?.name || '結果'}_${new Date().getTime()}.png`;
-      link.href = dataUrl;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
 
     } catch (error) {
       console.error("生成圖片失敗:", error);
@@ -123,7 +117,7 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
         </h1>
 
         {/* 可截圖的內容區域 */}
-        <div id="capture-target" className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-8 mb-6">
+        <div id="capture-target" className="bg-white rounded-2xl p-8 mb-6">
           
           {/* 用戶資訊區 */}
           <div className="text-center mb-6">
@@ -139,18 +133,47 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
 
           {/* 地區綜合評分 */}
           {regionScore !== null && (
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 mb-6 text-center border border-blue-200">
+            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 mb-6 text-center">
               <p className="text-gray-700 mb-1">🌍 你所在地區的氣候綜合評分</p>
               <p className="text-3xl font-bold text-indigo-600">{regionScore} 分</p>
               <p className="text-sm text-gray-500 mt-1">滿分100分</p>
             </div>
           )}
 
+          {/* 人格圖片和雷達圖 - 左右佈局 */}
           <div className="grid md:grid-cols-2 gap-8 items-center">
-            {/* 雷達圖區域 */}
-            <div className="order-2 md:order-1">
+            
+            {/* 角色與描述區域 - 左側 */}
+            <div className="text-center md:text-left">
+              {mascot?.image && (
+                <div className="flex justify-center md:justify-start mb-6">
+                  <img
+                    src={mascot.image}
+                    alt={mascot.name || "你的氣候角色"}
+                    className="w-48 h-auto rounded-xl"
+                    style={{userSelect: 'none', pointerEvents: 'none'}}
+                    onError={(e) => {
+                      console.error("角色圖片載入失敗:", e.target.src);
+                      e.target.style.display = 'none';
+                    }}
+                  />
+                </div>
+              )}
+              
+              <div className="bg-gradient-to-br from-pink-50 to-rose-50 rounded-xl p-6">
+                <h3 className="text-xl font-bold mb-3 text-gray-800">
+                  {mascot?.name || "你的氣候夥伴"}
+                </h3>
+                <p className="text-gray-700 leading-relaxed">
+                  {regionSummary || "正在分析你的氣候適應性特質..."}
+                </p>
+              </div>
+            </div>
+
+            {/* 雷達圖區域 - 右側 */}
+            <div>
               <h3 className="text-lg font-semibold text-center mb-4 text-gray-800">個人適應性雷達圖</h3>
-              <div className="w-full h-[350px]">
+              <div className="w-full h-[350px]" style={{userSelect: 'none', pointerEvents: 'none'}}>
                 <ResponsiveContainer width="100%" height="100%">
                   <RadarChart outerRadius={120} data={data}>
                     <PolarGrid gridType="polygon" />
@@ -171,52 +194,13 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
                 </ResponsiveContainer>
               </div>
             </div>
-
-            {/* 角色與描述區域 */}
-            <div className="order-1 md:order-2 text-center md:text-left">
-              {mascot?.image && (
-                <div className="flex justify-center md:justify-start mb-6">
-                  <img
-                    src={mascot.image}
-                    alt={mascot.name || "你的氣候角色"}
-                    className="w-48 h-auto rounded-xl shadow-lg border-4 border-white"
-                    onError={(e) => {
-                      console.error("角色圖片載入失敗:", e.target.src);
-                      e.target.style.display = 'none';
-                    }}
-                  />
-                </div>
-              )}
-              
-              <div className="bg-gradient-to-br from-pink-50 to-rose-50 rounded-xl p-6 shadow-md border border-pink-200">
-                <h3 className="text-xl font-bold mb-3 text-gray-800">
-                  {mascot?.name || "你的氣候夥伴"}
-                </h3>
-                <p className="text-gray-700 leading-relaxed">
-                  {regionSummary || "正在分析你的氣候適應性特質..."}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* 分數詳情 */}
-          <div className="mt-8">
-            <h3 className="text-lg font-semibold text-center mb-4 text-gray-800">各維度分數詳情</h3>
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-              {data.map((item, index) => (
-                <div key={index} className="text-center p-3 bg-gray-50 rounded-lg border">
-                  <p className="text-sm font-medium text-gray-600 mb-1">{item.category}</p>
-                  <p className="text-xl font-bold text-indigo-600">{item.value}</p>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
 
         {/* 操作按鈕 */}
         <div className="text-center space-y-4">
           <button
-            onClick={generateAndDownloadImage}
+            onClick={generateImage}
             disabled={isGeneratingImage}
             className={`px-8 py-3 rounded-full font-bold text-lg transition-all duration-200 ${
               isGeneratingImage
@@ -233,7 +217,7 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
                 生成中...
               </span>
             ) : (
-              "📸 生成並下載圖片"
+              "📸 生成分享圖片"
             )}
           </button>
 
@@ -241,9 +225,11 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
           {process.env.NODE_ENV === 'development' && (
             <div className="mt-6 p-4 bg-gray-100 rounded-lg text-left text-xs">
               <h4 className="font-bold mb-2">調試資訊：</h4>
+              <p>傳入的 scores: {JSON.stringify(scores, null, 2)}</p>
               <p>用戶資料: {JSON.stringify(userData, null, 2)}</p>
               <p>地區分數: {regionScore}</p>
               <p>可用地區數量: {totalScores ? Object.keys(totalScores).length : 0}</p>
+              <p>雷達圖數據: {JSON.stringify(data, null, 2)}</p>
             </div>
           )}
         </div>
@@ -255,7 +241,7 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
             <p className="text-sm text-gray-600 mb-4">
               💡 在手機上長按下方圖片可保存到相簿
             </p>
-            <div className="inline-block border-4 border-white shadow-2xl rounded-2xl overflow-hidden">
+            <div className="inline-block rounded-2xl overflow-hidden">
               <img 
                 src={generatedImageUrl} 
                 alt="氣候適應性分析結果"
