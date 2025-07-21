@@ -171,6 +171,13 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
           </div>
         {/* 可截圖的內容區域 */}
         <div id="capture-target" className="bg-white rounded-2xl p-8 mb-6">
+          style={{
+            width: "360px",
+            height: "640px",
+            position: "relative",
+            overflow: "hidden",
+            padding: "20px",
+          }}
           
           {/* 用戶資訊區 */}
           <div className="text-center mb-6">
