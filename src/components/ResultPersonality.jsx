@@ -115,12 +115,12 @@ function ResultPersonality({ userData, onNext }) {
 
           <button
             onClick={onNext}
-            className="w-auto py-3 px-6 rounded-full rounded-[36px] text-black font-bold text-[15px] transition h-[40px]"
+            className="w-auto py-3 px-6 rounded-full rounded-[36px] text-black font-bold text-2xl transition h-[40px]"
           >
             探索我的氣候適應力🌍
           </button>
         </div>
-          <div className="mb-6 p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl">
+          <div className="items-center mb-6 p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl">
             <h3 className="font-sans text-[#666e77ff] mb-2">
               接下來將為您分析居住、交通、旅遊三大領域的氣候適應建議...
             </h3>
