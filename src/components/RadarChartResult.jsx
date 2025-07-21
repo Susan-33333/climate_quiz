@@ -99,9 +99,9 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
       const canvas = await html2canvas(captureElement, {
         useCORS: true,
         backgroundColor: "#ffffff",
-        scale: 2, // 提高解析度
-        width: captureElement.scrollWidth,
-        height: captureElement.scrollHeight,
+        scale: 3, // 提高解析度
+        width: 360,
+        height: 640,
         logging: false, // 關閉日誌以避免控制台雜訊
       });
 
@@ -142,7 +142,9 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
     if (regionScore !== null) {
       return (
         <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 mb-6 text-center">
-          <p className="text-gray-700 mb-1">你所在地區的氣候綜合評分為{regionScore} 分</p>
+          <p className="text-gray-700 mb-1">你所在地區的氣候綜合評分為</p>
+          <p className="text-gray-700 font-bold mb-1">{regionScore}</p>   
+          <p className="text-gray-700 mb-1">分</p>  
         </div>
       );
     }
@@ -186,7 +188,7 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
             </h2>
             {/* 雷達圖區域 - 右側 */}
             <div className="flex flex-col items-center">
-              <h3 className="text-lg font-semibold text-center mb-4 text-gray-800">個人適應性雷達圖</h3>
+              <h3 className="text-lg font-bold text-center mb-4 text-gray-800">個人適應性雷達圖</h3>
               <div className="w-full max-w-sm h-[350px]" style={{userSelect: 'none', pointerEvents: 'none'}}>
                 <ResponsiveContainer width="100%" height="100%">
                   <RadarChart outerRadius={120} data={data}>
@@ -209,7 +211,7 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
             </div>
             {userData?.county && userData?.town && (
               <p className="text-gray-600">
-                📍 居住地：{userData.county} {userData.town}
+                📍居住地：{userData.county} {userData.town}
               </p>
             )}
           </div>
