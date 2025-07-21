@@ -59,25 +59,26 @@ console.count("🌀 QuizSection Rendered")
                     {current.question}
                   </h2>
                 </div>
-                    {Object.entries(current.options).map(([key, text], index, arr) => (
-                        <div key={key}>
-                        <button
-                          disabled={selected !== null}
-                          onClick={() => handleSelect(key)}
-                          className={`h-[40px] w-full rounded-[36px] border-2 px-4 py-2 text-center text-[20px] font-bold transition-all duration-300
-                            ${
-                              selected === key
-                                ? "bg-[#003D79] text-white border-[#004B97] shadow-lg ring-2 ring-yellow-200"
-                                : "bg-white text-[#004B97] border-[#004B97] hover:bg-[#fdf5ec]"
-                            }
-                            ${selected !== null && selected !== key ? "opacity-100" : ""}
-                        `}
+                <div className="space-y-4">
+                  {Object.entries(current.options).map(([key, text]) => (
+                    <div key={key}>
+                      <button
+                        disabled={selected !== null}
+                        onClick={() => handleSelect(key)}
+                        className={`h-[40px] w-full rounded-[36px] border-2 px-4 py-2 text-center text-[20px] font-bold transition-all duration-300
+                          ${
+                            selected === key
+                              ? "bg-[#003D79] text-white border-[#004B97] shadow-lg ring-2 ring-yellow-200"
+                              : "bg-white text-[#004B97] border-[#004B97] hover:bg-[#fdf5ec]"
+                          }
+                          ${selected !== null && selected !== key ? "opacity-100" : ""}
+                      `}
                       >
                         {text}
                       </button>
-                      {index < arr.length - 1 && <div className="h-4" />}
-                  </div>
-                ))}
+                    </div>
+                  ))}
+                </div>
               </motion.div>
             </AnimatePresence>
           </div>
