@@ -75,7 +75,7 @@ export default function UserInputForm({ onNext, onSave }) {
               autoComplete="name"
               value={formData.name}
               onChange={handleChange}
-              className="text-center rounded-[36px] border border-gray-300 px-4 py-3 w-64 focus:ring-2 focus:ring-brown-300 focus:outline-none"
+              className="text-center rounded-[36px] w-[300px] border border-gray-300 px-4 py-3 w-64 focus:ring-2 focus:ring-brown-300 focus:outline-none"
             />
           </div>
 
@@ -94,7 +94,7 @@ export default function UserInputForm({ onNext, onSave }) {
               step="1"
               min="3"
               max="99"
-              className="text-center rounded-[36px] border border-gray-300 px-4 py-3 w-64 focus:ring-2 focus:ring-brown-300 focus:outline-none"
+              className="text-center rounded-[36px] w-[300px] border border-gray-300 px-4 py-3 w-64 focus:ring-2 focus:ring-brown-300 focus:outline-none"
             />
           </div>
 
@@ -109,7 +109,7 @@ export default function UserInputForm({ onNext, onSave }) {
               autoComplete="address-level1"
               value={formData.county}
               onChange={handleChange}
-              className="rounded-[36px] border border-gray-300 px-4 py-3 w-64 focus:ring-2 focus:ring-brown-300 focus:outline-none"
+              className="rounded-[36px] w-[300px] border border-gray-300 px-4 py-3 w-64 focus:ring-2 focus:ring-brown-300 focus:outline-none"
             >
               <option value="">請選擇</option>
               {counties.map((c) => (
@@ -130,7 +130,7 @@ export default function UserInputForm({ onNext, onSave }) {
                 autoComplete="address-level2"
                 value={formData.town}
                 onChange={handleChange}
-                className="rounded-[36px] border border-gray-300 px-4 py-3 w-64 focus:ring-2 focus:ring-brown-300 focus:outline-none"
+                className="rounded-[36px] w-[300px] border border-gray-300 px-4 py-3 w-64 focus:ring-2 focus:ring-brown-300 focus:outline-none"
               >
                 <option value="">請選擇</option>
                 {townMap[formData.county].map((t) => (
@@ -144,7 +144,7 @@ export default function UserInputForm({ onNext, onSave }) {
           <button
             onClick={handleSubmit}
             disabled={!isValid()}
-            className={`w-full py-3 px-6 rounded-full rounded-[36px] text-[#ffffff] font-bold text-xl transition h-[48px] mt-4 ${
+            className={`w-auto py-3 px-6 rounded-full rounded-[36px] text-[#ffffff] font-bold text-xl transition h-[48px] mt-4 ${
               isValid()
                 ? "bg-[#83482cff] hover:bg-[#83482cff]"
                 : "bg-gray-300 cursor-not-allowed"
