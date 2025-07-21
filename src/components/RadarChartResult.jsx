@@ -153,104 +153,113 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
   // 如果沒有分數數據，顯示載入中
   if (!scores) {
     return (
-      <div className="bg-[#faf7ef] min-h-screen flex items-center justify-center">
+      <div style={{ backgroundColor: '#E0E0E0' }} className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#83482cff] mx-auto mb-4"></div>
-          <p className="text-lg text-gray-600">載入結果中...</p>
+          <p className="text-lg text-[#666666]">載入結果中...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="bg-[#faf7ef] min-h-screen px-4 py-10">
+    <div style={{ backgroundColor: '#E0E0E0' }} className="min-h-screen px-4 py-10">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
+        <h1 className="text-3xl font-bold text-center mb-8 text-[#333333]">
           你的氣候適應性分析
         </h1>
-          </div>
+        
         {/* 可截圖的內容區域 */}
-        <div id="capture-target" className="bg-white rounded-2xl p-8 mb-6">
+        <div id="capture-target" style={{ backgroundColor: '#ffffff' }} className="rounded-2xl p-8 mb-6">
           
           {/* 用戶資訊區 */}
           <div className="text-center mb-6">
-            <h2 className="text-xl font-semibold text-gray-800 mb-2">
+            <h2 className="text-xl font-semibold text-[#333333] mb-2">
               {userData?.name ? `${userData.name} 的分析結果` : "個人分析結果"}
             </h2>
-            {/* 雷達圖區域 - 右側 */}
-            <div className="flex flex-col items-center">
-              <h3 className="text-lg font-semibold text-center mb-4 text-gray-800">個人適應性雷達圖</h3>
-              <div className="w-full max-w-sm h-[350px]" style={{userSelect: 'none', pointerEvents: 'none'}}>
-                <ResponsiveContainer width="100%" height="100%">
-                  <RadarChart outerRadius={120} data={data}>
-                    <PolarGrid gridType="polygon" />
-                    <PolarAngleAxis 
-                      dataKey="category" 
-                      tick={{ fontSize: 14, fill: '#374151', fontWeight: 'bold' }}
-                    />
-                    <Radar 
-                      name="適應性分數" 
-                      dataKey="value" 
-                      stroke="#f398f7ff" 
-                      fill="#f1bbf8ff" 
-                      fillOpacity={0.25}
-                      strokeWidth={3}
-                    />
-                  </RadarChart>
-                </ResponsiveContainer>
-              </div>
+          </div>
+
+          {/* 1. 雷達圖區域 - 首先顯示 */}
+          <div className="flex flex-col items-center mb-8">
+            <h3 className="text-lg font-semibold text-center mb-4 text-[#333333]">個人適應性雷達圖</h3>
+            <div className="w-full max-w-sm h-[350px]" style={{userSelect: 'none', pointerEvents: 'none'}}>
+              <ResponsiveContainer width="100%" height="100%">
+                <RadarChart outerRadius={120} data={data}>
+                  <PolarGrid gridType="polygon" />
+                  <PolarAngleAxis 
+                    dataKey="category" 
+                    tick={{ fontSize: 14, fill: '#374151', fontWeight: 'bold' }}
+                  />
+                  <Radar 
+                    name="適應性分數" 
+                    dataKey="value" 
+                    stroke="#f398f7ff" 
+                    fill="#f1bbf8ff" 
+                    fillOpacity={0.25}
+                    strokeWidth={3}
+                  />
+                </RadarChart>
+              </ResponsiveContainer>
             </div>
+          </div>
+
+          {/* 2. 角色圖片區域 - 第二個顯示 */}
+          <div className="flex flex-col items-center mb-8">
+            {mascot?.image && (
+              <div className="mb-6">
+                <img
+                  src={mascot.image}
+                  alt={mascot.name || "你的氣候角色"}
+                  className="w-48 h-auto rounded-xl mx-auto"
+                  style={{userSelect: 'none', pointerEvents: 'none'}}
+                  onError={(e) => {
+                    console.error("角色圖片載入失敗:", e.target.src);
+                    e.target.style.display = 'none';
+                  }}
+                />
+              </div>
+            )}
+            
+            <div className="bg-gradient-to-br from-pink-50 to-rose-50 rounded-xl p-6 w-full max-w-md">
+              <h3 className="text-xl font-bold mb-3 text-[#333333] text-center">
+                {mascot?.name || "你的氣候夥伴"}
+              </h3>
+            </div>
+          </div>
+
+          {/* 3. 居住地資訊 - 第三個顯示 */}
+          <div className="text-center mb-6">
             {userData?.county && userData?.town && (
-              <p className="text-gray-600">
+              <p className="text-[#666666] text-lg">
                 📍 居住地：{userData.county} {userData.town}
               </p>
             )}
           </div>
 
-          {/* 地區綜合評分 */}
+          {/* 4. 地區綜合評分 - 第四個顯示 */}
           {renderRegionScore()}
 
-          {/* 人格圖片和雷達圖 - 修复后的左右佈局 */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-            
-            {/* 角色與描述區域 - 左側 */}
-            <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
-              {mascot?.image && (
-                <div className="mb-6">
-                  <img
-                    src={mascot.image}
-                    alt={mascot.name || "你的氣候角色"}
-                    className="w-48 h-auto rounded-xl mx-auto lg:mx-0"
-                    style={{userSelect: 'none', pointerEvents: 'none'}}
-                    onError={(e) => {
-                      console.error("角色圖片載入失敗:", e.target.src);
-                      e.target.style.display = 'none';
-                    }}
-                  />
-                </div>
-              )}
-              
-              <div className="bg-gradient-to-br from-pink-50 to-rose-50 rounded-xl p-6 w-full">
-                <h3 className="text-xl font-bold mb-3 text-gray-800">
-                  {mascot?.name || "你的氣候夥伴"}
-                </h3>
-                <p className="text-gray-700 leading-relaxed">
-                  {regionSummary || "正在分析你的氣候適應性特質..."}
-                </p>
-              </div>
-            </div>
+          {/* 5. 建議區域 - 最後顯示 */}
+          <div className="bg-gradient-to-br from-[#f0f9ff] to-[#e0f2fe] rounded-xl p-6 w-full">
+            <h3 className="text-xl font-bold mb-3 text-[#333333] text-center">
+              氣候適應建議
+            </h3>
+            <p className="text-[#555555] leading-relaxed text-center">
+              {regionSummary || "正在分析你的氣候適應性特質..."}
+            </p>
+          </div>
         </div>
+        
         {/* 操作按鈕 */}
         <div className="text-center space-y-4">
           <button
             onClick={generateImage}
             disabled={isGeneratingImage}
-            className={`w-auto px-8 py-3 rounded-full font-bold text-lg transition-all duration-200 ${
+            className={`w-[300px] h-[48px] font-bold text-[16px] rounded-[36px] px-4 py-2 text-center text-[#ffffff] bg-gradient-to-b from-[#4452edff] to-[#85d3fdff] shadow-[0_4px_0_#5d9cd3ff] active:translate-y-[2px] active:shadow-none transition-all duration-150 ${
               isGeneratingImage
-                ? "bg-gray-400 cursor-not-allowed text-white"
-                : "bg-[#83482cff] hover:bg-[#6d3a24] text-white shadow-lg hover:shadow-xl transform hover:scale-105"
+                ? "opacity-50 cursor-not-allowed"
+                : "hover:from-[#3a48d4] hover:to-[#7bc8f0]"
             }`}
-            style={{ color: '#E0E0E0' }}
           >
             {isGeneratingImage ? (
               <span className="flex items-center justify-center">
@@ -261,7 +270,7 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
                 生成中...
               </span>
             ) : (
-              <span style={{ color: '#ffffff' }}>生成分享圖片</span>
+              "生成分享圖片"
             )}
           </button>
         </div>
@@ -269,8 +278,8 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
         {/* 生成的圖片預覽（用於長按保存） */}
         {generatedImageUrl && (
           <div className="mt-8 text-center">
-            <h3 className="text-lg font-bold mb-4 text-gray-800">生成的圖片</h3>
-            <p className="text-sm text-gray-600 mb-4">
+            <h3 className="text-lg font-bold mb-4 text-[#333333]">生成的圖片</h3>
+            <p className="text-sm text-[#666666] mb-4">
               💡 在手機上長按下方圖片可保存到相簿
             </p>
             <div className="inline-block rounded-2xl overflow-hidden">
