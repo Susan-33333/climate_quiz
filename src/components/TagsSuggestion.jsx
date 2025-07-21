@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import LivingTab from './TagsTabs/LivingTab';
 import TravelTab from './TagsTabs/TravelTab';
 import TransportTab from './TagsTabs/TransportTab';
-import RingChart from "./RingChart"; // 只給各Tab用，不直接用
+import RingChart from "./TagsTabs/RingChart"; // 只給各Tab用，不直接用
 
 const TabsSuggestion = ({ userData, onNext }) => {
   const [activeTab, setActiveTab] = useState("居住");
