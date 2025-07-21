@@ -89,6 +89,9 @@ export default function UserInputForm({ onNext, onSave }) {
             <label htmlFor="age" className="text-xl font-bold text-brown-700 mb-1">
               年齡
             </label>
+            <p>
+                
+            </p>
             <input
               type="number"
               id="age"
@@ -113,6 +116,9 @@ export default function UserInputForm({ onNext, onSave }) {
             <label htmlFor="county" className="text-xl font-bold text-brown-700 mb-1">
               居住地
             </label>
+            <p>
+                
+            </p>
             <select
               id="county"
               name="county"
@@ -138,6 +144,9 @@ export default function UserInputForm({ onNext, onSave }) {
               <label htmlFor="town" className="text-xl font-medium text-brown-700 mb-1">
                 鄉鎮市區
               </label>
+              <p>
+                
+              </p>
               <select
                 id="town"
                 name="town"
@@ -162,7 +171,7 @@ export default function UserInputForm({ onNext, onSave }) {
           <button
             onClick={handleSubmit}
             disabled={!isValid()}
-            className={`h-[48px] inline-block font-bold text-[16px] bouder-[#ffffff] rounded-[36px] px-4 py-2 text-center text-[#ffffff] bg-gradient-to-b from-[#4452edff] to-[#85d3fdff] shadow-[0_4px_0_#5d9cd3ff] active:translate-y-[2px] active:shadow-none transition-all duration-150 ${
+            className={`text-center h-[48px] inline-block font-bold text-[16px] bouder-[#ffffff] rounded-[36px] px-4 py-2 text-center text-[#ffffff] bg-gradient-to-b from-[#4452edff] to-[#85d3fdff] shadow-[0_4px_0_#5d9cd3ff] active:translate-y-[2px] active:shadow-none transition-all duration-150 ${
               isValid()
                 ? "bg-[#83482cff] hover:bg-[#83482cff]"
                 : "bg-gray-300 cursor-not-allowed"
