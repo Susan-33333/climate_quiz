@@ -75,13 +75,8 @@ export default function UserInputForm({ onNext, onSave }) {
               autoComplete="name"
               value={formData.name}
               onChange={handleChange}
-              className="text-center rounded-[36px] w-[300px] border border-gray-300 px-4 py-3 w-64 focus:ring-2 focus:ring-brown-300 focus:outline-none"
+              className="text-center rounded-[36px] w-[300px] border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-brown-300 focus:outline-none"
             />
-          </div>
-          <div>
-            <p>
-                
-            </p>
           </div>
 
           {/* 年齡 */}
@@ -89,9 +84,6 @@ export default function UserInputForm({ onNext, onSave }) {
             <label htmlFor="age" className="text-xl font-bold text-brown-700 mb-1">
               年齡
             </label>
-            <p>
-                
-            </p>
             <input
               type="number"
               id="age"
@@ -102,13 +94,8 @@ export default function UserInputForm({ onNext, onSave }) {
               step="1"
               min="3"
               max="99"
-              className="text-center rounded-[36px] w-[300px] border border-gray-300 px-4 py-3 w-64 focus:ring-2 focus:ring-brown-300 focus:outline-none"
+              className="text-center rounded-[36px] w-[300px] border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-brown-300 focus:outline-none"
             />
-          </div>
-          <div>
-            <p>
-                
-            </p>
           </div>
 
           {/* 居住地 */}
@@ -116,16 +103,13 @@ export default function UserInputForm({ onNext, onSave }) {
             <label htmlFor="county" className="text-xl font-bold text-brown-700 mb-1">
               居住地
             </label>
-            <p>
-                
-            </p>
             <select
               id="county"
               name="county"
               autoComplete="address-level1"
               value={formData.county}
               onChange={handleChange}
-              className="rounded-[36px] w-[300px] border border-gray-300 px-4 py-3 w-64 focus:ring-2 focus:ring-brown-300 focus:outline-none"
+              className="rounded-[36px] w-[300px] border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-brown-300 focus:outline-none"
             >
               <option value="">請選擇</option>
               {counties.map((c) => (
@@ -133,27 +117,20 @@ export default function UserInputForm({ onNext, onSave }) {
               ))}
             </select>
           </div>
-          <div>
-            <p>
-                
-            </p>
-          </div>
+
           {/* 鄉鎮市區 */}
           {formData.county && (
             <div className="flex flex-col items-center">
               <label htmlFor="town" className="text-xl font-medium text-brown-700 mb-1">
                 鄉鎮市區
               </label>
-              <p>
-                
-              </p>
               <select
                 id="town"
                 name="town"
                 autoComplete="address-level2"
                 value={formData.town}
                 onChange={handleChange}
-                className="rounded-[36px] w-[300px] border border-gray-300 px-4 py-3 w-64 focus:ring-2 focus:ring-brown-300 focus:outline-none"
+                className="rounded-[36px] w-[300px] border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-brown-300 focus:outline-none"
               >
                 <option value="">請選擇</option>
                 {townMap[formData.county].map((t) => (
@@ -162,23 +139,21 @@ export default function UserInputForm({ onNext, onSave }) {
               </select>
             </div>
           )}
-          <div>
-            <p>
-                
-            </p>
-          </div>
+
           {/* 送出按鈕 */}
-          <button
-            onClick={handleSubmit}
-            disabled={!isValid()}
-            className={`text-center h-[48px] inline-block font-bold text-[16px] bouder-[#ffffff] rounded-[36px] px-4 py-2 text-center text-[#ffffff] bg-gradient-to-b from-[#4452edff] to-[#85d3fdff] shadow-[0_4px_0_#5d9cd3ff] active:translate-y-[2px] active:shadow-none transition-all duration-150 ${
-              isValid()
-                ? "bg-[#83482cff] hover:bg-[#83482cff]"
-                : "bg-gray-300 cursor-not-allowed"
-            }`}
-          >
-            進入世界
-          </button>
+          <div className="flex justify-center">
+            <button
+              onClick={handleSubmit}
+              disabled={!isValid()}
+              className={`w-[300px] h-[48px] font-bold text-[16px] rounded-[36px] px-4 py-2 text-center text-[#ffffff] bg-gradient-to-b from-[#4452edff] to-[#85d3fdff] shadow-[0_4px_0_#5d9cd3ff] active:translate-y-[2px] active:shadow-none transition-all duration-150 ${
+                isValid()
+                  ? "bg-[#83482cff] hover:bg-[#83482cff]"
+                  : "bg-gray-300 cursor-not-allowed"
+              }`}
+            >
+              進入世界
+            </button>
+          </div>
         </div>
       </div>
     </div>
