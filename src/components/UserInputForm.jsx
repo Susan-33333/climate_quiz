@@ -26,9 +26,9 @@ export default function UserInputForm({ onNext, onSave }) {
     const { name, value } = e.target;
 
     if (name === "age") {
-    // 移除非數字和小數點
-    if (!/^\d*$/.test(value)) return; // 僅允許正整數
-  }
+      // 僅允許正整數
+      if (!/^\d*$/.test(value)) return;
+    }
 
     setFormData((prev) => ({
       ...prev,
@@ -63,8 +63,9 @@ export default function UserInputForm({ onNext, onSave }) {
         <div className="bg-white shadow-md rounded-2xl p-6 space-y-6">
           <h1 className="text-2xl font-bold text-center text-brown-800">填寫基本資料</h1>
 
-          <div>
-            <label htmlFor="name" className="block text-xl; font-bold text-brown-700">
+          {/* 暱稱 */}
+          <div className="flex flex-col items-center">
+            <label htmlFor="name" className="text-xl font-bold text-brown-700 mb-1">
               匿稱
             </label>
             <input
@@ -74,13 +75,13 @@ export default function UserInputForm({ onNext, onSave }) {
               autoComplete="name"
               value={formData.name}
               onChange={handleChange}
-              className="text-center rounded-[36px] w-auto border border-gray-300 rounded-lg px-4 py-3 mt-1 focus:ring-2 focus:ring-brown-300 focus:outline-none"
+              className="text-center rounded-[36px] border border-gray-300 px-4 py-3 w-64 focus:ring-2 focus:ring-brown-300 focus:outline-none"
             />
-
           </div>
 
-          <div>
-            <label htmlFor="age" className="block text-xl font-bold text-brown-700">
+          {/* 年齡 */}
+          <div className="flex flex-col items-center">
+            <label htmlFor="age" className="text-xl font-bold text-brown-700 mb-1">
               年齡
             </label>
             <input
@@ -93,13 +94,13 @@ export default function UserInputForm({ onNext, onSave }) {
               step="1"
               min="3"
               max="99"
-              className="text-center rounded-[36px] w-auto border border-gray-300 rounded-xl w-auto px-4 py-3 mt-1 focus:ring-2 focus:ring-brown-300 focus:outline-none"
+              className="text-center rounded-[36px] border border-gray-300 px-4 py-3 w-64 focus:ring-2 focus:ring-brown-300 focus:outline-none"
             />
-
           </div>
 
-          <div>
-            <label htmlFor="county" className="block text-xl font-bold text-brown-700">
+          {/* 居住地 */}
+          <div className="flex flex-col items-center">
+            <label htmlFor="county" className="text-xl font-bold text-brown-700 mb-1">
               居住地
             </label>
             <select
@@ -108,9 +109,8 @@ export default function UserInputForm({ onNext, onSave }) {
               autoComplete="address-level1"
               value={formData.county}
               onChange={handleChange}
-              className="rounded-[36px] w-auto border border-gray-300 rounded-xl w-auto px-4 py-3 mt-1 focus:ring-2 focus:ring-brown-300 focus:outline-none"
+              className="rounded-[36px] border border-gray-300 px-4 py-3 w-64 focus:ring-2 focus:ring-brown-300 focus:outline-none"
             >
-
               <option value="">請選擇</option>
               {counties.map((c) => (
                 <option key={c} value={c}>{c}</option>
@@ -118,9 +118,10 @@ export default function UserInputForm({ onNext, onSave }) {
             </select>
           </div>
 
+          {/* 鄉鎮市區 */}
           {formData.county && (
-            <div>
-              <label htmlFor="town" className="block text-xl font-medium text-brown-700">
+            <div className="flex flex-col items-center">
+              <label htmlFor="town" className="text-xl font-medium text-brown-700 mb-1">
                 鄉鎮市區
               </label>
               <select
@@ -129,7 +130,7 @@ export default function UserInputForm({ onNext, onSave }) {
                 autoComplete="address-level2"
                 value={formData.town}
                 onChange={handleChange}
-                className="rounded-[36px] w-full border border-gray-300 rounded-lg px-4 py-3 mt-1 focus:ring-2 focus:ring-brown-300 focus:outline-none"
+                className="rounded-[36px] border border-gray-300 px-4 py-3 w-64 focus:ring-2 focus:ring-brown-300 focus:outline-none"
               >
                 <option value="">請選擇</option>
                 {townMap[formData.county].map((t) => (
@@ -138,15 +139,12 @@ export default function UserInputForm({ onNext, onSave }) {
               </select>
             </div>
           )}
-        <div>
-          <p>
 
-          </p>
-        </div>
+          {/* 送出按鈕 */}
           <button
             onClick={handleSubmit}
             disabled={!isValid()}
-            className={`w-full py-3 px-6 rounded-full rounded-[36px] text-[#ffffff] font-bold text-xl transition h-[35px] relative ${
+            className={`w-full py-3 px-6 rounded-full rounded-[36px] text-[#ffffff] font-bold text-xl transition h-[48px] mt-4 ${
               isValid()
                 ? "bg-[#83482cff] hover:bg-[#83482cff]"
                 : "bg-gray-300 cursor-not-allowed"
