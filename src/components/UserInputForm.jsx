@@ -78,6 +78,11 @@ export default function UserInputForm({ onNext, onSave }) {
               className="text-center rounded-[36px] w-[300px] border border-gray-300 px-4 py-3 w-64 focus:ring-2 focus:ring-brown-300 focus:outline-none"
             />
           </div>
+          <div>
+            <p>
+                
+            </p>
+          </div>
 
           {/* 年齡 */}
           <div className="flex flex-col items-center">
@@ -96,6 +101,11 @@ export default function UserInputForm({ onNext, onSave }) {
               max="99"
               className="text-center rounded-[36px] w-[300px] border border-gray-300 px-4 py-3 w-64 focus:ring-2 focus:ring-brown-300 focus:outline-none"
             />
+          </div>
+          <div>
+            <p>
+                
+            </p>
           </div>
 
           {/* 居住地 */}
@@ -117,7 +127,11 @@ export default function UserInputForm({ onNext, onSave }) {
               ))}
             </select>
           </div>
-
+          <div>
+            <p>
+                
+            </p>
+          </div>
           {/* 鄉鎮市區 */}
           {formData.county && (
             <div className="flex flex-col items-center">
@@ -139,12 +153,16 @@ export default function UserInputForm({ onNext, onSave }) {
               </select>
             </div>
           )}
-
+          <div>
+            <p>
+                
+            </p>
+          </div>
           {/* 送出按鈕 */}
           <button
             onClick={handleSubmit}
             disabled={!isValid()}
-            className={`h-[48px] inline-block font-bold text-[16px] rounded-[36px] px-4 py-2 text-center text-[#ffffff] bg-gradient-to-b from-[#4452edff] to-[#85d3fdff] shadow-[0_4px_0_#d38e5d] active:translate-y-[2px] active:shadow-none transition-all duration-150 ${
+            className={`h-[48px] inline-block font-bold text-[16px] bouder-[#ffffff] rounded-[36px] px-4 py-2 text-center text-[#ffffff] bg-gradient-to-b from-[#4452edff] to-[#85d3fdff] shadow-[0_4px_0_#5d9cd3ff] active:translate-y-[2px] active:shadow-none transition-all duration-150 ${
               isValid()
                 ? "bg-[#83482cff] hover:bg-[#83482cff]"
                 : "bg-gray-300 cursor-not-allowed"
