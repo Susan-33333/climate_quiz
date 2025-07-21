@@ -34,7 +34,7 @@ function QuizIntro({ onStart }) {
         {isImageLoaded && (
           <button
             onClick={onStart}
-            className="h-[40px] inline-block font-bold text-[16px] rounded-[36px] px-4 py-2 text-center text-white bg-gradient-to-b from-[#f6d365] to-[#fda085] shadow-[0_4px_0_#d38e5d] active:translate-y-[2px] active:shadow-none transition-all duration-150"
+            className="h-[40px] inline-block font-bold text-[16px] rounded-[36px] px-4 py-2 text-center text-[#ffffff] bg-gradient-to-b from-[#f6ae65ff] to-[#fdbb85ff] shadow-[0_4px_0_#d38e5d] active:translate-y-[2px] active:shadow-none transition-all duration-150"
             >
             開始穿越
           </button>
@@ -45,9 +45,6 @@ function QuizIntro({ onStart }) {
 }
 
 export default QuizIntro;
-
-
-
 
 
 
