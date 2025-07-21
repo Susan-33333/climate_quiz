@@ -144,7 +144,7 @@ export default function UserInputForm({ onNext, onSave }) {
           <button
             onClick={handleSubmit}
             disabled={!isValid()}
-            className={`w-full py-3 px-6 rounded-full rounded-[36px] text-[#ffffff] font-bold text-xl transition h-[48px] mt-4 ${
+            className={`w-auto py-3 px-6 rounded-full rounded-[36px] text-[#ffffff] font-bold text-xl transition h-[48px] mt-4 ${
               isValid()
                 ? "bg-[#83482cff] hover:bg-[#83482cff]"
                 : "bg-gray-300 cursor-not-allowed"
