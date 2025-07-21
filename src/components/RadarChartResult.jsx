@@ -83,7 +83,7 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
     fetchRegionScore();
   }, [userData?.county, userData?.town]);
 
-  // 生成 Instagram 限時動態尺寸圖片
+  // 生成圖片（不自動下載）
   const generateImage = async () => {
     if (isGeneratingImage) return;
 
@@ -95,16 +95,14 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
         throw new Error("找不到要截圖的元素");
       }
 
-      // Instagram 限時動態尺寸: 1080x1920 (9:16)
+      // 使用 html2canvas 生成圖片
       const canvas = await html2canvas(captureElement, {
         useCORS: true,
         backgroundColor: "#ffffff",
-        scale: 2,
-        width: 540, // 基礎寬度
-        height: 960, // 基礎高度 (9:16 比例)
-        logging: false,
-        allowTaint: true,
-        foreignObjectRendering: true,
+        scale: 2, // 提高解析度
+        width: captureElement.scrollWidth,
+        height: captureElement.scrollHeight,
+        logging: false, // 關閉日誌以避免控制台雜訊
       });
 
       // 轉換為圖片 URL
@@ -144,9 +142,7 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
     if (regionScore !== null) {
       return (
         <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 mb-6 text-center">
-          <p className="text-gray-700 mb-1">你所在地區的氣候綜合評分為</p>
-          <p className="text-gray-700 font-bold mb-1">{regionScore}</p>   
-          <p className="text-gray-700 mb-1">分</p>  
+          <p className="text-gray-700 mb-1">你所在地區的氣候綜合評分為{regionScore} 分</p>
         </div>
       );
     }
@@ -172,117 +168,100 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
         <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
           你的氣候適應性分析
         </h1>
-
-        {/* Instagram 限時動態尺寸的可截圖內容區域 */}
-        <div 
-          id="capture-target" 
-          className="bg-white rounded-2xl mx-auto mb-6"
-          style={{
-            width: "540px",
-            height: "960px",
-            padding: "30px",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
-            position: "relative",
-            overflow: "hidden",
-          }}
-        >
-          {/* 標題區域 */}
-          <div className="text-center mb-4">
-            <h2 className="text-2xl font-bold text-gray-800 mb-2">
+          </div>
+        {/* 可截圖的內容區域 */}
+        <div id="capture-target" className="bg-white rounded-2xl p-8 mb-6">
+          
+          {/* 用戶資訊區 */}
+          <div className="text-center mb-6">
+            <h2 className="text-xl font-semibold text-gray-800 mb-2">
               {userData?.name ? `${userData.name} 的分析結果` : "個人分析結果"}
             </h2>
+            {/* 雷達圖區域 - 右側 */}
+            <div className="flex flex-col items-center">
+              <h3 className="text-lg font-semibold text-center mb-4 text-gray-800">個人適應性雷達圖</h3>
+              <div className="w-full max-w-sm h-[350px]" style={{userSelect: 'none', pointerEvents: 'none'}}>
+                <ResponsiveContainer width="100%" height="100%">
+                  <RadarChart outerRadius={120} data={data}>
+                    <PolarGrid gridType="polygon" />
+                    <PolarAngleAxis 
+                      dataKey="category" 
+                      tick={{ fontSize: 14, fill: '#374151', fontWeight: 'bold' }}
+                    />
+                    <Radar 
+                      name="適應性分數" 
+                      dataKey="value" 
+                      stroke="#f398f7ff" 
+                      fill="#f1bbf8ff" 
+                      fillOpacity={0.25}
+                      strokeWidth={3}
+                    />
+                  </RadarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
             {userData?.county && userData?.town && (
-              <p className="text-gray-600 text-lg">
-                📍 {userData.county} {userData.town}
+              <p className="text-gray-600">
+                📍 居住地：{userData.county} {userData.town}
               </p>
             )}
           </div>
 
-          {/* 地區評分區域 */}
-          <div className="mb-4">
-            {regionScore !== null && (
-              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 text-center">
-                <p className="text-gray-700 mb-1 text-lg">你所在地區的氣候綜合評分</p>
-                <p className="text-gray-700 font-bold text-3xl">{regionScore} 分</p>
-              </div>
-            )}
-          </div>
+          {/* 地區綜合評分 */}
+          {renderRegionScore()}
 
-          {/* 雷達圖區域 */}
-          <div className="flex-1 flex flex-col items-center justify-center mb-4">
-            <h3 className="text-xl font-bold text-center mb-4 text-gray-800">個人適應性雷達圖</h3>
-            <div className="w-full h-80" style={{userSelect: 'none', pointerEvents: 'none'}}>
-              <ResponsiveContainer width="100%" height="100%">
-                <RadarChart outerRadius={120} data={data}>
-                  <PolarGrid gridType="polygon" />
-                  <PolarAngleAxis 
-                    dataKey="category" 
-                    tick={{ fontSize: 16, fill: '#374151', fontWeight: 'bold' }}
-                  />
-                  <Radar 
-                    name="適應性分數" 
-                    dataKey="value" 
-                    stroke="#f398f7ff" 
-                    fill="#f1bbf8ff" 
-                    fillOpacity={0.25}
-                    strokeWidth={3}
-                  />
-                </RadarChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-
-          {/* 角色與描述區域 */}
-          <div className="text-center">
-            {mascot?.image && (
-              <div className="mb-4">
-                <img
-                  src={mascot.image}
-                  alt={mascot.name || "你的氣候角色"}
-                  className="w-32 h-auto rounded-xl mx-auto"
-                  style={{userSelect: 'none', pointerEvents: 'none'}}
-                  onError={(e) => {
-                    console.error("角色圖片載入失敗:", e.target.src);
-                    e.target.style.display = 'none';
-                  }}
-                />
-              </div>
-            )}
+          {/* 人格圖片和雷達圖 - 修复后的左右佈局 */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
             
-            <div className="bg-gradient-to-br from-pink-50 to-rose-50 rounded-xl p-4">
-              <h3 className="text-lg font-bold mb-2 text-gray-800">
-                {mascot?.name || "你的氣候夥伴"}
-              </h3>
-              <p className="text-gray-700 text-sm leading-relaxed">
-                {regionSummary || "正在分析你的氣候適應性特質..."}
-              </p>
+            {/* 角色與描述區域 - 左側 */}
+            <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
+              {mascot?.image && (
+                <div className="mb-6">
+                  <img
+                    src={mascot.image}
+                    alt={mascot.name || "你的氣候角色"}
+                    className="w-48 h-auto rounded-xl mx-auto lg:mx-0"
+                    style={{userSelect: 'none', pointerEvents: 'none'}}
+                    onError={(e) => {
+                      console.error("角色圖片載入失敗:", e.target.src);
+                      e.target.style.display = 'none';
+                    }}
+                  />
+                </div>
+              )}
+              
+              <div className="bg-gradient-to-br from-pink-50 to-rose-50 rounded-xl p-6 w-full">
+                <h3 className="text-xl font-bold mb-3 text-gray-800">
+                  {mascot?.name || "你的氣候夥伴"}
+                </h3>
+                <p className="text-gray-700 leading-relaxed">
+                  {regionSummary || "正在分析你的氣候適應性特質..."}
+                </p>
+              </div>
             </div>
-          </div>
         </div>
-
         {/* 操作按鈕 */}
         <div className="text-center space-y-4">
           <button
             onClick={generateImage}
             disabled={isGeneratingImage}
-            className={`px-8 py-3 rounded-full font-bold text-lg transition-all duration-200 ${
+            className={`w-auto px-8 py-3 rounded-full font-bold text-lg transition-all duration-200 ${
               isGeneratingImage
                 ? "bg-gray-400 cursor-not-allowed text-white"
                 : "bg-[#83482cff] hover:bg-[#6d3a24] text-white shadow-lg hover:shadow-xl transform hover:scale-105"
             }`}
+            style={{ color: '#E0E0E0' }}
           >
             {isGeneratingImage ? (
               <span className="flex items-center justify-center">
-                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-[#ffffff]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
                 生成中...
               </span>
             ) : (
-              "生成 IG 限時動態圖片"
+              <span style={{ color: '#ffffff' }}>生成分享圖片</span>
             )}
           </button>
         </div>
@@ -292,27 +271,16 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
           <div className="mt-8 text-center">
             <h3 className="text-lg font-bold mb-4 text-gray-800">生成的圖片</h3>
             <p className="text-sm text-gray-600 mb-4">
-              📱 在手機上長按下方圖片，選擇「儲存到相簿」或「存到照片」
+              💡 在手機上長按下方圖片可保存到相簿
             </p>
-            <div className="inline-block rounded-2xl overflow-hidden shadow-lg">
+            <div className="inline-block rounded-2xl overflow-hidden">
               <img 
                 src={generatedImageUrl} 
-                alt="氣候適應性分析結果 - Instagram 限時動態"
+                alt="氣候適應性分析結果"
                 className="max-w-full h-auto"
-                style={{ 
-                  maxWidth: '300px',
-                  cursor: 'pointer',
-                  userSelect: 'none'
-                }}
-                onContextMenu={(e) => {
-                  // 在桌面版允許右鍵選單
-                  return true;
-                }}
+                style={{ maxWidth: '400px' }}
               />
             </div>
-            <p className="text-xs text-gray-500 mt-2">
-              圖片尺寸: 1080x1920 (Instagram 限時動態標準尺寸)
-            </p>
           </div>
         )}
       </div>
