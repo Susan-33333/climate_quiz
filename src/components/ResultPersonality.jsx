@@ -91,25 +91,25 @@ function ResultPersonality({ userData, onNext }) {
           </h2>
 
           {/* 行動方式 */}
-          <div className="mb-6 p-4 text-[#4452edff] bg-gradient-to-r from-green-50 to-blue-50 rounded-xl">
-            <h3 className="font-semibold text-green-800 mb-2">行動方式</h3>
-            <p className="text-gray-700 leading-relaxed">{profile.description}</p>
+          <div className="mb-6 p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl">
+            <h3 className="font-bold text-[#4452edff] mb-2">行動方式</h3>
+            <p className="text-[#000000] leading-relaxed">{profile.description}</p>
           </div>
 
           {/* 回答特質 */}
-          <div className="mb-6 p-4 text-[#4452edff] bg-gradient-to-r from-blue-50 to-green-50 rounded-xl">
-            <h3 className="font-bold text-blue-800 mb-2">回答特質</h3>
-            <p className="text-gray-700 leading-relaxed">{profile.speciality}</p>
+          <div className="mb-6 p-4  bg-gradient-to-r from-blue-50 to-green-50 rounded-xl">
+            <h3 className="font-bold text-[#4452edff] mb-2">回答特質</h3>
+            <p className="text-[#000000] leading-relaxed">{profile.speciality}</p>
           </div>
 
           {/* 適合與不適合環境 */}
-            <div className="mb-6 p-4 text-[#4452edff] bg-gradient-to-r from-blue-50 to-green-50 rounded-xl">
-              <h3 className="font-bold text-blue-800 mb-2">合拍人格</h3>
-              <p className="text-green-700 text-sm">{profile.match}</p>
+            <div className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-green-50 rounded-xl">
+              <h3 className="font-bold text-[#4452edff] mb-2">合拍人格</h3>
+              <p className="text-[#000000] text-sm">{profile.match}</p>
             </div>
-            <div className="mb-6 p-4 text-[#4452edff] bg-gradient-to-r from-blue-50 to-green-50 rounded-xl">
-              <h3 className="font-bold text-blue-800 mb-2">拒絕往來戶</h3>
-             <p className="text-[#579ae7ff] text-sm">{profile.mismatch}</p>
+            <div className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-green-50 rounded-xl">
+              <h3 className="font-bold text- mb-2">拒絕往來戶</h3>
+             <p className="text-[#000000] text-sm">{profile.mismatch}</p>
             </div>
           </div>
 

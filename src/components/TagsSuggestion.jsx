@@ -143,7 +143,7 @@ const TabsSuggestion = ({ userData, onNext }) => {
 
         <div className="pt-4 text-right">
           <button
-            className="bg-[#70472d] hover:bg-[#5d3923] text-[#ffffffff] px-6 py-2 rounded-full text-sm font-bold transition-all duration-300"
+            className="w-[300px] h-[48px] font-bold text-[16px] rounded-[36px] px-4 py-2 text-center text-[#ffffff] bg-gradient-to-b from-[#4452edff] to-[#85d3fdff] shadow-[0_4px_0_#5d9cd3ff] active:translate-y-[2px] active:shadow-none transition-all duration-150"
             onClick={onNext}
           >
             下一步
