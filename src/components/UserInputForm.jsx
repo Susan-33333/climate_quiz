@@ -144,7 +144,7 @@ export default function UserInputForm({ onNext, onSave }) {
           <button
             onClick={handleSubmit}
             disabled={!isValid()}
-            className={`w-auto inline-block items-center py-3 px-6 rounded-full rounded-[36px] text-[#ffffff] font-bold text-xl transition h-[48px] mt-4 ${
+            className={`h-[48px] inline-block font-bold text-[16px] rounded-[36px] px-4 py-2 text-center text-[#ffffff] bg-gradient-to-b from-[#4452edff] to-[#85d3fdff] shadow-[0_4px_0_#d38e5d] active:translate-y-[2px] active:shadow-none transition-all duration-150 ${
               isValid()
                 ? "bg-[#83482cff] hover:bg-[#83482cff]"
                 : "bg-gray-300 cursor-not-allowed"
