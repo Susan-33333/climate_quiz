@@ -113,7 +113,7 @@ function generateRegionSummary(userData, scores) {
   // 根據最高分數生成個性化總結
   const summaries = {
     happiness: `${nameText}是個樂觀開朗的人！${locationText}的氣候環境讓你感到愉悅，你能夠在各種天氣條件下保持正面的心態，並且善於從氣候變化中找到生活的樂趣。`,
-    adaptability: `${nameText}具有超強的適應能力！無論${locationText}的氣候如何變化，你都能快速調整自己的生活方式，靈活應對各種氣象挑戰。`,
+    adaptability: `${nameText}具有超強的調適能力！無論${locationText}的氣候如何變化，你都能快速調整自己的生活方式，靈活應對各種氣象挑戰。`,
     convenience: `${nameText}重視生活的便利性！你善於利用${locationText}的氣候特色，合理安排日常活動，讓生活更加高效舒適。`,
     live: `${nameText}是個熱愛生活的人！你懂得享受${locationText}的氣候之美，無論是陽光明媚還是細雨綿綿，都能找到屬於自己的生活節奏。`,
     comfortable: `${nameText}追求舒適的生活品質！你對${locationText}的氣候環境有敏銳的感知，能夠創造出最適合自己的舒適生活空間。`
