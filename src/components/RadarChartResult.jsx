@@ -168,19 +168,15 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
         <h1 className="text-3xl font-bold text-center mb-8 text-[#333333]">
           你的氣候調適性分析
         </h1>
-        
         {/* 可截圖的內容區域 */}
         <div id="capture-target" style={{ backgroundColor: '#E0E0E0' }} className="rounded-2xl p-8 mb-6">
-          
-          {/* 用戶資訊區 */}
           <div className="text-center mb-6">
             <h2 className="text-xl font-semibold text-[#333333] mb-2">
               {userData?.name ? `${userData.name} 的分析結果` : "個人分析結果"}
             </h2>
           </div>
-
           {/* 1. 雷達圖區域 - 首先顯示 */}
-          <div className="flex flex-col items-center mb-8">
+          <div className="flex flex-col items-center mb-6">
             <h3 className="text-lg font-semibold text-center mb-4 text-[#333333]">個人調適性雷達圖</h3>
             <div className="w-full max-w-sm h-[350px]" style={{userSelect: 'none', pointerEvents: 'none'}}>
               <ResponsiveContainer width="100%" height="100%">
