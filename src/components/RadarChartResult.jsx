@@ -98,7 +98,7 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
       // 使用 html2canvas 生成圖片
       const canvas = await html2canvas(captureElement, {
         useCORS: true,
-        backgroundColor: "#ffffff",
+        backgroundColor: "#E0E0E0",
         scale: 2, // 提高解析度
         width: captureElement.scrollWidth,
         height: captureElement.scrollHeight,
@@ -170,7 +170,7 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
         </h1>
         
         {/* 可截圖的內容區域 */}
-        <div id="capture-target" style={{ backgroundColor: '#ffffff' }} className="rounded-2xl p-8 mb-6">
+        <div id="capture-target" style={{ backgroundColor: '#E0E0E0' }} className="rounded-2xl p-8 mb-6">
           
           {/* 用戶資訊區 */}
           <div className="text-center mb-6">
