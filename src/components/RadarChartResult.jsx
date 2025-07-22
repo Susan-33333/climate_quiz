@@ -251,7 +251,7 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
           <button
             onClick={generateImage}
             disabled={isGeneratingImage}
-            className={`w-[300px] h-[48px] font-bold text-[16px] rounded-[36px] px-4 py-2 text-center text-[#ffffff] bg-gradient-to-b from-[#4452edff] to-[#85d3fdff] shadow-[0_4px_0_#5d9cd3ff] active:translate-y-[2px] active:shadow-none transition-all duration-150 ${
+            className={`w-[300px] h-[48px] font-bold text-[16px] rounded-[36px] px-4 py-2 text-center text-[#ffffff] bg-[#4452edff] shadow-[0_4px_0_#5d9cd3ff] active:translate-y-[2px] active:shadow-none transition-all duration-150 ${
               isGeneratingImage
                 ? "opacity-50 cursor-not-allowed"
                 : "hover:from-[#3a48d4] hover:to-[#7bc8f0]"
