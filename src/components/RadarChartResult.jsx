@@ -240,7 +240,7 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
           {renderRegionScore()}
 
           {/* 5. 建議區域 - 最後顯示 */}
-          <div className="bg-gradient-to-br from-[#f0f9ff] to-[#e0f2fe] rounded-xl p-6 w-full">
+          <div style={{ backgroundColor: '#E0E0E0' }} className="bg-gradient-to-br from-[#f0f9ff] to-[#e0f2fe] rounded-xl p-6 w-full">
             <h3 className="text-xl font-bold mb-3 text-[#333333] text-center">
               氣候適應建議
             </h3>
