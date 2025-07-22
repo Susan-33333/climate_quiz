@@ -166,22 +166,18 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
     <div style={{ backgroundColor: '#E0E0E0' }} className="min-h-screen px-4 py-10">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold text-center mb-8 text-[#333333]">
-          你的氣候適應性分析
+          你的氣候調適性分析
         </h1>
-        
         {/* 可截圖的內容區域 */}
         <div id="capture-target" style={{ backgroundColor: '#E0E0E0' }} className="rounded-2xl p-8 mb-6">
-          
-          {/* 用戶資訊區 */}
           <div className="text-center mb-6">
             <h2 className="text-xl font-semibold text-[#333333] mb-2">
               {userData?.name ? `${userData.name} 的分析結果` : "個人分析結果"}
             </h2>
           </div>
-
           {/* 1. 雷達圖區域 - 首先顯示 */}
-          <div className="flex flex-col items-center mb-8">
-            <h3 className="text-lg font-semibold text-center mb-4 text-[#333333]">個人適應性雷達圖</h3>
+          <div className="flex flex-col items-center mb-6">
+            <h3 className="text-lg font-semibold text-center mb-4 text-[#333333]">個人調適性雷達圖</h3>
             <div className="w-full max-w-sm h-[350px]" style={{userSelect: 'none', pointerEvents: 'none'}}>
               <ResponsiveContainer width="100%" height="100%">
                 <RadarChart outerRadius={120} data={data}>
@@ -191,7 +187,7 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
                     tick={{ fontSize: 14, fill: '#374151', fontWeight: 'bold' }}
                   />
                   <Radar 
-                    name="適應性分數" 
+                    name="調適性分數" 
                     dataKey="value" 
                     stroke="#f398f7ff" 
                     fill="#f1bbf8ff" 
@@ -240,12 +236,12 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
           {renderRegionScore()}
 
           {/* 5. 建議區域 - 最後顯示 */}
-          <div style={{ backgroundColor: '#E0E0E0' }} className="bg-gradient-to-br from-[#f0f9ff] to-[#e0f2fe] rounded-xl p-6 w-full">
+          <div style={{ backgroundColor: '#E0E0E0' }} className="rounded-xl p-6 w-full">
             <h3 className="text-xl font-bold mb-3 text-[#333333] text-center">
-              氣候適應建議
+              氣候調適建議
             </h3>
             <p className="text-[#555555] leading-relaxed text-center">
-              {regionSummary || "正在分析你的氣候適應性特質..."}
+              {regionSummary || "正在分析你的氣候調適性特質..."}
             </p>
           </div>
         </div>
@@ -285,13 +281,60 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
             <div className="inline-block rounded-2xl overflow-hidden">
               <img 
                 src={generatedImageUrl} 
-                alt="氣候適應性分析結果"
+                alt="氣候調適性分析結果"
                 className="max-w-full h-auto"
                 style={{ maxWidth: '400px' }}
               />
             </div>
           </div>
         )}
+      {/* 外部資源導引區塊 */}
+        <div className="mt-12">
+          <h3 className="text-xl font-bold text-center text-[#333333] mb-6">
+            想了解更多氣候變遷知識嗎？
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            
+            {/* TCCIP 官網 */}
+            <a
+              href="https://tccip.ncdr.nat.gov.tw/index.aspx"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-xl overflow-hidden shadow-lg bg-white hover:shadow-xl transition transform hover:-translate-y-1"
+            >
+              <div className="p-4 text-center">
+                <p className="text-[#333333] font-bold">TCCIP 官方網站</p>
+                <p className="text-sm text-[#666666] mt-1">全台氣候資料與分析平台</p>
+              </div>
+            </a>
+
+            {/* Facebook 粉專 */}
+            <a
+              href="https://www.facebook.com/TaiwanClimateChange"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-xl overflow-hidden shadow-lg bg-white hover:shadow-xl transition transform hover:-translate-y-1"
+            >
+              <div className="p-4 text-center">
+                <p className="text-[#333333] font-bold">TCCIP 臉書粉專</p>
+                <p className="text-sm text-[#666666] mt-1">追蹤氣候資訊不漏接</p>
+              </div>
+            </a>
+
+            {/* YouTube 頻道 */}
+            <a
+              href="https://www.youtube.com/@TCCIPOFFICE"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-xl overflow-hidden shadow-lg bg-white hover:shadow-xl transition transform hover:-translate-y-1"
+            >
+              <div className="p-4 text-center">
+                <p className="text-[#333333] font-bold">TCCIP YouTube 頻道</p>
+                <p className="text-sm text-[#666666] mt-1">觀看氣候主題影片</p>
+              </div>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   );
