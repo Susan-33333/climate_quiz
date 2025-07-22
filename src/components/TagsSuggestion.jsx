@@ -109,7 +109,7 @@ const TabsSuggestion = ({ userData, onNext }) => {
   const CurrentTab = tabComponents[activeTab];
 
   return (
-    <div className="min-h-screen bg-[#E0E0E0] flex flex-col items-center justify-center px-4 py-8">
+    <div className="min-h-screen bg-[#ffffff] flex flex-col items-center justify-center px-4 py-8">
       <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl text-center w-full max-w-4xl p-8 space-y-6">
         <div className="flex flex-col gap-6">
           <div className="w-full flex items-stretch justify-between gap-2 bg-[#4452edff] p-2 rounded-xl">
@@ -123,7 +123,7 @@ const TabsSuggestion = ({ userData, onNext }) => {
                 onClick={() => setActiveTab(label)}
                 className={`flex-1 flex flex-col justify-center items-center text-sm font-bold py-3 rounded-lg transition-all duration-200 ${
                   activeTab === label
-                    ? "bg-[#70472d] text-[#ffffff] shadow-md"
+                    ? "bg-[#4452edff] text-[#ffffff] shadow-md"
                     : "text-[#70472d] hover:bg-[#e9d9cc]"
                 }`}
               >
