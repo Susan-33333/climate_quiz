@@ -33,7 +33,7 @@ const TransportTab = ({ data, regionDisplay, advice, loading, onRetry }) => (
     {/* AI 建議區塊 */}
     <div className="w-full mt-2 bg-gray-100 rounded-md p-2">
       <div className="flex items-center justify-between">
-        <h3 className="text-sm font-bold mb-1">🤖 AI 建議</h3>
+        <h3 className="text-sm font-bold mb-1">🤖 AI 建議(尚未完成AI調教)</h3>
         {onRetry && (
           <button
             className="text-xs flex items-center space-x-1 px-2 py-1 rounded bg-gray-200 hover:bg-gray-300 transition"
