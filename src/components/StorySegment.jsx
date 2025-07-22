@@ -57,7 +57,9 @@ export default function StorySegment({ userData, onNext }) {
         <img
           src={bgImage}
           alt="背景圖片"
-          className="w-full h-full object-cover"
+          className=" w-full h-full object-cover
+      object-center
+      md:object-bottom"
         />
       </div>
 
