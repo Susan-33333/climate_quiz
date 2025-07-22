@@ -138,6 +138,7 @@ const TabsSuggestion = ({ userData, onNext }) => {
             regionDisplay={fullRegionDisplay}
             advice={adviceMap[activeTab]}
             loading={loading}
+            userData={userData}
           />
         </div>
 
