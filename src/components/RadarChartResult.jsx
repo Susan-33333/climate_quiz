@@ -306,7 +306,6 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
               rel="noopener noreferrer"
               className="rounded-xl overflow-hidden shadow-lg bg-white hover:shadow-xl transition transform hover:-translate-y-1"
             >
-              <img src="https://tccip.ncdr.nat.gov.tw/images/logo.png" alt="TCCIP官網" className="w-full h-32 object-contain p-4 bg-[#f0f0f0]" />
               <div className="p-4 text-center">
                 <p className="text-[#333333] font-bold">TCCIP 官方網站</p>
                 <p className="text-sm text-[#666666] mt-1">全台氣候資料與分析平台</p>
@@ -320,7 +319,6 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
               rel="noopener noreferrer"
               className="rounded-xl overflow-hidden shadow-lg bg-white hover:shadow-xl transition transform hover:-translate-y-1"
             >
-              <img src="https://www.facebook.com/images/fb_icon_325x325.png" alt="Facebook 粉專" className="w-full h-32 object-contain p-4 bg-[#f0f0f0]" />
               <div className="p-4 text-center">
                 <p className="text-[#333333] font-bold">TCCIP 臉書粉專</p>
                 <p className="text-sm text-[#666666] mt-1">追蹤氣候資訊不漏接</p>
@@ -334,7 +332,6 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
               rel="noopener noreferrer"
               className="rounded-xl overflow-hidden shadow-lg bg-white hover:shadow-xl transition transform hover:-translate-y-1"
             >
-              <img src="https://www.youtube.com/s/desktop/e1b33745/img/favicon_144x144.png" alt="YouTube 頻道" className="w-full h-32 object-contain p-4 bg-[#f0f0f0]" />
               <div className="p-4 text-center">
                 <p className="text-[#333333] font-bold">TCCIP YouTube 頻道</p>
                 <p className="text-sm text-[#666666] mt-1">觀看氣候主題影片</p>
