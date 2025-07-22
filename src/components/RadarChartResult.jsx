@@ -166,7 +166,7 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
     <div style={{ backgroundColor: '#E0E0E0' }} className="min-h-screen px-4 py-10">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold text-center mb-8 text-[#333333]">
-          你的氣候適應性分析
+          你的氣候調適性分析
         </h1>
         
         {/* 可截圖的內容區域 */}
@@ -181,7 +181,7 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
 
           {/* 1. 雷達圖區域 - 首先顯示 */}
           <div className="flex flex-col items-center mb-8">
-            <h3 className="text-lg font-semibold text-center mb-4 text-[#333333]">個人適應性雷達圖</h3>
+            <h3 className="text-lg font-semibold text-center mb-4 text-[#333333]">個人調適性雷達圖</h3>
             <div className="w-full max-w-sm h-[350px]" style={{userSelect: 'none', pointerEvents: 'none'}}>
               <ResponsiveContainer width="100%" height="100%">
                 <RadarChart outerRadius={120} data={data}>
@@ -191,7 +191,7 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
                     tick={{ fontSize: 14, fill: '#374151', fontWeight: 'bold' }}
                   />
                   <Radar 
-                    name="適應性分數" 
+                    name="調適性分數" 
                     dataKey="value" 
                     stroke="#f398f7ff" 
                     fill="#f1bbf8ff" 
@@ -242,10 +242,10 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
           {/* 5. 建議區域 - 最後顯示 */}
           <div style={{ backgroundColor: '#E0E0E0' }} className="rounded-xl p-6 w-full">
             <h3 className="text-xl font-bold mb-3 text-[#333333] text-center">
-              氣候適應建議
+              氣候調適建議
             </h3>
             <p className="text-[#555555] leading-relaxed text-center">
-              {regionSummary || "正在分析你的氣候適應性特質..."}
+              {regionSummary || "正在分析你的氣候調適性特質..."}
             </p>
           </div>
         </div>
@@ -285,7 +285,7 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
             <div className="inline-block rounded-2xl overflow-hidden">
               <img 
                 src={generatedImageUrl} 
-                alt="氣候適應性分析結果"
+                alt="氣候調適性分析結果"
                 className="max-w-full h-auto"
                 style={{ maxWidth: '400px' }}
               />
