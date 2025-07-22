@@ -98,7 +98,7 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
       // 使用 html2canvas 生成圖片
       const canvas = await html2canvas(captureElement, {
         useCORS: true,
-        backgroundColor: "#ffffff",
+        backgroundColor: "#E0E0E0",
         scale: 2, // 提高解析度
         width: captureElement.scrollWidth,
         height: captureElement.scrollHeight,
@@ -170,7 +170,7 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
         </h1>
         
         {/* 可截圖的內容區域 */}
-        <div id="capture-target" style={{ backgroundColor: '#ffffff' }} className="rounded-2xl p-8 mb-6">
+        <div id="capture-target" style={{ backgroundColor: '#E0E0E0' }} className="rounded-2xl p-8 mb-6">
           
           {/* 用戶資訊區 */}
           <div className="text-center mb-6">
@@ -240,7 +240,7 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
           {renderRegionScore()}
 
           {/* 5. 建議區域 - 最後顯示 */}
-          <div className="bg-gradient-to-br from-[#f0f9ff] to-[#e0f2fe] rounded-xl p-6 w-full">
+          <div style={{ backgroundColor: '#E0E0E0' }} className="bg-gradient-to-br from-[#f0f9ff] to-[#e0f2fe] rounded-xl p-6 w-full">
             <h3 className="text-xl font-bold mb-3 text-[#333333] text-center">
               氣候適應建議
             </h3>

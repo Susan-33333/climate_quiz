@@ -82,9 +82,9 @@ function ResultPersonality({ userData, onNext }) {
           </div>
 
           {/* ✅ 修正：穩定顯示角色名稱 */}
-          <h2 className="text-3xl font-bold mb-6 text-gray-800">
+          <h2 className="text-3xl font-bold mb-6 text-[#4452edff]">
             你是{""}
-            <span className="inline-block px-2 py-1 rounded bg-gradient-to-r from-green-300 to-blue-300 text-gray-800">
+            <span className="inline-block px-2 py-1 rounded bg-gradient-to-r from-green-300 to-blue-300 text-[#4452edff]">
               {profile.name}
             </span>
             ！
@@ -108,7 +108,7 @@ function ResultPersonality({ userData, onNext }) {
               <p className="text-[#000000] text-sm">{profile.match}</p>
             </div>
             <div className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-green-50 rounded-xl">
-              <h3 className="font-bold text- mb-2">拒絕往來戶</h3>
+              <h3 className="font-bold text-[#4452edff] mb-2">拒絕往來戶</h3>
              <p className="text-[#000000] text-sm">{profile.mismatch}</p>
             </div>
           </div>
