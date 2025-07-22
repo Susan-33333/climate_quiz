@@ -5,7 +5,7 @@ import janTemp from "../../data/1月月均溫.json";
 import julTemp from "../../data/7月月均溫.json";
 import rainIntensity from "../../data/雨日降雨強度分類.json";
 import rainDays from "../../data/雨日.json";
-import hwdi from "../../data/極端高溫持續指數.json";
+import hotExtreme from "../../data/極端高溫持續指數.json"; // 其實是TX90p（極端高溫天數）
 
 const TransportTab = ({ data, regionDisplay, advice, loading, userData }) => {
   // regionKey 統一處理所有潛在空白和底線
@@ -23,17 +23,16 @@ const TransportTab = ({ data, regionDisplay, advice, loading, userData }) => {
 
   const regionKey = getRegionKey();
 
-  // debug log
-  // 你可以打開下面兩行看一下現在用的 key 和 json 的 keys
-  // console.log("regionKey:", regionKey);
-  // console.log("janTemp keys (sample):", Object.keys(janTemp).slice(0,5));
-
-  // 抓資料
+  // 氣候資料
   const jan = janTemp[regionKey] || {};
   const jul = julTemp[regionKey] || {};
   const rainInt = rainIntensity[regionKey]?.雨日降雨強度分類 || "資料不足";
   const rain = rainDays[regionKey] || {};
-  const hwdiVal = hwdi[regionKey]?.GWL4_0 || "資料不足";
+
+  // 極端高溫日數
+  const hotExtremeBase = hotExtreme[regionKey]?.["極端高溫_基期"];
+  const hotExtremeFuture = hotExtreme[regionKey]?.["極端高溫_GWL4.0"];
+  const hotExtremeChange = hotExtreme[regionKey]?.["極端高溫_CHANGE"];
 
   // 年均雨日數
   const rainBase = rain["雨日rr1_基期"];
@@ -102,8 +101,10 @@ const TransportTab = ({ data, regionDisplay, advice, loading, userData }) => {
           </li>
           <li>
             <span>
-              極端高溫持續指數（HWDI）：<b>{hwdiVal}</b>
-              <span className="text-gray-500">（未來連續高溫事件更常見）</span>
+              年極端高溫日數：{hotExtremeBase ?? "—"} 天 → <b className="text-red-600">{hotExtremeFuture ?? "—"}</b> 天
+              <span className="text-gray-500">
+                {hotExtremeChange ? `（增加 ${hotExtremeChange} 天）` : ""}
+              </span>
             </span>
           </li>
         </ul>
