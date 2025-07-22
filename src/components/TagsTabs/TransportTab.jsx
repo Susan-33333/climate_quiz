@@ -1,23 +1,41 @@
 import React from "react";
 import RingChart from "./RingChart";
 
-// 用相對路徑 import
 import janTemp from "../../data/1月月均溫.json";
 import julTemp from "../../data/7月月均溫.json";
 import rainIntensity from "../../data/雨日降雨強度分類.json";
 import rainDays from "../../data/雨日.json";
 import hwdi from "../../data/極端高溫持續指數.json";
 
-const TransportTab = ({ data, regionDisplay, advice, loading }) => {
-  // regionDisplay 例： '屏東縣 恆春鎮'
-  const region = regionDisplay || "屏東縣 恆春鎮";
-  const jan = janTemp[region] || {};
-  const jul = julTemp[region] || {};
-  const rainInt = rainIntensity[region]?.雨日降雨強度分類 || "未提供";
-  const rain = rainDays[region] || {};
-  const hwdiVal = hwdi[region]?.GWL4_0 || "未提供";
+const TransportTab = ({ data, regionDisplay, advice, loading, userData }) => {
+  // regionKey 統一處理所有潛在空白和底線
+  const getRegionKey = () => {
+    if (userData?.county && userData?.town) {
+      // 移除前後空白，全部用底線連接
+      return `${userData.county.trim()}_${userData.town.trim()}`;
+    }
+    if (regionDisplay) {
+      // 取代所有空白字元為底線
+      return regionDisplay.replace(/\s/g, "_").trim();
+    }
+    return "";
+  };
 
-  // 雨日天數
+  const regionKey = getRegionKey();
+
+  // debug log
+  // 你可以打開下面兩行看一下現在用的 key 和 json 的 keys
+  // console.log("regionKey:", regionKey);
+  // console.log("janTemp keys (sample):", Object.keys(janTemp).slice(0,5));
+
+  // 抓資料
+  const jan = janTemp[regionKey] || {};
+  const jul = julTemp[regionKey] || {};
+  const rainInt = rainIntensity[regionKey]?.雨日降雨強度分類 || "資料不足";
+  const rain = rainDays[regionKey] || {};
+  const hwdiVal = hwdi[regionKey]?.GWL4_0 || "資料不足";
+
+  // 年均雨日數
   const rainBase = rain["雨日rr1_基期"];
   const rainFuture = rain["雨日rr1_GWL4.0"];
   const rainChange = rain["雨日rr1_CHANGE"];
@@ -46,34 +64,33 @@ const TransportTab = ({ data, regionDisplay, advice, loading }) => {
   return (
     <div className="flex flex-col items-center space-y-4 pt-4 text-left w-full max-w-md mx-auto">
       <h2 className="text-xl font-bold text-gray-800">
-        未來 30 年，你在 {region} 的出行舒適度
+        未來 30 年，你在 {regionKey.replace(/_/g, " ")} 的出行舒適度
       </h2>
       <RingChart score={data.score} />
-
       <div className="bg-white rounded-lg shadow p-3 w-full mt-2">
         <p className="text-base font-semibold mb-2">🌡️ 氣候趨勢摘要</p>
         <ul className="space-y-1 text-sm">
           <li>
             <span>
-              最冷月均溫：{jan["1月月均溫_HIST"]}°C →{" "}
-              <b className="text-red-600">{jan["1月月均溫_GWL4.0"]}°C</b>
-              <span className="text-gray-500">（升高 {jan["1月月均溫_CHANGE"]}°C）</span>
+              最冷月均溫：{jan["1月月均溫_基期"] ?? "—"}°C →{" "}
+              <b className="text-red-600">{jan["1月月均溫_GWL4.0"] ?? "—"}</b>°C
+              <span className="text-gray-500">
+                {jan["1月月均溫_CHANGE"] ? `（升高 ${jan["1月月均溫_CHANGE"]}°C）` : ""}
+              </span>
             </span>
           </li>
           <li>
             <span>
-              最熱月均溫：{jul["7月月均溫_HIST"]}°C →{" "}
-              <b className="text-red-600">{jul["7月月均溫_GWL4.0"]}°C</b>
-              <span className="text-gray-500">（升高 {jul["7月月均溫_CHANGE"]}°C）</span>
+              最熱月均溫：{jul["7月月均溫_基期"] ?? "—"}°C →{" "}
+              <b className="text-red-600">{jul["7月月均溫_GWL4.0"] ?? "—"}</b>°C
+              <span className="text-gray-500">
+                {jul["7月月均溫_CHANGE"] ? `（升高 ${jul["7月月均溫_CHANGE"]}°C）` : ""}
+              </span>
             </span>
           </li>
           <li>
-            <span>極端高溫持續指數（HWDI）：<b>{hwdiVal}</b>（未來連續高溫事件更常見）</span>
-          </li>
-          <li>
             <span>
-              年均雨日數：{rainBase} 天 →{" "}
-              <b className="text-blue-600">{rainFuture}</b> 天
+              年均雨日數：{rainBase ?? "—"} 天 → <b className="text-blue-600">{rainFuture ?? "—"}</b> 天
               <span className="text-gray-500">（{rainDesc}）</span>
             </span>
           </li>
@@ -83,9 +100,14 @@ const TransportTab = ({ data, regionDisplay, advice, loading }) => {
               <span className="ml-2 text-xs text-gray-500">{rainLevelStr}</span>
             </span>
           </li>
+          <li>
+            <span>
+              極端高溫持續指數（HWDI）：<b>{hwdiVal}</b>
+              <span className="text-gray-500">（未來連續高溫事件更常見）</span>
+            </span>
+          </li>
         </ul>
       </div>
-
       <div className="w-full mt-2 bg-gray-100 rounded-md p-2">
         <h3 className="text-sm font-bold mb-1">🤖 AI 建議</h3>
         {loading ? (
