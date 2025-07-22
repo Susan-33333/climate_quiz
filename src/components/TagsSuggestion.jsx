@@ -109,10 +109,10 @@ const TabsSuggestion = ({ userData, onNext }) => {
   const CurrentTab = tabComponents[activeTab];
 
   return (
-    <div className="min-h-screen bg-[#4452edff] flex flex-col items-center justify-center px-4 py-8">
+    <div className="min-h-screen bg-[#E0E0E0] flex flex-col items-center justify-center px-4 py-8">
       <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl text-center w-full max-w-4xl p-8 space-y-6">
         <div className="flex flex-col gap-6">
-          <div className="w-full flex items-stretch justify-between gap-2 bg-[#f9f3ef] p-2 rounded-xl">
+          <div className="w-full flex items-stretch justify-between gap-2 bg-[#4452edff] p-2 rounded-xl">
             {[
               { label: "居住", icon: "🏠" },
               { label: "旅遊", icon: "🏝️" },

@@ -151,7 +151,7 @@ export default function UserInputForm({ onNext, onSave }) {
               disabled={!isValid()}
               className={`w-[300px] h-[48px] font-bold text-[16px] rounded-[36px] px-4 py-2 text-center text-[#ffffff] bg-[#4452edff] shadow-[0_4px_0_#5d9cd3ff] active:translate-y-[2px] active:shadow-none transition-all duration-150 ${
                 isValid()
-                  ? "bg-[#83482cff] hover:bg-[#83482cff]"
+                  ? "bg-[#4452edff] hover:bg-[#4452edff]"
                   : "bg-gray-300 cursor-not-allowed"
               }`}
             >

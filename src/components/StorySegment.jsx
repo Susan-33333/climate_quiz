@@ -84,7 +84,7 @@ export default function StorySegment({ userData, onNext }) {
               <p className="text-xl leading-loose whitespace-pre-line mb-8">{story}</p>
               {story && (
                 <button
-                  className="h-[48px] inline-block font-bold text-[16px] bouder-[#ffffff] rounded-[36px] px-4 py-2 text-center text-[#ffffff] bg-gradient-to-b from-[#4452edff] to-[#85d3fdff] shadow-[0_4px_0_#5d9cd3ff] active:translate-y-[2px] active:shadow-none transition-all duration-150"
+                  className="h-[48px] inline-block font-bold text-[16px] bouder-[#ffffff] rounded-[36px] px-4 py-2 text-center text-[#ffffff] bg-[#4452edff] shadow-[0_4px_0_#5d9cd3ff] active:translate-y-[2px] active:shadow-none transition-all duration-150"
                   onClick={onNext}
                 >
                   我準備好了！
