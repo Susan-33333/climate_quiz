@@ -13,7 +13,7 @@ const TravelTab = ({ data, regionDisplay, advice, loading }) => (
       <p className="text-gray-600">{data.recommend}</p>
     </div>
     <div className="w-full mt-2 bg-gray-100 rounded-md p-2">
-      <h3 className="text-sm font-bold mb-1">🤖 AI 建議：</h3>
+      <h3 className="text-sm font-bold mb-1">🤖 AI 建議(尚未完成AI調教)：</h3>
       {loading ? (
         <p className="text-gray-400 animate-pulse">正在產生建議...</p>
       ) : (
