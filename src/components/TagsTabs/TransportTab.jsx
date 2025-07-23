@@ -1,5 +1,6 @@
 import React from "react";
 import RingChart from "./RingChart";
+import { marked } from "marked";
 
 // 各檔案需正確路徑
 import janTemp from "../../data/1月月均溫.json";
@@ -137,7 +138,6 @@ const TransportTab = ({ data, regionDisplay, advice, loading, userData }) => {
         </ul>
       </div>
 
-import { marked } from "marked";
 
 
       <div className="w-full mt-2 bg-gray-100 rounded-md p-2">

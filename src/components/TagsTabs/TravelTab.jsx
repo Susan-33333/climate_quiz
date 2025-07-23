@@ -1,5 +1,7 @@
 import React from "react";
 import RingChart from "./RingChart";
+import { marked } from "marked";
+
 
 import janTemp from "../../data/1月月均溫.json";
 import julTemp from "../../data/7月月均溫.json";
@@ -132,7 +134,6 @@ const TravelTab = ({ data, regionDisplay, advice, loading, userData }) => {
         </ul>
       </div>
 
-import { marked } from "marked";
 
       {/* AI建議 */}
       <div className="w-full mt-2 bg-gray-100 rounded-md p-2">
