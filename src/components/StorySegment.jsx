@@ -67,7 +67,7 @@ export default function StorySegment({ userData, onNext }) {
       {!allLoaded && (
         <div className="absolute inset-0 z-20 bg-black/40 backdrop-blur-sm flex flex-col items-center justify-center space-y-4">
           <p className="text-white text-base font-semibold">
-            正在載入你的未來世界⋯⋯
+            正在建構你的未來世界⋯⋯
           </p>
           <img
             src={`${import.meta.env.BASE_URL || "/"}mascot/T6.png`}

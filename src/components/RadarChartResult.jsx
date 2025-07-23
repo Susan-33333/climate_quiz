@@ -156,7 +156,7 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
       <div style={{ backgroundColor: '#E0E0E0' }} className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#83482cff] mx-auto mb-4"></div>
-          <p className="text-lg text-[#666666]">載入結果中...</p>
+          <p className="text-lg text-[#666666]">正在取得你的氣候洞察與指引...</p>
         </div>
       </div>
     );
