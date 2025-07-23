@@ -3,6 +3,8 @@ import LivingTab from './TagsTabs/LivingTab';
 import TravelTab from './TagsTabs/TravelTab';
 import TransportTab from './TagsTabs/TransportTab';
 import RingChart from "./TagsTabs/RingChart"; // 只給各Tab用，不直接用
+import { marked } from "marked";
+
 
 const TabsSuggestion = ({ userData, onNext }) => {
   const [activeTab, setActiveTab] = useState("居住");
