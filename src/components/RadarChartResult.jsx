@@ -142,7 +142,7 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
     if (regionScore !== null) {
       return (
         <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 mb-6 text-center">
-          <p className="text-gray-700 mb-1">你所在地區的氣候綜合評分為{regionScore} 分</p>
+          <p className="text-gray-700 mb-1">你所在地區的氣候綜合評分為{regionScore}分</p>
         </div>
       );
     }
@@ -156,7 +156,7 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
       <div style={{ backgroundColor: '#E0E0E0' }} className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#83482cff] mx-auto mb-4"></div>
-          <p className="text-lg text-[#666666]">載入結果中...</p>
+          <p className="text-lg text-[#666666]">正在取得你的氣候洞察與指引...</p>
         </div>
       </div>
     );
@@ -172,12 +172,12 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
         <div id="capture-target" style={{ backgroundColor: '#E0E0E0' }} className="rounded-2xl p-8 mb-6">
           <div className="text-center mb-6">
             <h2 className="text-xl font-semibold text-[#333333] mb-2">
-              {userData?.name ? `${userData.name} 的分析結果` : "個人分析結果"}
+              {userData?.name ? `${userData.name} 的占卜結果` : "個人分析結果"}
             </h2>
           </div>
           {/* 1. 雷達圖區域 - 首先顯示 */}
           <div className="flex flex-col items-center mb-6">
-            <h3 className="text-lg font-semibold text-center mb-4 text-[#333333]">個人調適性雷達圖</h3>
+            <h3 className="text-lg font-semibold text-center mb-4 text-[#333333]">氣候占卜結果</h3>
             <div className="w-full max-w-sm h-[350px]" style={{userSelect: 'none', pointerEvents: 'none'}}>
               <ResponsiveContainer width="100%" height="100%">
                 <RadarChart outerRadius={120} data={data}>

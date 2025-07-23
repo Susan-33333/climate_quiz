@@ -36,7 +36,7 @@ function QuizIntro({ onStart }) {
             onClick={onStart}
             className="h-[48px] inline-block font-bold text-[16px] bouder-[#ffffff] rounded-[36px] px-4 py-2 text-center text-[#ffffff] bg-[#4452edff] shadow-[0_4px_0_#5d9cd3ff] active:translate-y-[2px] active:shadow-none transition-all duration-150"
             >
-            開始穿越
+            開始占卜
           </button>
         )}
       </div>
