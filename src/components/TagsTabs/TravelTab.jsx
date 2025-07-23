@@ -132,6 +132,8 @@ const TravelTab = ({ data, regionDisplay, advice, loading, userData }) => {
         </ul>
       </div>
 
+import { marked } from "marked";
+
       {/* AI建議 */}
       <div className="w-full mt-2 bg-gray-100 rounded-md p-2">
         <h3 className="text-sm font-bold mb-1">🤖 AI 建議</h3>
