@@ -1,7 +1,6 @@
 import React from "react";
 import RingChart from "./RingChart";
 
-// 直接引用資料
 import janTemp from "../../data/1月月均溫.json";
 import julTemp from "../../data/7月月均溫.json";
 import rainIntensity from "../../data/雨日降雨強度分類.json";
@@ -9,7 +8,6 @@ import rainDays from "../../data/雨日.json";
 import hotExtreme from "../../data/極端高溫持續指數.json";
 
 const TravelTab = ({ data, regionDisplay, advice, loading, userData }) => {
-  // 統一 Key 處理
   const getRegionKey = () => {
     if (userData?.county && userData?.town) {
       return `${userData.county.trim()}_${userData.town.trim()}`;
@@ -134,13 +132,6 @@ const TravelTab = ({ data, regionDisplay, advice, loading, userData }) => {
         </ul>
       </div>
 
-      {/* 災害&推薦 */}
-      <div className="text-sm text-gray-800 w-full">
-        <div className="font-semibold">可能面臨災害：</div>
-        <div className="text-gray-600">{data.disaster}</div>
-        <div className="font-semibold mt-2">推薦養老地點：</div>
-        <div className="text-gray-600">{data.recommend}</div>
-      </div>
       {/* AI建議 */}
       <div className="w-full mt-2 bg-gray-100 rounded-md p-2">
         <h3 className="text-sm font-bold mb-1">🤖 AI 建議</h3>
