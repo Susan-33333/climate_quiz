@@ -21,15 +21,16 @@ export default {
       // 解析 payload
       const { tab, region } = await req.json();
 
-      // 動態讀取 public/data 的所有 json
+      // *** 用 GitHub Pages 的 raw json 路徑 ***
+      const DATA_BASE = "https://susan-33333.github.io/climate_quiz/data";
+
       async function loadJson(file: string) {
-        const baseUrl = new URL(req.url);
-        const origin = `${baseUrl.protocol}//${baseUrl.host}`;
-        const url = `${origin}/data/${file}`;
+        const url = `${DATA_BASE}/${file}`;
         const resp = await fetch(url);
         if (!resp.ok) return null;
         return await resp.json();
       }
+
       const [janTemp, julTemp, rainDays, rainIntensity, hotExtreme] = await Promise.all([
         loadJson("1月月均溫.json"),
         loadJson("7月月均溫.json"),
