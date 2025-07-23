@@ -81,7 +81,7 @@ const TransportTab = ({ data, regionDisplay, advice, loading, userData }) => {
   }
 
   return (
-    <div className="flex flex-col items-center space-y-4 pt-4 text-left w-full max-w-md mx-auto">
+    <div className="flex flex-col items-center space-y-4 pt-4 text-left w-full max-w-[850px] mx-auto">
       <h2 className="text-xl font-bold text-gray-800">
         未來 30 年，你在 {regionKey.replace(/_/g, " ")} 的出行舒適度
       </h2>
@@ -138,14 +138,12 @@ const TransportTab = ({ data, regionDisplay, advice, loading, userData }) => {
         </ul>
       </div>
 
-
-
       <div className="w-full mt-2 bg-gray-100 rounded-md p-2">
         <h3 className="text-sm font-bold mb-1">🤖 AI 建議</h3>
         {loading ? (
           <p className="text-gray-400 animate-pulse">正在產生建議...</p>
         ) : (
-          <p className="text-sm text-gray-700 whitespace-pre-wrap">
+          <p className="text-sm text-gray-700 whitespace-pre-line leading-normal">
             {advice || "尚無建議。"}
           </p>
         )}
