@@ -142,7 +142,7 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
     if (regionScore !== null) {
       return (
         <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 mb-6 text-center">
-          <p className="text-gray-700 mb-1">你所在地區的氣候綜合評分為{regionScore} 分</p>
+          <p className="text-gray-700 mb-1">你所在地區的氣候綜合評分為{regionScore}分</p>
         </div>
       );
     }
@@ -177,7 +177,7 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
           </div>
           {/* 1. 雷達圖區域 - 首先顯示 */}
           <div className="flex flex-col items-center mb-6">
-            <h3 className="text-lg font-semibold text-center mb-4 text-[#333333]">個人調適性雷達圖</h3>
+            <h3 className="text-lg font-semibold text-center mb-4 text-[#333333]">氣候占卜結果</h3>
             <div className="w-full max-w-sm h-[350px]" style={{userSelect: 'none', pointerEvents: 'none'}}>
               <ResponsiveContainer width="100%" height="100%">
                 <RadarChart outerRadius={120} data={data}>

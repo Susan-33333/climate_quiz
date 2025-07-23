@@ -155,7 +155,7 @@ export default function UserInputForm({ onNext, onSave }) {
                   : "bg-gray-300 cursor-not-allowed"
               }`}
             >
-              進入世界
+              探索你的氣候占卜
             </button>
           </div>
         </div>
