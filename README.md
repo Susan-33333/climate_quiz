@@ -42,3 +42,6 @@ Tailwind 的元件擴充套件。安裝 DaisyUI 後，只要加上 btn 類別即
 
 # 
 npm install lucide-react
+
+cd climate-ai-proxy
+npx wrangler deploy
