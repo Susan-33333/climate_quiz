@@ -45,3 +45,5 @@ npm install lucide-react
 
 cd climate-ai-proxy
 npx wrangler deploy
+
+npm install marked
