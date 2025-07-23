@@ -172,7 +172,7 @@ function RadarChartResult({ scores, mascot, regionSummary, userData }) {
         <div id="capture-target" style={{ backgroundColor: '#E0E0E0' }} className="rounded-2xl p-8 mb-6">
           <div className="text-center mb-6">
             <h2 className="text-xl font-semibold text-[#333333] mb-2">
-              {userData?.name ? `${userData.name} 的分析結果` : "個人分析結果"}
+              {userData?.name ? `${userData.name} 的占卜結果` : "個人分析結果"}
             </h2>
           </div>
           {/* 1. 雷達圖區域 - 首先顯示 */}
