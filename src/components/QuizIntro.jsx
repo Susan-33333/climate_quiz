@@ -39,13 +39,11 @@ function QuizIntro({ onStart }) {
             開始占卜
           </button>
         )}
-        <p className="text-xs text-[#8f8e8eff] font-huninn leading-relaxed space-y-6">
-          produced by NCDR 氣候變遷組 暑期實習生
-          國立臺灣大學大氣科學系 劉凱岳
-          國立中央大學地球科學學系 葉珊杉
-          國立彰化師範大學地理學系 謝侑辰
-          臺北市立大學地球環境暨生物資源學系 莊博文
-        </p>
+        <p className="text-xs text-[#8f8e8eff] font-huninn leading-relaxed space-y-6">produced by NCDR 氣候變遷組 暑期實習生</p>
+        <p className="text-xs text-[#8f8e8eff] font-huninn leading-relaxed space-y-6">國立臺灣大學大氣科學系 劉凱岳</p>
+        <p className="text-xs text-[#8f8e8eff] font-huninn leading-relaxed space-y-6"> 國立中央大學地球科學學系 葉珊杉</p>
+        <p className="text-xs text-[#8f8e8eff] font-huninn leading-relaxed space-y-6">國立彰化師範大學地理學系 謝侑辰</p> 
+        <p className="text-xs text-[#8f8e8eff] font-huninn leading-relaxed space-y-6">臺北市立大學地球環境暨生物資源學系 莊博文</p> 
       </div>
     </div>
 
