@@ -133,7 +133,7 @@ const TransportTab = ({ data, regionDisplay, advice, loading, userData }) => {
           <p className="text-gray-400 animate-pulse">正在產生建議...</p>
         ) : (
           <div
-            className="text-sm text-gray-700 leading-[1.6] whitespace-pre-wrap markdown-content"
+            className="text-sm text-gray-700 leading-snug whitespace-pre-wrap markdown-content"
             dangerouslySetInnerHTML={{
               __html: marked.parse(adviceClean || "尚無建議。"),
             }}
