@@ -148,7 +148,7 @@ const TransportTab = ({ data, regionDisplay, advice, loading, userData }) => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          延伸閱讀：從海洋島嶼植物的氣候變遷衝擊 
+          深入占卜：從海洋島嶼植物的氣候變遷衝擊 
 
         </a>
       </p>

@@ -86,7 +86,7 @@ const LivingTab = ({ data, regionDisplay, advice, loading, userData }) => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          延伸閱讀：氣候風險是全球未來十年最嚴重的頭號威脅
+          深入占卜：氣候風險是全球未來十年最嚴重的頭號威脅
   
 
         </a>

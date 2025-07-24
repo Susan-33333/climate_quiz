@@ -151,7 +151,7 @@ const TransportTab = ({ data, regionDisplay, advice, loading, userData }) => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          延伸閱讀：全球沸騰 (Global Boiling) 的時代
+          深入占卜：全球沸騰 (Global Boiling) 的時代
   
 
         </a>
