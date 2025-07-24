@@ -40,7 +40,7 @@ npm run deploy
 🟪 DaisyUI
 Tailwind 的元件擴充套件。安裝 DaisyUI 後，只要加上 btn 類別即可快速使用多種樣式：
 
-# 
+# s
 npm install lucide-react
 
 cd climate-ai-proxy
