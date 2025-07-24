@@ -2,7 +2,6 @@ import React from "react";
 import RingChart from "./RingChart";
 import { marked } from "marked";
 
-
 import rainIntensity from "../../data/雨日降雨強度分類.json";
 import seaLevelRisk from "../../data/海平面上升風險.json";
 
@@ -19,7 +18,6 @@ const LivingTab = ({ data, regionDisplay, advice, loading, userData }) => {
 
   const regionKey = getRegionKey();
 
-  // 雨日強度分類
   const rainInt = rainIntensity[regionKey]?.雨日降雨強度分類 || "資料不足";
   let rainLevelStr = "";
   if (rainInt === "高") {
@@ -32,7 +30,6 @@ const LivingTab = ({ data, regionDisplay, advice, loading, userData }) => {
     rainLevelStr = "降雨強度資料不足。";
   }
 
-  // 海平面上升風險
   const seaRisk = seaLevelRisk[regionKey]?.海平面上升風險;
   let seaLevelStr = "";
   if (seaRisk === 1) {
@@ -43,8 +40,10 @@ const LivingTab = ({ data, regionDisplay, advice, loading, userData }) => {
     seaLevelStr = "資料不足。";
   }
 
+  const adviceClean = (advice || "").replace(/\\\*/g, "*");
+
   return (
-    <div className="flex flex-col items-center space-y-4 pt-4 text-left w-full max-w-md mx-auto">
+    <div className="flex flex-col items-center space-y-4 pt-4 text-left w-full max-w-[850px] mx-auto">
       <h2 className="text-xl font-bold text-gray-800">
         未來 30 年，你在 {regionKey.replace(/_/g, " ")} 的居住安全性
       </h2>
@@ -66,8 +65,7 @@ const LivingTab = ({ data, regionDisplay, advice, loading, userData }) => {
           </li>
         </ul>
       </div>
-      
-      {/* ✅ AI 建議區塊（使用 marked 套用 markdown） */}
+
       <div className="w-full mt-2 bg-gray-100 rounded-md p-2">
         <h3 className="text-sm font-bold mb-1">🤖 AI 建議</h3>
         {loading ? (

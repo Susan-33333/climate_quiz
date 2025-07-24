@@ -2,12 +2,6 @@ import React from "react";
 import RingChart from "./RingChart";
 import { marked } from "marked";
 
-// 套件初始化（確保支援 GFM 語法像是 **粗體**）
-marked.setOptions({
-  breaks: true,
-  gfm: true,
-});
-
 // 各檔案需正確路徑
 import janTemp from "../../data/1月月均溫.json";
 import julTemp from "../../data/7月月均溫.json";
@@ -81,8 +75,10 @@ const TransportTab = ({ data, regionDisplay, advice, loading, userData }) => {
     hotExtremeStr = "資料不足。";
   }
 
+  const adviceClean = (advice || "").replace(/\\\*/g, "*");
+
   return (
-    <div className="flex flex-col items-center space-y-4 pt-4 text-left w-full max-w-md mx-auto">
+    <div className="flex flex-col items-center space-y-4 pt-4 text-left w-full max-w-[850px] mx-auto">
       <h2 className="text-xl font-bold text-gray-800">
         未來 30 年，你在 {regionKey.replace(/_/g, " ")} 的出行舒適度
       </h2>
