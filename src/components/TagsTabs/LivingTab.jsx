@@ -21,11 +21,11 @@ const LivingTab = ({ data, regionDisplay, advice, loading, userData }) => {
   const rainInt = rainIntensity[regionKey]?.雨日降雨強度分類 || "資料不足";
   let rainLevelStr = "";
   if (rainInt === "高") {
-    rainLevelStr = "降雨事件偏劇烈，建議加強排水與防災準備。";
+    rainLevelStr = "，降雨事件偏劇烈，建議加強排水與防災準備。";
   } else if (rainInt === "中") {
-    rainLevelStr = "降雨強度中等，仍需注意集中降雨造成的影響。";
+    rainLevelStr = "，降雨強度中等，仍需注意集中降雨造成的影響。";
   } else if (rainInt === "低") {
-    rainLevelStr = "降雨偏溫和，適合長者生活。";
+    rainLevelStr = "，降雨偏溫和，適合長者生活。";
   } else {
     rainLevelStr = "降雨強度資料不足。";
   }
@@ -33,9 +33,9 @@ const LivingTab = ({ data, regionDisplay, advice, loading, userData }) => {
   const seaRisk = seaLevelRisk[regionKey]?.海平面上升風險;
   let seaLevelStr = "";
   if (seaRisk === 1) {
-    seaLevelStr = "有海平面上升風險，低窪地區須注意淹水與遷移規劃。";
+    seaLevelStr = "，有海平面上升風險，低窪地區須注意淹水與遷移規劃。";
   } else if (seaRisk === 0) {
-    seaLevelStr = "無明顯海平面上升風險。";
+    seaLevelStr = "，無明顯海平面上升風險。";
   } else {
     seaLevelStr = "資料不足。";
   }

@@ -114,7 +114,7 @@ const TabsSuggestion = ({ userData, onNext }) => {
     <div className="min-h-screen bg-[#ffffff] flex flex-col items-center justify-center px-4 py-8">
       <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl text-center w-full max-w-4xl p-8 space-y-6">
         <div className="flex flex-col gap-6">
-          <div className="w-full flex items-stretch justify-between gap-2 bg-[#4452edff] p-2 rounded-xl">
+          <div className="w-full flex items-stretch justify-between gap-2 p-2 rounded-xl">
             {[
               { label: "居住", icon: "🏠" },
               { label: "旅遊", icon: "🏝️" },
