@@ -140,6 +140,17 @@ const TransportTab = ({ data, regionDisplay, advice, loading, userData }) => {
           />
         )}
       </div>
+
+      {/* 🔗 延伸閱讀連結 */}
+      <p className="text-sm text-blue-600 underline mt-4">
+        <a
+          href="https://tccip.ncdr.nat.gov.tw/km_column_one.aspx?kid=20231030202443"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          延伸閱讀
+        </a>
+      </p>
     </div>
   );
 };
