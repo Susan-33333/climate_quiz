@@ -31,7 +31,12 @@ export default function StorySegment({ userData, onNext }) {
     fetch("https://climate-ai-proxy.climate-quiz-yuchen.workers.dev/api/generate-story", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ age: projectedAge }),
+      body: JSON.stringify({
+  name: userData.name,
+  age: projectedAge,
+  county: userData.county,
+  town: userData.town
+}),
     })
       .then((res) => {
         if (!res.ok) throw new Error("API 回應非 200");
