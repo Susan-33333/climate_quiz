@@ -130,16 +130,16 @@ const TransportTab = ({ data, regionDisplay, advice, loading, userData }) => {
         </ul>
       </div>
 
-      {/* ✅ AI 建議區塊：支援 **粗體** */}
+      {/* ✅ AI 建議區塊（使用 marked 套用 markdown） */}
       <div className="w-full mt-2 bg-gray-100 rounded-md p-2">
         <h3 className="text-sm font-bold mb-1">🤖 AI 建議</h3>
         {loading ? (
           <p className="text-gray-400 animate-pulse">正在產生建議...</p>
         ) : (
           <div
-            className="text-sm text-gray-700 whitespace-pre-wrap markdown-content"
+            className="text-sm text-gray-700 leading-[1.6] whitespace-pre-wrap markdown-content"
             dangerouslySetInnerHTML={{
-              __html: marked.parse(advice || "尚無建議。"),
+              __html: marked.parse(adviceClean || "尚無建議。"),
             }}
           />
         )}
