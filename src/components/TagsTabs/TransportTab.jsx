@@ -147,6 +147,19 @@ const TransportTab = ({ data, regionDisplay, advice, loading, userData }) => {
           />
         )}
       </div>
+      
+      {/* 🔗 延伸閱讀連結 */}
+      <p className="text-sm text-blue-600 underline mt-4">
+        <a
+          href="https://tccip.ncdr.nat.gov.tw/km_column_one.aspx?kid=20240913115504"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          延伸閱讀：全球沸騰 (Global Boiling) 的時代
+  
+
+        </a>
+      </p>
     </div>
   );
 };
