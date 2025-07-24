@@ -18,12 +18,13 @@ export default {
     }
 
     try {
-      const { age } = await req.json();
+      const  { age, county, town, name }  = await req.json();
       const category = age <= 40 ? "青年" : age <= 65 ? "壯年" : "老年";
       const prompt = 
-`請用小說敘事風格，撰寫一段GWL4.0 氣候變遷情境下的「${category}篇」故事。主角是現在的使用者本人，描述他／她在未來生活中的一天。
+`請用小說敘事風格，撰寫一段GWL4.0 氣候變遷情境下2055年的「${category}篇」故事。主角是現在的使用者本人，描述他／她在未來生活中的一天。
 
 請根據下列條件撰寫：
+-故事發生地點為台灣「${county}${town}」，請融入當地特徵描述。
 - 年齡落在 ${age} 歲，屬於「${category}」年齡階段。
 - 故事背景為極端氣候頻繁（熱浪、淹水、乾旱、冬天消失、公共設施轉變等）
 -輸出內容請用第二人稱(你)撰寫
