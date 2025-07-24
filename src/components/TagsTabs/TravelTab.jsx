@@ -48,15 +48,15 @@ const TransportTab = ({ data, regionDisplay, advice, loading, userData }) => {
   let rainLevelIcon = "";
   let rainLevelColor = "";
   if (rainInt === "高") {
-    rainLevelStr = "降雨事件偏劇烈，外出請注意突發性大雨。";
+    rainLevelStr = "，降雨事件偏劇烈，外出請注意突發性大雨。";
     rainLevelIcon = "⛈️";
     rainLevelColor = "text-red-600";
   } else if (rainInt === "中") {
-    rainLevelStr = "降雨強度中等，需留意午後或梅雨時期的天氣。";
+    rainLevelStr = "，降雨強度中等，需留意午後或梅雨時期的天氣。";
     rainLevelIcon = "🌦️";
     rainLevelColor = "text-yellow-600";
   } else if (rainInt === "低") {
-    rainLevelStr = "降雨偏溫和，平時外出較少遇到強降雨。";
+    rainLevelStr = "，降雨偏溫和，平時外出較少遇到強降雨。";
     rainLevelIcon = "🌧️";
     rainLevelColor = "text-blue-600";
   } else {
@@ -80,7 +80,7 @@ const TransportTab = ({ data, regionDisplay, advice, loading, userData }) => {
   return (
     <div className="flex flex-col items-center space-y-4 pt-4 text-left w-full max-w-[850px] mx-auto">
       <h2 className="text-xl font-bold text-gray-800">
-        未來 30 年，你在 {regionKey.replace(/_/g, " ")} 的出行舒適度
+        未來 30 年，你在 {regionKey.replace(/_/g, " ")} 的旅遊樂活度
       </h2>
       <RingChart score={data.score} />
 
@@ -148,7 +148,7 @@ const TransportTab = ({ data, regionDisplay, advice, loading, userData }) => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          延伸閱讀：從海洋島嶼植物的氣候變遷衝擊 
+          深入占卜：從海洋島嶼植物的氣候變遷衝擊 
 
         </a>
       </p>

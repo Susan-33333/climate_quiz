@@ -50,15 +50,15 @@ const TransportTab = ({ data, regionDisplay, advice, loading, userData }) => {
   let rainLevelIcon = "";
   let rainLevelColor = "";
   if (rainInt === "高") {
-    rainLevelStr = "降雨事件偏劇烈，外出請注意突發性大雨。";
+    rainLevelStr = "，降雨事件偏劇烈，外出請注意突發性大雨。";
     rainLevelIcon = "⛈️";
     rainLevelColor = "text-red-600";
   } else if (rainInt === "中") {
-    rainLevelStr = "降雨強度中等，需留意午後或梅雨時期的天氣。";
+    rainLevelStr = "，降雨強度中等，需留意午後或梅雨時期的天氣。";
     rainLevelIcon = "🌦️";
     rainLevelColor = "text-yellow-600";
   } else if (rainInt === "低") {
-    rainLevelStr = "降雨偏溫和，平時外出較少遇到強降雨。";
+    rainLevelStr = "，降雨偏溫和，平時外出較少遇到強降雨。";
     rainLevelIcon = "🌧️";
     rainLevelColor = "text-blue-600";
   } else {
@@ -151,7 +151,7 @@ const TransportTab = ({ data, regionDisplay, advice, loading, userData }) => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          延伸閱讀：全球沸騰 (Global Boiling) 的時代
+          深入占卜：全球沸騰 (Global Boiling) 的時代
   
 
         </a>
